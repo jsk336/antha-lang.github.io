@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - goflow-readme.md">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    goflow-readme.md - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="goflow-readme.md">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" >
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="goflow-api" shortname="goflow-api.md" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button " borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>goflow-readme.md</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/goflow/README.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>goflow-readme.md</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="goflow---dataflow-and-flow-based-programming-library-for-go-golang">GoFlow - Dataflow and Flow-based programming library for Go (golang)</h1>
+
+<p>This is quite a minimalistic implementation of <a href="http://en.wikipedia.org/wiki/Flow-based_programming">Flow-based programming</a> and several other concurrent models in Go programming language that aims at designing applications as graphs of components which react to data that flows through the graph. This model is a modified version of the goflow language created by <a href="https://github.com/trustmaster/goflow">V. Sibirov</a> but it allows for multiple channels to be opened over a single process.</p>
+
+<p>The main properties of the proposed model are:</p>
+
+<ul>
+  <li>Concurrent - graph nodes run in parallel.</li>
+  <li>Structural - applications are described as components, their ports and connections between them.</li>
+  <li>Event-driven - system’s behavior is how components react to events.</li>
+  <li>Asynchronous - there is no determined order in which events happen.</li>
+  <li>Isolated - sharing is done by communication, state is not shared.</li>
+</ul>
+
+<h2 id="getting-started">Getting started</h2>
+
+<p>Current version of the library requires a latest stable Go release. If you don’t have the Go compiler installed, read the official <a href="http://golang.org/doc/install">Go install guide</a>.</p>
+
+<p>Use go tool to install the package in your packages tree:</p>
+
+<pre><code>go get github.com/Synthace/goflow
+</code></pre>
+
+<p>Then you can use it in import section of your Go programs:</p>
+
+<pre><code class="language-go">import "github.com/Synthace/goflow"
+</code></pre>
+
+<h2 id="basic-example">Basic Example</h2>
+
+<p>Below there is a listing of a simple program running a network of two processes with four channels (three inports, one outport).  For a more detailed look at the syntax, please refer to the <a href="http://antha-lang.org/docs/implement/network.html">network documentation</a>.</p>
+
+<p><img src="goflow-hello.png" alt="Greeter example diagram" /></p>
+
+<p>This first one generates greetings for given names, the second one prints them on screen. It demonstrates how components and graphs are defined and how they are embedded into the main program.</p>
+
+<pre><code class="language-go">package main
+
+import (
+	"fmt"
+	"github.com/Synthace/goflow"
+)
+
+// A component that generates greetings
+type Greeter struct {
+    flow.Component               // component "superclass" embedded
+    Name           &lt;-chan string // input port
+    Title          &lt;-chan string // another input port
+    Occupation          &lt;-chan string // another input port
+    Res            chan&lt;- string // output port
+}
+
+// Reaction to a new name input
+func (g *Greeter) OnName(name string) {
+    greeting := fmt.Sprintf("Hello, %s!", name)
+    g.Res &lt;- greeting
+}
+
+// Reaction to a new title input
+func (g *Greeter) OnTitle(title string) {
+    greeting := fmt.Sprintf("I shall call you %s", title)
+    g.Res &lt;- greeting
+}
+
+// Reaction to a new occupation input
+func (g *Greeter) OnOccupation(occupation string) {
+    greeting := fmt.Sprintf("You are a %s. Very impressive!", occupation)
+    g.Res &lt;- greeting
+}
+
+// A component that prints its input on screen
+type Printer struct {
+	flow.Component
+	Line &lt;-chan string // inport
+}
+
+// Prints a line when it gets it
+func (p *Printer) OnLine(line string) {
+	fmt.Println(line)
+}
+
+// Our greeting network
+type GreetingApp struct {
+	flow.Graph               // graph "superclass" embedded
+}
+
+// Graph constructor and structure definition
+func NewGreetingApp() *GreetingApp {
+	n := new(GreetingApp) // creates the object in heap
+	n.InitGraphState()    // allocates memory for the graph
+	
+	// Add processes to the network
+	n.Add(new(Greeter), "greeter")
+	n.Add(new(Printer), "printer")
+	
+	// Connect them with a channel.
+	n.Connect("greeter", "Res", "printer", "Line")
+	
+	// Our net has 3 inports mapped to greeter.Name
+	n.MapInPort("In1", "greeter", "Name")
+    n.MapInPort("In2", "greeter", "Title")
+    n.MapInPort("In3", "greeter", "Occupation")
+	return n
+}
+
+func main() {
+	// Create the network
+	net := NewGreetingApp()
+	
+	// We need channels to talk to it
+    name := make(chan string)
+    title := make(chan string)
+    occupation := make(chan string)
+    net.SetInPort("In1", name)
+    net.SetInPort("In2", title)
+    net.SetInPort("In3", occupation)
+	
+	// Run the net
+	flow.RunNet(net)
+	
+	// Now we can send some strings and see what happens
+    title &lt;- "Sir"
+    name &lt;- "John"
+    name &lt;- "Boris"
+    title &lt;- "Dame"
+    name &lt;- "Hanna"
+	occupation &lt;- "doctor"
+	
+	// Close the input to shut the network down
+    close(name)
+	close(title)
+	close(occupation)
+	
+	// Wait until the app has done its job
+	&lt;-net.Wait()
+}
+</code></pre>
+
+<p>Looks a bit heavy for such a simple task but FBP is aimed at a bit more complex things than just printing on screen. So in more complex an realistic examples the infractructure pays the price.</p>
+
+<p>You probably have one question left even after reading the comments in code: why do we need to wait for the finish signal? This is because flow-based world is asynchronous and while you expect things to happen in the same sequence as they are in main(), during runtime they don’t necessarily follow the same order and the application might terminate before the network has done its job. To avoid this confusion we listen for a signal on network’s <code>Wait()</code> channel which is closed when the network finishes its job.</p>
+
+<h2 id="terminology">Terminology</h2>
+
+<p>Here are some Flow-based programming terms used in GoFlow:</p>
+
+<ul>
+  <li>Component - the basic element that processes data. Its structure consists of input and output ports and state fields. Its behavior is the set of event handlers. In OOP terms Component is a Class.</li>
+  <li>Connection - a link between 2 ports in the graph. In Go it is a channel of specific type.</li>
+  <li>Graph - components and connections between them, forming a higher level entity. Graphs may represent composite components or entire applications. In OOP terms Graph is a Class.</li>
+  <li>Network - is a Graph instance running in memory. In OOP terms a Network is an object of Graph class.</li>
+  <li>Port - is a property of a Component or Graph through which it communicates with the outer world. There are input ports (Inports) and output ports (Outports). For GoFlow components it is a channel field.</li>
+  <li>Process - is a Component instance running in memory. In OOP terms a Process is an object of Component class.</li>
+</ul>
+
+<p>More terms can be found in <a href="http://flowbased.org/terms">flowbased terms</a> and <a href="http://www.jpaulmorrison.com/cgi-bin/wiki.pl?action=index">FBP wiki</a>.</p>
+
+<h2 id="documentation">Documentation</h2>
+
+<h3 id="contents">Contents</h3>
+
+<ol>
+  <li><a href="https://github.com/trustmaster/goflow/wiki/Components">Components</a>
+    <ol>
+      <li><a href="https://github.com/trustmaster/goflow/wiki/Components#ports-events-and-handlers">Ports, Events and Handlers</a></li>
+      <li><a href="https://github.com/trustmaster/goflow/wiki/Components#processes-and-their-lifetime">Processes and their lifetime</a></li>
+      <li><a href="https://github.com/trustmaster/goflow/wiki/Components#state">State</a></li>
+      <li><a href="https://github.com/trustmaster/goflow/wiki/Components#concurrency">Concurrency</a></li>
+      <li><a href="https://github.com/trustmaster/goflow/wiki/Components#internal-state-and-thread-safety">Internal state and Thread-safety</a></li>
+    </ol>
+  </li>
+  <li><a href="https://github.com/trustmaster/goflow/wiki/Graphs">Graphs</a>
+    <ol>
+      <li><a href="https://github.com/trustmaster/goflow/wiki/Graphs#structure-definition">Structure definition</a></li>
+      <li><a href="https://github.com/trustmaster/goflow/wiki/Graphs#behavior">Behavior</a></li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="package-docs">Package docs</h3>
+
+<p>Documentation for the flow package can be accessed using standard godoc tool, e.g.</p>
+
+<pre><code>godoc github.com/Synthace/goflow
+</code></pre>
+
+<h2 id="links">Links</h2>
+
+<p>Here are related projects and resources:</p>
+
+<ul>
+  <li><a href="http://www.jpaulmorrison.com/fbp/">J. Paul Morrison’s Flow-Based Programming</a>, the origin of FBP, <a href="http://sourceforge.net/projects/flow-based-pgmg/">JavaFBP, C#FBP</a> and <a href="http://www.jpaulmorrison.com/fbp/#DrawFBP">DrawFBP</a> diagramming tool.</li>
+  <li><a href="http://knol.google.com/k/flow-based-programming">Knol about FBP</a></li>
+  <li><a href="http://noflojs.org/">NoFlo</a>, FBP for JavaScript and Node.js</li>
+  <li><a href="http://www.pypes.org/">Pypes</a>, flow-based Python ETL</li>
+  <li><a href="http://golang.org/">Go</a>, the Go programming language</li>
+</ul>
+
+<h2 id="todo">TODO</h2>
+
+<ul>
+  <li>Integration with NoFlo-UI</li>
+  <li>Distributed networks via TCP/IP and UDP</li>
+  <li>Better run-time restructuring and evolution</li>
+  <li>Reflection and monitoring of networks</li>
+</ul>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

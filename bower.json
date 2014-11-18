@@ -1,0 +1,30 @@
+{
+  "name": "antha-site",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Synthace/docs",
+  "authors": [
+    "Sean Ward <sward@synthace.com>"
+    "Michael Sadowski <m.sadowski@synthace.com>"
+  ],
+  "description": "Antha website",
+  "keywords": [
+    "antha",
+    "documentation"
+  ],
+  "license": "GPL2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "smoothscroll": "~0.0.2",
+    "x-tag-imports": "x-tag/x-tag-imports",
+    "marked": "*",
+    "highlightjs": "*",
+    "plunker-button": "robdodson/plunker-button#^0.4.1"
+  }
+}

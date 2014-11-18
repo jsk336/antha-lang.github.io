@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - anthalib/execution">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    anthalib/execution - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="anthalib/execution">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="docs" shortname="anthalib/execution" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>anthalib/execution</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/antha/execution.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>anthalib/execution</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="execution">execution</h1>
+<p>–</p>
+
+<h2 id="usage">Usage</h2>
+
+<h4 id="func--getuuid">func  GetUUID</h4>
+
+<pre><code class="language-go">func GetUUID() string
+</code></pre>
+<p>this package wraps the uuid library appropriately by generating a V4 UUID</p>
+
+<h4 id="type-executionservice">type ExecutionService</h4>
+
+<pre><code class="language-go">type ExecutionService struct {
+	StockMgr         StockService
+	SampleTracker    SampleTrackerService
+	Logger           LogService
+	Scheduler        ScheduleService
+	GarbageCollector GarbageCollectionService
+}
+</code></pre>
+
+<p>A structure which defines the execution context - holds pointers to the services</p>
+
+<pre><code class="language-go">var ExecutionContext ExecutionService
+</code></pre>
+<p>globally accessible execution context variable</p>
+
+<h4 id="type-garbagecollectionrequest">type GarbageCollectionRequest</h4>
+
+<pre><code class="language-go">type GarbageCollectionRequest map[string]interface{}
+</code></pre>
+
+<p>map data structure defining a request for an object to enter the waste stream</p>
+
+<h4 id="type-garbagecollectionservice">type GarbageCollectionService</h4>
+
+<pre><code class="language-go">type GarbageCollectionService struct {
+	RequestsIn  chan GarbageCollectionRequest
+	RequestsOut chan GarbageCollectionRequest
+}
+</code></pre>
+
+<p>the garbage collector holds channels for communicating with the garbage<br />
+collection service provider</p>
+
+<h4 id="func-garbagecollectionservice-init">func (*GarbageCollectionService) Init</h4>
+
+<pre><code class="language-go">func (gcs *GarbageCollectionService) Init()
+</code></pre>
+<p>Initialize the garbage collection service the channels are given a default<br />
+capacity for 5 items before blocking</p>
+
+<h4 id="func-garbagecollectionservice-requestgarbagecollection">func (*GarbageCollectionService) RequestGarbageCollection</h4>
+
+<pre><code class="language-go">func (gcs *GarbageCollectionService) RequestGarbageCollection(rin GarbageCollectionRequest) GarbageCollectionRequest
+</code></pre>
+<p>send an item to the waste stream</p>
+
+<h4 id="type-logrequest">type LogRequest</h4>
+
+<pre><code class="language-go">type LogRequest map[string]interface{}
+</code></pre>
+
+<p>data structure for defining a request to the logger</p>
+
+<h4 id="type-logservice">type LogService</h4>
+
+<pre><code class="language-go">type LogService struct {
+	RequestsIn  chan LogRequest
+	RequestsOut chan LogRequest
+}
+</code></pre>
+
+<p>structure defining a log service - holds channels for communicating with the<br />
+service</p>
+
+<h4 id="func-logservice-init">func (*LogService) Init</h4>
+
+<pre><code class="language-go">func (ls *LogService) Init()
+</code></pre>
+<p>initialize the log service the channels have capacity to buffer 5 requests by<br />
+default</p>
+
+<h4 id="func-logservice-requestlog">func (*LogService) RequestLog</h4>
+
+<pre><code class="language-go">func (ls *LogService) RequestLog(rin LogRequest) LogRequest
+</code></pre>
+<p>function for communicating with the log daemon</p>
+
+<h4 id="type-samplerequest">type SampleRequest</h4>
+
+<pre><code class="language-go">type SampleRequest map[string]interface{}
+</code></pre>
+
+<p>data structure defining sample requests</p>
+
+<h4 id="type-sampletrackerservice">type SampleTrackerService</h4>
+
+<pre><code class="language-go">type SampleTrackerService struct {
+	RequestsIn  chan SampleRequest
+	RequestsOut chan SampleRequest
+}
+</code></pre>
+
+<p>struct to hold channels for communicating with the sample tracker service</p>
+
+<h4 id="func-sampletrackerservice-init">func (*SampleTrackerService) Init</h4>
+
+<pre><code class="language-go">func (ss *SampleTrackerService) Init()
+</code></pre>
+<p>initialize the sample tracker agent the channels have capacity to buffer 5<br />
+requests before blocking</p>
+
+<h4 id="func-sampletrackerservice-tracksample">func (*SampleTrackerService) TrackSample</h4>
+
+<pre><code class="language-go">func (ss *SampleTrackerService) TrackSample(rin SampleRequest) SampleRequest
+</code></pre>
+<p>send a request to the sample tracking service - e.g. update status or register a<br />
+new sample</p>
+
+<h4 id="type-schedulerequest">type ScheduleRequest</h4>
+
+<pre><code class="language-go">type ScheduleRequest map[string]interface{}
+</code></pre>
+
+<p>data structure for defining a request to communicate with the sceduler</p>
+
+<h4 id="type-scheduleservice">type ScheduleService</h4>
+
+<pre><code class="language-go">type ScheduleService struct {
+	RequestsIn  chan ScheduleRequest
+	RequestsOut chan ScheduleRequest
+}
+</code></pre>
+
+<p>data structure for holding channels to communicate with the scheduler</p>
+
+<h4 id="func-scheduleservice-init">func (*ScheduleService) Init</h4>
+
+<pre><code class="language-go">func (ss *ScheduleService) Init()
+</code></pre>
+<p>start up the scheduler and make the communication channels the channels have<br />
+room to buffer 5 requests before blocking</p>
+
+<h4 id="func-scheduleservice-requestschedule">func (*ScheduleService) RequestSchedule</h4>
+
+<pre><code class="language-go">func (ss *ScheduleService) RequestSchedule(rin ScheduleRequest) ScheduleRequest
+</code></pre>
+<p>communicate a request to the scheduler and return the reply</p>
+
+<h4 id="type-stockrequest">type StockRequest</h4>
+
+<pre><code class="language-go">type StockRequest map[string]interface{}
+</code></pre>
+
+<p>a map structure for defining requests to the stock manager</p>
+
+<h4 id="type-stockservice">type StockService</h4>
+
+<pre><code class="language-go">type StockService struct {
+	RequestsIn  chan StockRequest
+	RequestsOut chan StockRequest
+}
+</code></pre>
+
+<p>structure to hold communication channels with the stock service</p>
+
+<h4 id="func-stockservice-init">func (*StockService) Init</h4>
+
+<pre><code class="language-go">func (ss *StockService) Init()
+</code></pre>
+<p>Initialize the communication service The channels have the capacity to hold 5<br />
+requests before blocking</p>
+
+<h4 id="func-stockservice-requeststock">func (*StockService) RequestStock</h4>
+
+<pre><code class="language-go">func (ss *StockService) RequestStock(rin StockRequest) StockRequest
+</code></pre>
+<p>Make a request to the stock agent and return the result</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

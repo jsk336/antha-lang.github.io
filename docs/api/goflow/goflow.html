@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - goflow.md">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    goflow.md - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="goflow.md">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" >
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="goflow-api" shortname="goflow-api.md" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button " borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>goflow.md</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/goflow/goflow.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>goflow.md</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="flow">flow</h1>
+<p>–<br />
+    import “.”</p>
+
+<p>The flow package is a framework for Flow Based Programming in Go.  It was originally pulled from V. Sibirov’s <a href="https://github.com/trustmaster/goflow">goflow repository</a>.</p>
+
+<h2 id="usage">Usage</h2>
+
+<pre><code class="language-go">const (
+	// ComponentModeUndefined stands for a fallback component mode (Async).
+	ComponentModeUndefined = iota
+	// ComponentModeAsync stands for asynchronous functioning mode.
+	ComponentModeAsync
+	// ComponentModeSync stands for synchronous functioning mode.
+	ComponentModeSync
+	// ComponentModePool stands for async functioning with a fixed pool.
+	ComponentModePool
+)
+</code></pre>
+
+<pre><code class="language-go">const DefaultRegistryCapacity = 64
+</code></pre>
+<p>DefaultRegistryCapacity is the capacity component registry is initialized with.</p>
+
+<pre><code class="language-go">var ComponentRegistry = make(map[string]ComponentConstructor, DefaultRegistryCapacity)
+</code></pre>
+<p>ComponentRegistry is used to register components and spawn processes given just<br />
+a string component name.</p>
+
+<pre><code class="language-go">var DefaultBufferSize = 0
+</code></pre>
+<p>DefaultBufferSize is the default channel buffer capacity. A channel buffer capacity of 0 means that data IPs are transferred immediately between the sending and receiving processes.</p>
+
+<pre><code class="language-go">var DefaultComponentMode = ComponentModeAsync
+</code></pre>
+<p>DefaultComponentMode is the preselected functioning mode of all components being run.  The default for goflow is Asynchronous.</p>
+
+<pre><code class="language-go">var DefaultNetworkCapacity = 32
+</code></pre>
+<p>DefaultNetworkCapacity is the default capacity of network’s processes/ports maps.</p>
+
+<pre><code class="language-go">var DefaultNetworkPortsNum = 16
+</code></pre>
+<p>Default network output or input ports number.</p>
+
+<h4 id="func--factory">func  Factory</h4>
+
+<pre><code class="language-go">func Factory(componentName string) interface{}
+</code></pre>
+<p>Factory creates a new instance of a component registered under a specific name.</p>
+
+<h4 id="func--newgraph">func  NewGraph</h4>
+
+<pre><code class="language-go">func NewGraph() interface{}
+</code></pre>
+<p>NewGraph creates a new canvas graph that can be modified at run-time. Implements ComponentConstructor interface, so can it be used with Factory.</p>
+
+<h4 id="func--register">func  Register</h4>
+
+<pre><code class="language-go">func Register(componentName string, constructor ComponentConstructor) bool
+</code></pre>
+<p>Register registers a component so that it can be instantiated at run-time using component Factory. It returns true on success or false if component name is already taken.</p>
+
+<h4 id="func--registerjson">func  RegisterJSON</h4>
+
+<pre><code class="language-go">func RegisterJSON(componentName, filePath string) bool
+</code></pre>
+<p>RegisterJSON registers an external JSON graph definition as a component that can be instantiated at run-time using component Factory. It returns true on success or false if component name is already taken.</p>
+
+<h4 id="func--runnet">func  RunNet</h4>
+
+<pre><code class="language-go">func RunNet(i interface{})
+</code></pre>
+<p>RunNet runs the network by starting all of its processes. It runs Init/Finish handlers if the network implements Initializable/Finalizable interfaces.</p>
+
+<h4 id="func--runproc">func  RunProc</h4>
+
+<pre><code class="language-go">func RunProc(c interface{}, nump int) bool
+</code></pre>
+<p>RunProc runs event handling loop on component ports. It returns true on success or panics with error message and returns false on error.</p>
+
+<h4 id="func--stopproc">func  StopProc</h4>
+
+<pre><code class="language-go">func StopProc(c interface{}) bool
+</code></pre>
+<p>StopProc terminates the process if it is running. It doesn’t close any in or out ports of the process, so it can be replaced without side effects.</p>
+
+<h4 id="func--unregister">func  Unregister</h4>
+
+<pre><code class="language-go">func Unregister(componentName string) bool
+</code></pre>
+<p>Unregister removes a component with a given name from the component registry and returns true or returns false if no such component is registered.</p>
+
+<h4 id="type-canvas">type Canvas</h4>
+
+<pre><code class="language-go">type Canvas struct {
+	Graph
+}
+</code></pre>
+
+<p>Canvas is a generic graph that is manipulated at run-time only</p>
+
+<h4 id="type-component">type Component</h4>
+
+<pre><code class="language-go">type Component struct {
+	// Is running flag indicates that the process is currently running.
+	IsRunning bool
+	// Net is a pointer to network to inform it when the process is started and over
+	// or to change its structure at run time.
+	Net *Graph
+	// Mode is component's functioning mode.
+	Mode int8
+	// PoolSize is used to define pool size when using ComponentModePool.
+	PoolSize uint8
+	// Term chan is used to terminate the process immediately without closing
+	// any channels.
+	Term chan struct{}
+}
+</code></pre>
+
+<p>Component is a generic flow component that has to be contained in concrete<br />
+components. It stores network-specific information.</p>
+
+<h4 id="type-componentconstructor">type ComponentConstructor</h4>
+
+<pre><code class="language-go">type ComponentConstructor func() interface{}
+</code></pre>
+
+<p>ComponentConstructor is a function that can be registered in the<br />
+ComponentRegistry so that it is used when creating new processes of a specific component using Factory function at run-time.</p>
+
+<h4 id="type-finalizable">type Finalizable</h4>
+
+<pre><code class="language-go">type Finalizable interface {
+	Finish()
+}
+</code></pre>
+
+<p>Finalizable is the interface implemented by components/graphs with extra<br />
+finalization code.</p>
+
+<h4 id="type-graph">type Graph</h4>
+
+<pre><code class="language-go">type Graph struct {
+
+	// Net is a pointer to parent network.
+	Net *Graph
+}
+</code></pre>
+
+<p>Graph represents a graph of processes connected with packet channels.</p>
+
+<h4 id="func--loadjson">func  LoadJSON</h4>
+
+<pre><code class="language-go">func LoadJSON(filename string) *Graph
+</code></pre>
+<p>LoadJSON loads a JSON graph definition file into a flow.Graph object that can be run or used in other networks</p>
+
+<h4 id="func--parsejson">func  ParseJSON</h4>
+
+<pre><code class="language-go">func ParseJSON(js []byte) *Graph
+</code></pre>
+<p>ParseJSON converts a JSON network definition string into a flow.Graph object that can be run or used in other networks</p>
+
+<h4 id="func-graph-add">func (*Graph) Add</h4>
+
+<pre><code class="language-go">func (n *Graph) Add(c interface{}, name string) bool
+</code></pre>
+<p>Add adds a new process with a given name to the network. It returns true on success or panics and returns false on error.</p>
+
+<h4 id="func-graph-addgraph">func (*Graph) AddGraph</h4>
+
+<pre><code class="language-go">func (n *Graph) AddGraph(name string) bool
+</code></pre>
+<p>AddGraph adds a new blank graph instance to a network. That instance can be modified then at run-time.</p>
+
+<h4 id="func-graph-addiip">func (*Graph) AddIIP</h4>
+
+<pre><code class="language-go">func (n *Graph) AddIIP(data interface{}, processName, portName string) bool
+</code></pre>
+<p>AddIIP adds an Initial Information packet to the network</p>
+
+<h4 id="func-graph-addnew">func (*Graph) AddNew</h4>
+
+<pre><code class="language-go">func (n *Graph) AddNew(componentName string, processName string) bool
+</code></pre>
+<p>AddNew creates a new process instance using component factory and adds it to the network.</p>
+
+<h4 id="func-graph-connect">func (*Graph) Connect</h4>
+
+<pre><code class="language-go">func (n *Graph) Connect(senderName, senderPort, receiverName, receiverPort string) bool
+</code></pre>
+<p>Connect connects a sender to a receiver and creates a channel between them using DefaultBufferSize. Normally such a connection is unbuffered but you can change by setting flow.DefaultBufferSize &gt; 0 or by using ConnectBuf() function instead. It returns true on success or panics and returns false if error occurs.</p>
+
+<h4 id="func-graph-connectbuf">func (*Graph) ConnectBuf</h4>
+
+<pre><code class="language-go">func (n *Graph) ConnectBuf(senderName, senderPort, receiverName, receiverPort string, bufferSize int) bool
+</code></pre>
+<p>Connect connects a sender to a receiver using a channel with a buffer of a given size. It returns true on success or panics and returns false if error occurs.</p>
+
+<h4 id="func-graph-decsendchanrefcount">func (*Graph) DecSendChanRefCount</h4>
+
+<pre><code class="language-go">func (n *Graph) DecSendChanRefCount(c reflect.Value) bool
+</code></pre>
+<p>Decrements SendChanRefCount It returns true if the RefCount has reached 0</p>
+
+<h4 id="func-graph-disconnect">func (*Graph) Disconnect</h4>
+
+<pre><code class="language-go">func (n *Graph) Disconnect(senderName, senderPort, receiverName, receiverPort string) bool
+</code></pre>
+<p>Disconnect removes a connection between sender’s outport and receiver’s inport.</p>
+
+<h4 id="func-graph-get">func (*Graph) Get</h4>
+
+<pre><code class="language-go">func (n *Graph) Get(processName string) interface{}
+</code></pre>
+<p>Get returns a node contained in the network by its name.</p>
+
+<h4 id="func-graph-incsendchanrefcount">func (*Graph) IncSendChanRefCount</h4>
+
+<pre><code class="language-go">func (n *Graph) IncSendChanRefCount(c reflect.Value)
+</code></pre>
+<p>Increments SendChanRefCount</p>
+
+<h4 id="func-graph-initgraphstate">func (*Graph) InitGraphState</h4>
+
+<pre><code class="language-go">func (n *Graph) InitGraphState()
+</code></pre>
+<p>InitGraphState method initializes graph fields and allocates memory.</p>
+
+<h4 id="func-graph-mapinport">func (*Graph) MapInPort</h4>
+
+<pre><code class="language-go">func (n *Graph) MapInPort(name, procName, procPort string) bool
+</code></pre>
+<p>MapInPort adds an inport to the net and maps it to a contained proc’s port. It returns true on success or panics and returns false on error.</p>
+
+<h4 id="func-graph-mapoutport">func (*Graph) MapOutPort</h4>
+
+<pre><code class="language-go">func (n *Graph) MapOutPort(name, procName, procPort string) bool
+</code></pre>
+<p>MapOutPort adds an outport to the net and maps it to a contained proc’s port. It returns true on success or panics and returns false on error.</p>
+
+<h4 id="func-graph-ready">func (*Graph) Ready</h4>
+
+<pre><code class="language-go">func (n *Graph) Ready() &lt;-chan struct{}
+</code></pre>
+<p>Ready returns a channel that can be used to suspend the caller goroutine until the network is ready to accept input packets</p>
+
+<h4 id="func-graph-remove">func (*Graph) Remove</h4>
+
+<pre><code class="language-go">func (n *Graph) Remove(processName string) bool
+</code></pre>
+<p>Remove deletes a process from the graph. First it stops the process if running. Then it disconnects it from other processes and removes the connections from the graph. Then it drops the process itself.</p>
+
+<h4 id="func-graph-removeiip">func (*Graph) RemoveIIP</h4>
+
+<pre><code class="language-go">func (n *Graph) RemoveIIP(processName, portName string) bool
+</code></pre>
+<p>RemoveIIP detaches an IIP from specific process and port</p>
+
+<h4 id="func-graph-rename">func (*Graph) Rename</h4>
+
+<pre><code class="language-go">func (n *Graph) Rename(processName, newName string) bool
+</code></pre>
+<p>Rename changes a process name in all connections, external ports, IIPs and the graph itself.</p>
+
+<h4 id="func-graph-renameinport">func (*Graph) RenameInPort</h4>
+
+<pre><code class="language-go">func (n *Graph) RenameInPort(oldName, newName string) bool
+</code></pre>
+<p>RenameInPort changes graph’s inport name</p>
+
+<h4 id="func-graph-renameoutport">func (*Graph) RenameOutPort</h4>
+
+<pre><code class="language-go">func (n *Graph) RenameOutPort(oldName, newName string) bool
+</code></pre>
+<p>RenameOutPort changes graph’s outport name</p>
+
+<h4 id="func-graph-setinport">func (*Graph) SetInPort</h4>
+
+<pre><code class="language-go">func (n *Graph) SetInPort(name string, channel interface{}) bool
+</code></pre>
+<p>SetInPort assigns a channel to a network’s inport to talk to the outer world. It returns true on success or false if the inport cannot be set.</p>
+
+<h4 id="func-graph-setoutport">func (*Graph) SetOutPort</h4>
+
+<pre><code class="language-go">func (n *Graph) SetOutPort(name string, channel interface{}) bool
+</code></pre>
+<p>SetOutPort assigns a channel to a network’s outport to talk to the outer world. It returns true on success or false if the outport cannot be set.</p>
+
+<h4 id="func-graph-stop">func (*Graph) Stop</h4>
+
+<pre><code class="language-go">func (n *Graph) Stop()
+</code></pre>
+<p>Stop terminates the network without closing any connections</p>
+
+<h4 id="func-graph-stopproc">func (*Graph) StopProc</h4>
+
+<pre><code class="language-go">func (n *Graph) StopProc(procName string) bool
+</code></pre>
+<p>StopProc stops a specific process in the net</p>
+
+<h4 id="func-graph-unmapinport">func (*Graph) UnmapInPort</h4>
+
+<pre><code class="language-go">func (n *Graph) UnmapInPort(name string) bool
+</code></pre>
+<p>UnmapInPort removes an existing inport mapping</p>
+
+<h4 id="func-graph-unmapoutport">func (*Graph) UnmapOutPort</h4>
+
+<pre><code class="language-go">func (n *Graph) UnmapOutPort(name string) bool
+</code></pre>
+<p>UnmapOutPort removes an existing outport mapping</p>
+
+<h4 id="func-graph-unsetinport">func (*Graph) UnsetInPort</h4>
+
+<pre><code class="language-go">func (n *Graph) UnsetInPort(name string) bool
+</code></pre>
+<p>UnsetInPort removes an external inport from the graph</p>
+
+<h4 id="func-graph-unsetoutport">func (*Graph) UnsetOutPort</h4>
+
+<pre><code class="language-go">func (n *Graph) UnsetOutPort(name string) bool
+</code></pre>
+<p>UnsetOutPort removes an external outport from the graph</p>
+
+<h4 id="func-graph-wait">func (*Graph) Wait</h4>
+
+<pre><code class="language-go">func (n *Graph) Wait() &lt;-chan struct{}
+</code></pre>
+<p>Wait returns a channel that can be used to suspend the caller goroutine until<br />
+the network finishes its job</p>
+
+<h4 id="type-initializable">type Initializable</h4>
+
+<pre><code class="language-go">type Initializable interface {
+	Init()
+}
+</code></pre>
+
+<p>Initalizable is the interface implemented by components/graphs with custom<br />
+initialization code.</p>
+
+<h4 id="type-message">type Message</h4>
+
+<pre><code class="language-go">type Message struct {
+	// Protocol is NoFlo protocol identifier:
+	// "runtime", "component", "graph" or "network"
+	Protocol string
+	// Command is a command to be executed within the protocol
+	Command string
+	// Payload is JSON-encoded body of the message
+	Payload interface{}
+}
+</code></pre>
+
+<p>Message represents a single FBP protocol message</p>
+
+<h4 id="type-runtime">type Runtime</h4>
+
+<pre><code class="language-go">type Runtime struct {
+}
+</code></pre>
+
+<p>Runtime is a NoFlo-compatible runtime implementing the FBP protocol</p>
+
+<h4 id="func-runtime-handle">func (*Runtime) Handle</h4>
+
+<pre><code class="language-go">func (r *Runtime) Handle(ws *websocket.Conn)
+</code></pre>
+
+<h4 id="func-runtime-id">func (*Runtime) Id</h4>
+
+<pre><code class="language-go">func (r *Runtime) Id() string
+</code></pre>
+<p>Id returns runtime’s UUID v4</p>
+
+<h4 id="func-runtime-init">func (*Runtime) Init</h4>
+
+<pre><code class="language-go">func (r *Runtime) Init()
+</code></pre>
+<p>Register command handlers</p>
+
+<h4 id="func-runtime-listen">func (*Runtime) Listen</h4>
+
+<pre><code class="language-go">func (r *Runtime) Listen(address string)
+</code></pre>
+
+<h4 id="func-runtime-ready">func (*Runtime) Ready</h4>
+
+<pre><code class="language-go">func (r *Runtime) Ready() chan struct{}
+</code></pre>
+<p>Ready returns a channel which is closed when the runtime is ready to work</p>
+
+<h4 id="func-runtime-stop">func (*Runtime) Stop</h4>
+
+<pre><code class="language-go">func (r *Runtime) Stop()
+</code></pre>
+<p>Stop tells the runtime to shut down</p>
+
+<h4 id="type-shutdowner">type Shutdowner</h4>
+
+<pre><code class="language-go">type Shutdowner interface {
+	Shutdown()
+}
+</code></pre>
+
+<p>Shutdowner is the interface implemented by components overriding default<br />
+Shutdown() behavior.</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

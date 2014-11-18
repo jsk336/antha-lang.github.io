@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - cmd/anthadoc">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    cmd/anthadoc - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="cmd/anthadoc">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="docs" shortname="cmd/anthadoc" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>cmd/anthadoc</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/antha/anthadoc.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>cmd/anthadoc</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="anthadoc">anthadoc</h1>
+<p>–<br />
+anthadoc extracts and generates documentation for antha programs.</p>
+
+<p>It has two modes.</p>
+
+<p>Without the -http flag, it runs in command-line mode and prints plain text<br />
+documentation to standard output and exits. If both a library package and a<br />
+command with the same name exists, using the prefix cmd/ will force<br />
+documentation on the command rather than the library package. If the -src flag<br />
+is specified, godoc prints the exported interface of a package in Go source<br />
+form, or the implementation of a specific exported language entity:</p>
+
+<pre><code>anthadoc fmt                # documentation for package fmt
+anthadoc fmt Printf         # documentation for fmt.Printf
+anthadoc cmd/go             # force documentation for the go command
+anthadoc -src fmt           # fmt package interface in Go source form
+anthadoc -src fmt Printf    # implementation of fmt.Printf
+</code></pre>
+
+<p>In command-line mode, the -q flag enables search queries against a godoc running<br />
+as a webserver. If no explicit server address is specified with the -server<br />
+flag, anthadoc first tries localhost:6060 and then http://golang.org.</p>
+
+<pre><code>anthadoc -q Reader
+anthadoc -q math.Sin
+anthadoc -server=:6060 -q sin
+</code></pre>
+
+<p>With the -http flag, it runs as a web server and presents the documentation as a<br />
+web page.</p>
+
+<pre><code>anthadoc -http=:6060
+</code></pre>
+
+<p>Usage:</p>
+
+<pre><code>anthadoc [flag] package [name ...]
+</code></pre>
+
+<p>The flags are:</p>
+
+<pre><code>	-v
+		verbose mode
+	-q
+		arguments are considered search queries: a legal query is a
+		single identifier (such as ToLower) or a qualified identifier
+		(such as math.Sin)
+	-src
+		print (exported) source in command-line mode
+	-tabwidth=4
+		width of tabs in units of spaces
+	-timestamps=true
+		show timestamps with directory listings
+	-index
+		enable identifier and full text search index
+		(no search box is shown if -index is not set)
+	-index_files=""
+		glob pattern specifying index files; if not empty,
+		the index is read from these files in sorted order
+	-index_throttle=0.75
+		index throttle value; a value of 0 means no time is allocated
+		to the indexer (the indexer will never finish), a value of 1.0
+		means that index creation is running at full throttle (other
+		goroutines may get no time while the index is built)
+	-links=true:
+		link identifiers to their declarations
+	-write_index=false
+		write index to a file; the file name must be specified with
+		-index_files
+	-maxresults=10000
+		maximum number of full text search results shown
+		(no full text index is built if maxresults &lt;= 0)
+	-notes="BUG"
+		regular expression matching note markers to show
+		(e.g., "BUG|TODO", ".*")
+	-html
+		print HTML in command-line mode
+	-goroot=$GOROOT
+		Go root directory
+	-http=addr
+		HTTP service address (e.g., '127.0.0.1:6060' or just ':6060')
+	-server=addr
+		webserver address for command line searches
+	-analysis=type,pointer
+		comma-separated list of analyses to perform
+    		"type": display identifier resolution, type info, method sets,
+			'implements', and static callees
+		"pointer" display channel peers, callers and dynamic callees
+			(significantly slower)
+		See http://golang.org/lib/godoc/analysis/help.html for details.
+	-templates=""
+		directory containing alternate template files; if set,
+		the directory may provide alternative template files
+		for the files in $GOROOT/lib/godoc
+	-url=path
+		print to standard output the data that would be served by
+		an HTTP request for path
+	-zip=""
+		zip file providing the file system to serve; disabled if empty
+</code></pre>
+
+<p>By default, godoc looks at the packages it finds via $GOROOT and $GOPATH (if<br />
+set). This behavior can be altered by providing an alternative $GOROOT with the<br />
+-goroot flag.</p>
+
+<p>When godoc runs as a web server and -index is set, a search index is maintained.<br />
+The index is created at startup.</p>
+
+<p>The index contains both identifier and full text search information (searchable<br />
+via regular expressions). The maximum number of full text search results shown<br />
+can be set with the -maxresults flag; if set to 0, no full text results are<br />
+shown, and only an identifier index but no full text search index is created.</p>
+
+<p>The presentation mode of web pages served by godoc can be controlled with the<br />
+“m” URL parameter; it accepts a comma-separated list of flag names as value:</p>
+
+<pre><code>all	show documentation for all declarations, not just the exported ones
+methods	show all embedded methods, not just those of unexported anonymous fields
+src	show the original source code rather then the extracted documentation
+text	present the page in textual (command-line) form rather than HTML
+flat	present flat (not indented) directory listings using full paths
+</code></pre>
+
+<p>For instance, http://golang.org/pkg/math/big/?m=all,text shows the documentation<br />
+for all (not just the exported) declarations of package big, in textual form (as<br />
+it would appear when using godoc from the command line: “godoc -src math/big<br />
+.*”).</p>
+
+<p>By default, godoc serves files from the file system of the underlying OS.<br />
+Instead, a .zip file may be provided via the -zip flag, which contains the file<br />
+system to serve. The file paths stored in the .zip file must use slash (‘/’) as<br />
+path separator; and they must be unrooted. $GOROOT (or -goroot) must be set to<br />
+the .zip file directory path containing the Go root directory. For instance, for<br />
+a .zip file created by the command:</p>
+
+<pre><code>zip go.zip $HOME/go
+</code></pre>
+
+<p>one may run godoc as follows:</p>
+
+<pre><code>anthadoc -http=:6060 -zip=go.zip -goroot=$HOME/go
+</code></pre>
+
+<p>Anthadoc documentation is converted to HTML or to text using the go/doc package;<br />
+see http://golang.org/pkg/go/doc/#ToHTML for the exact rules. See “Godoc:<br />
+documenting Go code” for how to write good comments for godoc:<br />
+http://golang.org/doc/articles/godoc_documenting_go_code.html</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

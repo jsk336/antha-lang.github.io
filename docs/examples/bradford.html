@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - Anatomy of an Antha Element">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    Anatomy of an Antha Element - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="anatomy-of-an-antha-element">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="start" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="start" navgroup="docs" shortname="Anatomy" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>Anatomy of an Antha Element</h1>
+        
+          <summary>Introduction</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/examples/bradford.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>Anatomy of an Antha Element</h1>
+        
+          <summary>Introduction</summary>
+        
+      </header>
+
+      
+     <details id="toc">
+       <summary>Table of contents</summary>
+       
+<ul id="markdown-toc">
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#imports">Imports</a></li>
+  <li><a href="#parameters">Parameters</a></li>
+  <li><a href="#data">Data</a></li>
+  <li><a href="#inputs">Inputs</a></li>
+  <li><a href="#outputs">Outputs</a></li>
+  <li><a href="#requirements">Requirements</a></li>
+  <li><a href="#setup">Setup</a></li>
+  <li><a href="#steps">Steps</a></li>
+  <li><a href="#analysis">Analysis</a></li>
+  <li><a href="#validation">Validation</a></li>
+</ul>
+
+     </details>
+
+
+<h1 id="anatomy-of-an-antha-element">Anatomy of an Antha Element</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>Antha Elements are the How level of a process. They are designed to capture a single unit operation in an Antha workflow, with a defined set up physical and information inputs being processed into a defined set of physical and information outputs. In this example, the Antha Element defines a Bradford assay, which is a molecular biology assay used to quantify the amount of protein in a physical sample.</p>
+
+<p>Syntax wise, Antha is an extension of the Go language (www.golang.org), and shares a focus on describing concurrent processes functionally. Any execution of a workflow is intended to describe a large array of parallel processes, and is described from the standpoint of the smallest appropriate unit of operation. In the case of this Element, that is the set of actions to process a single physical sample, even though this protocol will normally be run on arrays of samples at the same time.  </p>
+
+<h2 id="imports">Imports</h2>
+<pre><code class="language-go">protocol bradford
+import (
+	"plate_reader"
+	"github.com/sajari/regression"
+	"standard_labware"
+)
+</code></pre>
+<p>The Antha Element starts by defining a name for the protocol, in this case <code>bradford</code>, and listing what additional protocols or Go libraries are needed to execute the <code>bradford</code> protocol. The Antha compiler is smart enough to identify whether the imports are existing Go libraries, or other Antha Elements, and can be transparently imported directly from source code repositories such as <a href="http://www.github.com">Github</a>.  </p>
+
+<h2 id="parameters">Parameters</h2>
+<pre><code class="language-go">// Input parameters for this protocol (data)
+Parameters {
+	var SampleVolume Volume = 15.(uL)
+	var BradfordVolume Volume = 5.(uL)
+	var Wavelength Wavelength = 595.(nm)
+	var ControlCurvePoints uint32 = 7
+	var ControlCurveDilutionFactor uint32 = 2
+	var ReplicateCount uint32 = 1 // Note: 1 replicate means experiment is in duplicate, etc.
+}
+</code></pre>
+
+<p>The Parameters block defines the information inputs to the Bradford Element. Data types can be any of the built-in types from the Go language, such as <code>int, string, byte, float</code>, as well as the strongly typed scientific types introduced by the Antha language, such as the metric units. Parameter declarations follow the syntax of <code>var VariableName VariableType = OptionalDefaultValue.(OptionalUnit)</code></p>
+
+<p>For Example: <br />
+<code>go
+var ExampleVolume Volume = 15.(uL)
+</code><br />
+means “Create a parameter named ExampleVolume, which only accepts volume units, with a default value of 15 microlitres. [LINK to type system] by convention variables are named in UpperCamelCase (using an Upper-case letter for each word as a single name). All Parameters are visible to other Elements, so also by convention they start with an Upper-case letter.</p>
+
+<p><code>ReplicateCount</code> is a special variable, which tells Antha to run <code>ReplicateCount</code> additional copies of each sample. The association of the results, and impact on workflow is automatically handled by the system.</p>
+
+<h2 id="data">Data</h2>
+<pre><code class="language-go">// Data which is returned from this protocol, and data types
+Data {
+	var SampleAbsorbance Absorbance
+	var ProteinConc Concentration
+	var RSquared float32	
+	var control_absorbance [control_curve_points+1]Absorbance
+	var control_concentrations [control_curve_points+1]float64
+}
+</code></pre>
+
+<p>The Data block defines the information outputs from the Bradford Element. Declaration follows the same format as the Parameters block, although no default values are given. By  convention, results which may be consumed as outputs by other Elements are named with an Upper-case first letter. Variables which start with a lower-case first letter are intended for use only within the protocol, and while the values will be logged, they are not available to any other Antha Elements. Additionally, they are shared across all executing copies of an Element, which requires their use to be carefully considered to avoid concurrency problems. </p>
+
+<h2 id="inputs">Inputs</h2>
+<pre><code class="language-go">// Physical Inputs to this protocol with types
+Inputs {
+	var Sample WaterSolution
+	var BradfordReagent WaterSolution
+	var ControlProtein WaterSolution
+	var DistilledWater WaterSolution
+}
+</code></pre>
+
+<p>The Inputs block defines the physical inputs to the protocol, along with their appropriate type. For example, in this block, all the types are WaterSolutions, meaning they can be operated on by a standard liquid handling robot, or manual pipette operations. Additional attributes of the physical samples are used by the Antha Execution system to plan the optimal way to perform physical actions such as mixing on samples based on their types.</p>
+
+<p>Declaration syntax follows the form of the information variables, with the exceptions that no default value is declared.</p>
+
+<h2 id="outputs">Outputs</h2>
+<pre><code class="language-go">// Physical outputs from this protocol with types
+Outputs {
+	// None
+}
+</code></pre>
+
+<p>This protocol is a destructive protocol, meaning that all of the intermediates and the final sample created as a result of this assay needs to be destroyed after performing the protocol. However, many protocols also output a physical sample, such as a new liquid solution containing DNA, enzymes, or cells. By default, any physical sample which is not passed to an Output is scheduled for destruction, with methods appropriate to the safety level of the sample (such as having to autoclave genetic materials, etc)</p>
+
+<h2 id="requirements">Requirements</h2>
+<pre><code class="language-go">Requirements {
+	// None
+}
+</code></pre>
+
+<p>The Requirements block is executed by a protocol before it begins work, to allow confirming the state of any inputs. For example, a test like <code>require(!Sample.Expired())</code> would explicitly confirm that the input sample had not, for the information on the type of sample available to the Antha system, expired by being left outside of a temperature controlled environment for too long. By default, Antha confirms items such as whether samples have expired automatically, and this block is provided primarily as a convenience for certain classes of more complex tests needed to validate complex inputs such as DNA assembly protocols.</p>
+
+<h2 id="setup">Setup</h2>
+<pre><code class="language-go">Setup {
+	control.Config(config.per_plate)	
+
+	var control_curve[ControlCurvePoints + 1]WaterSolution
+			
+	for i:= 0; i &lt; control_curve_points; i++ {
+		go func(i) {
+			if (i == control_curve_points) {
+					control_curve[i] = mix(distilled_water(sample_volume) + bradford_reagent(bradford_volume)) 
+				} else {
+					control_curve[i] = serial_dilute(control_protein(sample_volume), control_curve_points, control_curve_dilution_factor, i)
+				}
+				control_absorbance[i] = plate_reader.read(control_curve[i], wavelength)
+			}
+		}
+	} 
+}
+</code></pre>
+
+<p>The Setup block is performed once the first time that an Element is executed. This can be used to perform any configuration that is needed globally for the Element, and is also used to define any special setup that may be needed for groups of concurrent tasks that might be executed at the same time. Any variables that need to be accessed by the Steps function globally can be defined here as well, but need to be handled with care to avoid concurrency problems. </p>
+
+<p>In the context of this Bradford Element, the Control library is used to enable the protocol to define a block of samples that need to be performed in concert with any block of tasks.  For example, each 96 well plate of samples needs to have a set of control samples added to it to enable the calculation of the amount of protein in each sample. Creating these control samples is done via a serial dilution of a known protein sample, using up to <code>ControlCurvePoints + 1</code> samples in each block. </p>
+
+<h2 id="steps">Steps</h2>
+<pre><code class="language-go">Steps {
+	var product = mix(Sample(SampleVolume) + BradfordReagent(BradfordVolume))
+	SampleAbsorbance = PlateReader.ReadAbsorbance(product, Wavelength)
+}
+</code></pre>
+
+<p>The heart of an Antha Element is the Steps block, which defines the actual steps taken to transform a set of input parameters and samples into the output data and samples. The Steps are a kernel function, meaning they share no information for every concurrent sample that is processed, and define the workflow to transform a single block of inputs and samples into a single set of outputs, even if the Element is operating on an entire array (such as micro-titre plate of samples at once). </p>
+
+<p>In this Bradford Element, a new sample is created, which is the result of mixing SampleVolume amount of the physical input, Sample. Note: no physical locations, layouts, or methods are required, as the Antha Execution layer manages determining the capabilities to perform library functions such as the mix function depending on the equipment registered with the system. Where automated methods of sample transport or liquid handling are not available, it falls back to providing manual instructions.</p>
+
+<p>The newly created sample, product, is then passed to another Antha Element, which in this case represents a device driver for a plate reader, to perform a measurement on the sample. Where such processing needs to be batched (such as performing it a plate at a time) the system automatically manages the scheduling of samples to be collocated on a shared micro-titre plate.</p>
+
+<p>Lastly, the results of the plate reader are stored as the output data variable SampleAbsorbance.</p>
+
+<h2 id="analysis">Analysis</h2>
+<pre><code class="language-go">Analysis {
+	// need the control samples to be completed before doing the analysis
+	control.WaitForCompletion()
+	// Need to compute the linear curve y = m * x + c 
+	var r regression.Regression
+	r.SetObservedName("Absorbance")
+	r.SetVarName(0, "Concentration")
+	r.AddDataPoint(regression.DataPoint{Observed : ControlCurvePoints+1, Variables : ControlAbsorbance})
+	r.AddDataPoint(regression.DataPoint{Observed : ControlCurvePoints+1, Variables : ControlConcentrations})
+	r.RunLinearRegression()
+	m := r.GetRegCoeff(0)
+	c := r.GetRegCoeff(1)
+	RSquared = r.Rsquared	
+	
+	ProteinConc = (sample_absorbance - c) / m
+}
+</code></pre>
+
+<p>The Analysis block defines how the results of the Steps can should be transformed into final values, if appropriate. Computing the final protein concentration of a Bradford assay requires having the data back from the control samples, performing a linear regression, and then using those results to normalize the plate reader results.</p>
+
+<p>To start, the <code>control.WaitForCompletion()</code> is a utility method saying that the Analysis needs to wait for the concurrent control samples to be fully processed before analysis can continue. The actual linear regression is then performed by using an existing Go library for linear regression, which like all Go code, can be seamlessly included in Antha.</p>
+
+<p>Lastly, the final normalized result (the protein concenration in the sample) is stored in the ProteinConc variable where it can be accessed by downstream Antha Elements.  </p>
+
+<h2 id="validation">Validation</h2>
+<pre><code class="language-go">Validation {
+	if SampleAbsorbance &gt; 1 {
+		panic("Sample likely needs further dilution")
+	}
+	if (RSquared &lt; 0.9) {
+		warn("Low r_squared on standard curve")
+	}
+	if (RSquared &lt; 0.7) {
+		panic("Bad r_squared on standard curve")
+	}
+	// TODO: add test of replicate variance
+}
+</code></pre>
+
+<p>In an ideal world, no errors would ever occur, and all scientific protocols would work all the time. However, in reality errors happen, either because the protocol is being executed on inputs for which it was never designed and characterized to handle, mistakes happened during the execution, or because important factors which could impact the execution have not been included in Element design. </p>
+
+<p>The Validation block allows the definition of specific tests to verify the correct execution of an Element, along with reporting capabilities (and the ability to declare the execution a failure). For example, the Bradford assay can only handle a specific linear range of concentrations, so if the amount of protein in the sample is above or below that range, the assay will fail. </p>
+
+<p>The solution in such a case is to rerun the assay, with a different dilution factor, however as the Bradford Element is a destructive assay, it may require the generation of more source material which may not be possible, preventing the Element alone from handling such an error.</p>
+
+<p>Validation checks can be grouped as destructive or non destructive. All the tests performed in this example are non-destructive, as they simply analyze the data. However, in other types of Elements, a validation test may require the consumption of some of a sample, such as to run a mass spec trace, and as such only random dipstick testing may be required rather than validating every sample which is executed. Policies such as dipstick validation testing can be configured in the Antha Execution environment.</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

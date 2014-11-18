@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - FAQ">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    FAQ - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="faq">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" >
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="references" navgroup="references" shortname="References" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button " borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>FAQ</h1>
+        
+          <summary></summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/resources/faq.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>FAQ</h1>
+        
+          <summary></summary>
+        
+      </header>
+
+      <p class="alert alert-error">
+<b>Thanks for checking us out!</b> Antha is still in <em>alpha form</em>.
+</p>
+
+<p><em>Don’t see an answer to your question on here? Ask on the <a href="/discuss.html">mailing list</a>!</em></p>
+
+     <details id="toc">
+       <summary>Table of contents</summary>
+       
+<ul id="markdown-toc">
+  <li><a href="#antha">Antha</a>    <ul>
+      <li><a href="#why">Why is this project important?</a></li>
+      <li><a href="#why">Why do we need a high level language for doing biology?</a></li>
+      <li><a href="#why-is-this-only-being-done-now">Why is this only being done now?</a></li>
+      <li><a href="#why">What about Biocoder, SBOL, PrPr and Chris?</a></li>
+      <li><a href="#readiness">Is Antha production ready?</a></li>
+      <li><a href="#what-sort-of-testing-do-you-do">What sort of testing do you do?</a></li>
+      <li><a href="#why-choose-google-go-as-the-basis">Why choose google GO as the basis?</a></li>
+      <li><a href="#can-i-contribute-to-the-antha-project">Can I contribute to the Antha project?</a></li>
+    </ul>
+  </li>
+  <li><a href="#data-access">Data Access</a>    <ul>
+      <li><a href="#openData">What format does Antha produce data in?</a></li>
+    </ul>
+  </li>
+  <li><a href="#antha-elements">Antha Elements</a>    <ul>
+      <li><a href="#what-is-an-element">What is an element?</a></li>
+      <li><a href="#how-small-should-an-element-be">How small should an element be?</a></li>
+      <li><a href="#packaging">How do I package a bunch of custom elements together into a workflow?</a></li>
+      <li><a href="#where-do-all-the-low-level-details-go-does-it-matter">Where do all the low-level details go? Does it matter?</a></li>
+      <li><a href="#can-i-integrate-scripts-from-other-languages-such-as-python-or-matlab">Can I integrate scripts from other languages such as Python or Matlab?</a></li>
+    </ul>
+  </li>
+</ul>
+
+     </details>
+
+
+<h2 id="antha">Antha</h2>
+
+<h3 id="why">Why is this project important?</h3>
+
+<p>Antha is the first high level language designed to enable robust, reproducible and composible work in the biosciences. Antha is designed to take away much of the detail of experimental planning, allowing biologists to focus on what they want to do, not how to do it.  This allows researchers to think about the biology of their system, and successfully carry out ever more complex and illuminating experiments.</p>
+
+<h3 id="why">Why do we need a high level language for doing biology?</h3>
+
+<p>A high level language enables ease of design, better reproducibility and scalability. Lack of reproducibility is still a major barrier to progress in the biosciences (an <a href="http://www.nature.com/nature/journal/v483/n7391/full/483531a.html">article</a> from Amgen reports that they could reproduce findings in only 11% of 53 published papers). </p>
+
+<h3 id="why-is-this-only-being-done-now">Why is this only being done now?</h3>
+<p>The will to improve reproducibility is not new. In recent years efforts have been made to abstract the layers of biological complexity and to standardize by breaking down biological components into repositories of well-characterised standardized parts which can be combined to form more complex devices. The biobrick registry at iGEM is a good example of this. This is a move in the right direction but the problem is far from fully solved since biology is not that simple and often it’s not straightforward standardise parts.</p>
+
+<p>The idea of abstraction and standardization are very welcome but unfortunately we don’t yet fully understand how even the simplest and most well-studied bacteria such as E.coli function… We know that the genome is 5.7million letters long and that about 4-5000 genes are produced but only around 66% of these genes have been experimentally verified. So how can we use a standardized parts based approach to building new microbes when we don’t fully understand how the operating system works? The answer may be to standardize the experimental format in which these parts are characterized, and capture all of the subtle artisanal details of a procedure not usually captured in a material and methods section of a research article.</p>
+
+<p>Antha allows you to do this and critically, the hard work will largely be performed behind the scenes so quality standards can be met but without the normal effort overhead. With Antha we can embrace the fact that we don’t fully understand the complexity of the biology and perform our characterizations reproducibly in a way in which new parts and devices are tested for robustness in the full genetic, biological and environmental context and to do so in a way where we design this approach to be performed by a liquid handling robot in which the characterisation process then becomes a software algorithm rather than a written material and methods section in a scientific journal, which has been the case up until now.  This approach would be a far more reproducible, scalable and robust way of standardization; not so dependent on a lab technician’s green fingers!</p>
+
+<h3 id="why">What about Biocoder, SBOL, PrPr and Chris?</h3>
+
+<p>None of these are high-level languages capable of incorporating genetic design, experimental design, physical experimental execution and data processing.</p>
+
+<h3 id="readiness">Is Antha production ready?</h3>
+
+<p>Antha is currently in “community preview.” Many of the pieces that are being integrated into Antha have been in production use at Synthace and other organisations for years. However, the full integration into  is new and will inevitably uncover bugs in the component pieces it has brought together.</p>
+
+<h3 id="what-sort-of-testing-do-you-do">What sort of testing do you do?</h3>
+
+<p>Antha uses Chromium’s continuous build infrastructure to test<br />
+the entire system and each polyfill, individually. See our <a href="/build/">build status page</a>.</p>
+
+<h3 id="why-choose-google-go-as-the-basis">Why choose google GO as the basis?</h3>
+
+<p>Go is an open source language designed and built by Google to make building fast, simple and scalable software. Go is capable of concurrency and communicating directly with devices. Learn go [here] (http://go-book.appspot.com/index.html)</p>
+
+<h3 id="can-i-contribute-to-the-antha-project">Can I contribute to the Antha project?</h3>
+<p>Absolutely, whether you’re a programmer, bioinformatician or scientist we welcome contributions to both the langauge itself and the building of elements. Sign up to the mailing list to stay up to date. </p>
+
+<h2 id="data-access">Data Access</h2>
+
+<h3 id="openData">What format does Antha produce data in?</h3>
+
+<p>Antha translates the proprietary formats of the various devices accessed as part of the process of <br />
+experiment execution into open JSON based data. The original proprietary format inputs are also captured for archival purposes if you like those sorts of things.</p>
+
+<h2 id="antha-elements">Antha Elements</h2>
+
+<h3 id="what-is-an-element">What is an element?</h3>
+
+<p>An element is a reusable unit which can be wired up with other elements to form workflows. An element can be anything from genetic elements (such as a promoter, ribosome binding site, transcription factor, host cell) to experimental procedures such as DNA assembly, incubation, protein expression or enzyme assays. </p>
+
+<h3 id="how-small-should-an-element-be">How small should an element be?</h3>
+
+<p>An element should be designed as small as possible yet robustly with built-in validation criteria. Antha will automatically track and log all associated data when the element is executed. Essentially this enables not just the standardization of the genetic parts but standardization and full tracking of the experimental procedure used to characterise. This will inherently allow for greater reproducibility, simplicity and scalability when the elements are wired together to form workflows. Once elements and workflows are designed and tested they can be shared, traded and reviewed in the Antha market place or embedded as a downloadable and executable material and methods section of a research article.</p>
+
+<h3 id="packaging">How do I package a bunch of custom elements together into a workflow?</h3>
+
+<p>Antha Elements follow the same packaging structure as GO packages. <a href="https://code.google.com/p/go-wiki/wiki/PackagePublishing">Golang</a></p>
+
+<h3 id="where-do-all-the-low-level-details-go-does-it-matter">Where do all the low-level details go? Does it matter?</h3>
+<p>The low level details are taken care of by Antha and its associated scheduler and device drivers.  Details such as analysis of raw data are often dealt with in Antha scripts, so someone that writes Antha can go in and edit them, while “users” can take advantage of what is scripted without having to worry about the details.  Another example of a low level issue is physically where samples are placed in a multiwell plate by a liquid handler, and how the liquid handler is instructed to do the necessary actions.  These issues are dealt with by the scheduler and liquid handler driver respectively.</p>
+
+<h3 id="can-i-integrate-scripts-from-other-languages-such-as-python-or-matlab">Can I integrate scripts from other languages such as Python or Matlab?</h3>
+
+<p><strong>Short answer:</strong></p>
+
+<p>Not yet. But eventually, yes, via the network protocol.</p>
+
+<p><strong>Long answer:</strong></p>
+
+<p>Antha elements are designed to run as microservices communicating via a network using a flow-based approach. This part of the language is still in very early stage development. Once it is available there will be the option to integrate existing scripts with the system by wrapping them in middleware designed to convert to and from the required JSON format and do the other required bits like registering their presence and capabilities to the network.</p>
+
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

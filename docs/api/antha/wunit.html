@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - anthalib/wunit">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    anthalib/wunit - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="anthalib/wunit">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="docs" shortname="anthalib/wunit" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>anthalib/wunit</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/antha/wunit.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>anthalib/wunit</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="wunit">wunit</h1>
+<p>–<br />
+    import “.”</p>
+
+<h2 id="usage">Usage</h2>
+
+<h4 id="func--getprefixlib">func  GetPrefixLib</h4>
+
+<pre><code class="language-go">func GetPrefixLib(fn string) (*(map[string]SIPrefix), error)
+</code></pre>
+<p>deserialize JSON prefix library</p>
+
+<h4 id="func--getunitlib">func  GetUnitLib</h4>
+
+<pre><code class="language-go">func GetUnitLib(fn string) (*(map[string]GenericUnit), error)
+</code></pre>
+<p>deserialize JSON unit library</p>
+
+<h4 id="func--makeprefices">func  MakePrefices</h4>
+
+<pre><code class="language-go">func MakePrefices() map[string]SIPrefix
+</code></pre>
+<p>make the prefix structure</p>
+
+<h4 id="func--makeunits">func  Make_units</h4>
+
+<pre><code class="language-go">func Make_units() map[string]GenericUnit
+</code></pre>
+<p>generate an initial unit library</p>
+
+<h4 id="func--newwfloat">func  NewWFloat</h4>
+
+<pre><code class="language-go">func NewWFloat(v float64) wfloat
+</code></pre>
+<p>wrap a float in the wvalue structure</p>
+
+<h4 id="func--newwint">func  NewWInt</h4>
+
+<pre><code class="language-go">func NewWInt(v int) wint
+</code></pre>
+<p>wrap an int in the wvalue structure</p>
+
+<h4 id="func--newwstring">func  NewWString</h4>
+
+<pre><code class="language-go">func NewWString(v string) wstring
+</code></pre>
+
+<h4 id="func--prefixdiv">func  PrefixDiv</h4>
+
+<pre><code class="language-go">func PrefixDiv(x string, y string) string
+</code></pre>
+<p>divide one prefix by another take care: there are no checks for going out of<br />
+bounds e.g. Z/z will give an error!</p>
+
+<h4 id="func--prefixmul">func  PrefixMul</h4>
+
+<pre><code class="language-go">func PrefixMul(x string, y string) string
+</code></pre>
+<p>multiply two prefix values take care: there are no checks for going out of<br />
+bounds e.g. Z*Z will generate an error!</p>
+
+<h4 id="func--reverselookupprefix">func  ReverseLookupPrefix</h4>
+
+<pre><code class="language-go">func ReverseLookupPrefix(i int) string
+</code></pre>
+<p>helper function for reverse lookup of prefix</p>
+
+<h4 id="type-amount">type Amount</h4>
+
+<pre><code class="language-go">type Amount struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>mole</p>
+
+<h4 id="func--newamount">func  NewAmount</h4>
+
+<pre><code class="language-go">func NewAmount(v float64, unit string) Amount
+</code></pre>
+<p>generate a new Amount in moles</p>
+
+<h4 id="func-amount-quantity">func (*Amount) Quantity</h4>
+
+<pre><code class="language-go">func (a *Amount) Quantity() Measurement
+</code></pre>
+<p>defines Amount to be a SubstanceQuantity</p>
+
+<h4 id="type-angle">type Angle</h4>
+
+<pre><code class="language-go">type Angle struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>angle</p>
+
+<h4 id="func--newangle">func  NewAngle</h4>
+
+<pre><code class="language-go">func NewAngle(v float64, unit string) Angle
+</code></pre>
+<p>generate a new angle unit</p>
+
+<h4 id="type-area">type Area</h4>
+
+<pre><code class="language-go">type Area struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>area</p>
+
+<h4 id="func--newarea">func  NewArea</h4>
+
+<pre><code class="language-go">func NewArea(v float64, unit string) Area
+</code></pre>
+<p>make an area unit</p>
+
+<h4 id="type-baseunit">type BaseUnit</h4>
+
+<pre><code class="language-go">type BaseUnit interface {
+	// unit name
+	Name() string
+	// unit symbol
+	Symbol() string
+	// multiply by this to get SI value
+	// nb this should be a function since we actually need
+	// an affine transformation
+	BaseSIConversionFactor() float64 // this can be calculated in many cases
+	// if we convert to the SI units what is the appropriate unit symbol
+	BaseSIUnit() string // if we use the above, what unit do we get?
+}
+</code></pre>
+
+<p>structure defining a base unit</p>
+
+<h4 id="type-concentration">type Concentration</h4>
+
+<pre><code class="language-go">type Concentration struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>defines a concentration unit</p>
+
+<h4 id="func--newconcentration">func  NewConcentration</h4>
+
+<pre><code class="language-go">func NewConcentration(v float64, unit string) Concentration
+</code></pre>
+<p>make a new concentration in SI units… either M/l or kg/l</p>
+
+<h4 id="type-concretemeasurement">type ConcreteMeasurement</h4>
+
+<pre><code class="language-go">type ConcreteMeasurement struct {
+	// the raw value
+	Mvalue wfloat
+	// the relevant units
+	Munit PrefixedUnit
+}
+</code></pre>
+
+<p>structure implementing the Measurement interface</p>
+
+<h4 id="func--newmeasurement">func  NewMeasurement</h4>
+
+<pre><code class="language-go">func NewMeasurement(v float64, unit string, prefix string) ConcreteMeasurement
+</code></pre>
+<p>helper function for creating a new measurement</p>
+
+<h4 id="func-concretemeasurement-rawvalue">func (*ConcreteMeasurement) RawValue</h4>
+
+<pre><code class="language-go">func (cm *ConcreteMeasurement) RawValue() float64
+</code></pre>
+<p>value without conversion</p>
+
+<h4 id="func-concretemeasurement-sivalue">func (*ConcreteMeasurement) SIValue</h4>
+
+<pre><code class="language-go">func (cm *ConcreteMeasurement) SIValue() float64
+</code></pre>
+<p>value when converted to SI units</p>
+
+<h4 id="func-concretemeasurement-setvalue">func (*ConcreteMeasurement) SetValue</h4>
+
+<pre><code class="language-go">func (cm *ConcreteMeasurement) SetValue(v float64) float64
+</code></pre>
+<p>set the value of this measurement</p>
+
+<h4 id="func-concretemeasurement-unit">func (*ConcreteMeasurement) Unit</h4>
+
+<pre><code class="language-go">func (cm *ConcreteMeasurement) Unit() PrefixedUnit
+</code></pre>
+<p>get unit with prefix</p>
+
+<h4 id="type-density">type Density</h4>
+
+<pre><code class="language-go">type Density struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>a structure which defines a density</p>
+
+<h4 id="func--newdensity">func  NewDensity</h4>
+
+<pre><code class="language-go">func NewDensity(v float64, unit string) Density
+</code></pre>
+<p>make a new density structure in SI units</p>
+
+<h4 id="type-energy">type Energy</h4>
+
+<pre><code class="language-go">type Energy struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>this is really Mass(Length/Time)^2</p>
+
+<h4 id="func--newenergy">func  NewEnergy</h4>
+
+<pre><code class="language-go">func NewEnergy(v float64, unit string) Energy
+</code></pre>
+<p>make a new energy unit</p>
+
+<h4 id="type-force">type Force</h4>
+
+<pre><code class="language-go">type Force struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>a Force</p>
+
+<h4 id="func--newforce">func  NewForce</h4>
+
+<pre><code class="language-go">func NewForce(v float64, unit string) Force
+</code></pre>
+<p>a new force in Newtons</p>
+
+<h4 id="type-genericprefixedunit">type GenericPrefixedUnit</h4>
+
+<pre><code class="language-go">type GenericPrefixedUnit struct {
+	GenericUnit
+	SPrefix SIPrefix
+}
+</code></pre>
+
+<p>the generic prefixed unit structure</p>
+
+<h4 id="func-genericprefixedunit-basesiconversionfactor">func (*GenericPrefixedUnit) BaseSIConversionFactor</h4>
+
+<pre><code class="language-go">func (gpu *GenericPrefixedUnit) BaseSIConversionFactor() float64
+</code></pre>
+<p>multiplier to convert to SI base unit… for composites this is the ratio of the<br />
+base units for the dimensions in question e.g. kg/l for concentration</p>
+
+<h4 id="func-genericprefixedunit-basesisymbol">func (*GenericPrefixedUnit) BaseSISymbol</h4>
+
+<pre><code class="language-go">func (gpu *GenericPrefixedUnit) BaseSISymbol() string
+</code></pre>
+<p>symbol for unit after conversion to base si unit</p>
+
+<h4 id="func-genericprefixedunit-prefix">func (*GenericPrefixedUnit) Prefix</h4>
+
+<pre><code class="language-go">func (gpu *GenericPrefixedUnit) Prefix() SIPrefix
+</code></pre>
+
+<h4 id="func-genericprefixedunit-prefixedsymbol">func (*GenericPrefixedUnit) PrefixedSymbol</h4>
+
+<pre><code class="language-go">func (gpu *GenericPrefixedUnit) PrefixedSymbol() string
+</code></pre>
+<p>symbol with prefix</p>
+
+<h4 id="func-genericprefixedunit-rawsymbol">func (*GenericPrefixedUnit) RawSymbol</h4>
+
+<pre><code class="language-go">func (gpu *GenericPrefixedUnit) RawSymbol() string
+</code></pre>
+<p>symbol without prefix</p>
+
+<h4 id="func-genericprefixedunit-symbol">func (*GenericPrefixedUnit) Symbol</h4>
+
+<pre><code class="language-go">func (gpu *GenericPrefixedUnit) Symbol() string
+</code></pre>
+<p>symbol with prefix</p>
+
+<h4 id="type-genericunit">type GenericUnit</h4>
+
+<pre><code class="language-go">type GenericUnit struct {
+	StrName             string
+	StrSymbol           string
+	FltConversionfactor float64
+	StrBaseUnit         string
+}
+</code></pre>
+
+<p>structure for defining a generic unit</p>
+
+<h4 id="func--unitbysymbol">func  UnitBySymbol</h4>
+
+<pre><code class="language-go">func UnitBySymbol(sym string) GenericUnit
+</code></pre>
+<p>look up unit by symbol</p>
+
+<h4 id="func-genericunit-basesiconversionfactor">func (*GenericUnit) BaseSIConversionFactor</h4>
+
+<pre><code class="language-go">func (gu *GenericUnit) BaseSIConversionFactor() float64
+</code></pre>
+
+<h4 id="func-genericunit-basesiunit">func (*GenericUnit) BaseSIUnit</h4>
+
+<pre><code class="language-go">func (gu *GenericUnit) BaseSIUnit() string
+</code></pre>
+
+<h4 id="func-genericunit-name">func (*GenericUnit) Name</h4>
+
+<pre><code class="language-go">func (gu *GenericUnit) Name() string
+</code></pre>
+
+<h4 id="func-genericunit-symbol">func (*GenericUnit) Symbol</h4>
+
+<pre><code class="language-go">func (gu *GenericUnit) Symbol() string
+</code></pre>
+
+<h4 id="type-length">type Length</h4>
+
+<pre><code class="language-go">type Length struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>length</p>
+
+<h4 id="func--newlength">func  NewLength</h4>
+
+<pre><code class="language-go">func NewLength(v float64, unit string) Length
+</code></pre>
+<p>make a length</p>
+
+<h4 id="type-mass">type Mass</h4>
+
+<pre><code class="language-go">type Mass struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>mass</p>
+
+<h4 id="func--newmass">func  NewMass</h4>
+
+<pre><code class="language-go">func NewMass(v float64, unit string) Mass
+</code></pre>
+<p>make a mass unit</p>
+
+<h4 id="func-mass-quantity">func (*Mass) Quantity</h4>
+
+<pre><code class="language-go">func (m *Mass) Quantity() Measurement
+</code></pre>
+<p>defines mass to be a SubstanceQuantity</p>
+
+<h4 id="type-measurement">type Measurement</h4>
+
+<pre><code class="language-go">type Measurement interface {
+	// the value in base SI units
+	SIValue() float64
+	// the value in the current units
+	RawValue() float64
+	// unit plus prefix
+	Unit() PrefixedUnit
+	// set the value, this must be thread-safe
+	// returns old value
+	SetValue(v float64) float64
+}
+</code></pre>
+
+<p>fundamental representation of a value in the system</p>
+
+<h4 id="type-measurementlimits">type MeasurementLimits</h4>
+
+<pre><code class="language-go">type MeasurementLimits struct {
+	Limits map[string]NDManifold
+}
+</code></pre>
+
+<p>for holding minima, maxima etc. e.g. ml.Limits[“max”] =&gt;<br />
+{“length”-&gt;{4.0,{“Metres”, “m”, 1.0}}}…</p>
+
+<h4 id="type-ndmanifold">type NDManifold</h4>
+
+<pre><code class="language-go">type NDManifold struct {
+	Dimensions map[string]Measurement
+}
+</code></pre>
+
+<p>N-dimensional manifold structure</p>
+
+<h4 id="type-prefixedunit">type PrefixedUnit</h4>
+
+<pre><code class="language-go">type PrefixedUnit interface {
+	BaseUnit
+	// the prefix of the unit
+	Prefix() SIPrefix
+	// the symbol including prefix
+	PrefixedSymbol() string
+	// the symbol excluding prefix
+	RawSymbol() string
+	// appropriate unit if we ask for SI values
+	BaseSISymbol() string
+}
+</code></pre>
+
+<p>a unit with an SI prefix</p>
+
+<h4 id="func--newprefixedunit">func  NewPrefixedUnit</h4>
+
+<pre><code class="language-go">func NewPrefixedUnit(prefix string, unit string) PrefixedUnit
+</code></pre>
+<p>helper function to make it easier to make a new unit with prefix directly</p>
+
+<h4 id="type-pressure">type Pressure</h4>
+
+<pre><code class="language-go">type Pressure struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>a Pressure structure</p>
+
+<h4 id="func--newpressure">func  NewPressure</h4>
+
+<pre><code class="language-go">func NewPressure(v float64, unit string) Pressure
+</code></pre>
+<p>make a new pressure in Pascals</p>
+
+<h4 id="type-siprefix">type SIPrefix</h4>
+
+<pre><code class="language-go">type SIPrefix struct {
+	// prefix name
+	Name string
+	// meaning in base 10
+	Value float64
+}
+</code></pre>
+
+<p>structure defining an SI prefix</p>
+
+<h4 id="func--siprefixbysymbol">func  SIPrefixBySymbol</h4>
+
+<pre><code class="language-go">func SIPrefixBySymbol(symbol string) SIPrefix
+</code></pre>
+<p>helper function to allow lookup of prefix</p>
+
+<h4 id="type-specificheatcapacity">type SpecificHeatCapacity</h4>
+
+<pre><code class="language-go">type SpecificHeatCapacity struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>a structure which defines a specific heat capacity</p>
+
+<h4 id="func--newspecificheatcapacity">func  NewSpecificHeatCapacity</h4>
+
+<pre><code class="language-go">func NewSpecificHeatCapacity(v float64, unit string) SpecificHeatCapacity
+</code></pre>
+<p>make a new specific heat capacity structure in SI units</p>
+
+<h4 id="type-substancequantity">type SubstanceQuantity</h4>
+
+<pre><code class="language-go">type SubstanceQuantity interface {
+	Quantity() Measurement
+}
+</code></pre>
+
+<p>mass or mole</p>
+
+<h4 id="type-temperature">type Temperature</h4>
+
+<pre><code class="language-go">type Temperature struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>temperature</p>
+
+<h4 id="func--newtemperature">func  NewTemperature</h4>
+
+<pre><code class="language-go">func NewTemperature(v float64, unit string) Temperature
+</code></pre>
+<p>make a temperature</p>
+
+<h4 id="type-time">type Time</h4>
+
+<pre><code class="language-go">type Time struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>time</p>
+
+<h4 id="func--newtime">func  NewTime</h4>
+
+<pre><code class="language-go">func NewTime(v float64, unit string) Time
+</code></pre>
+<p>make a time unit</p>
+
+<h4 id="type-volume">type Volume</h4>
+
+<pre><code class="language-go">type Volume struct {
+	ConcreteMeasurement
+}
+</code></pre>
+
+<p>volume – strictly speaking of course this is length^3</p>
+
+<h4 id="func--newvolume">func  NewVolume</h4>
+
+<pre><code class="language-go">func NewVolume(v float64, unit string) Volume
+</code></pre>
+<p>make a volume</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - antha/parser">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    antha/parser - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="antha/parser">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="docs" shortname="antha/parser" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>antha/parser</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/antha/parser.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>antha/parser</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="parser">parser</h1>
+<p>–<br />
+    import “.”</p>
+
+<p>Package parser implements a parser for Antha source files. Input may be provided in<br />
+a variety of forms (see the various Parse* functions); the output is an abstract<br />
+syntax tree (AST) representing the Antha source. The parser is invoked through one<br />
+of the Parse* functions.</p>
+
+<h2 id="usage">Usage</h2>
+
+<h4 id="func--parsedir">func  ParseDir</h4>
+
+<pre><code class="language-go">func ParseDir(fset *token.FileSet, path string, filter func(os.FileInfo) bool, mode Mode) (pkgs map[string]*ast.Package, first error)
+</code></pre>
+<p>ParseDir calls ParseFile for all files with names ending in “.go” in the<br />
+directory specified by path and returns a map of package name -&gt; package AST<br />
+with all the packages found.</p>
+
+<p>If filter != nil, only the files with os.FileInfo entries passing through the<br />
+filter (and ending in “.go”) are considered. The mode bits are passed to<br />
+ParseFile unchanged. Position information is recorded in fset.</p>
+
+<p>If the directory couldn’t be read, a nil map and the respective error are<br />
+returned. If a parse error occurred, a non-nil but incomplete map and the first<br />
+error encountered are returned.</p>
+
+<h4 id="func--parseexpr">func  ParseExpr</h4>
+
+<pre><code class="language-go">func ParseExpr(x string) (ast.Expr, error)
+</code></pre>
+<p>ParseExpr is a convenience function for obtaining the AST of an expression x.<br />
+The position information recorded in the AST is undefined. The filename used in<br />
+error messages is the empty string.</p>
+
+<h4 id="func--parsefile">func  ParseFile</h4>
+
+<pre><code class="language-go">func ParseFile(fset *token.FileSet, filename string, src interface{}, mode Mode) (f *ast.File, err error)
+</code></pre>
+<p>ParseFile parses the source code of a single Antha source file and returns the<br />
+corresponding ast.File node. The source code may be provided via the filename of<br />
+the source file, or via the src parameter.</p>
+
+<p>If src != nil, ParseFile parses the source from src and the filename is only<br />
+used when recording position information. The type of the argument for the src<br />
+parameter must be string, []byte, or io.Reader. If src == nil, ParseFile parses<br />
+the file specified by filename.</p>
+
+<p>The mode parameter controls the amount of source text parsed and other optional<br />
+parser functionality. Position information is recorded in the file set fset.</p>
+
+<p>If the source couldn’t be read, the returned AST is nil and the error indicates<br />
+the specific failure. If the source was read but syntax errors were found, the<br />
+result is a partial AST (with ast.Bad* nodes representing the fragments of<br />
+erroneous source code). Multiple errors are returned via a scanner.ErrorList<br />
+which is sorted by file position.</p>
+
+<h4 id="type-mode">type Mode</h4>
+
+<pre><code class="language-go">type Mode uint
+</code></pre>
+
+<p>A Mode value is a set of flags (or 0). They control the amount of source code<br />
+parsed and other optional parser functionality.</p>
+
+<pre><code class="language-go">const (
+	PackageClauseOnly Mode             = 1 &lt;&lt; iota // stop parsing after package clause
+	ImportsOnly                                    // stop parsing after import declarations
+	ParseComments                                  // parse comments and add them to AST
+	Trace                                          // print a trace of parsed productions
+	DeclarationErrors                              // report declaration errors
+	SpuriousErrors                                 // same as AllErrors, for backward-compatibility
+	AllErrors         = SpuriousErrors             // report all errors (not just the first 10 on different lines)
+)
+</code></pre>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

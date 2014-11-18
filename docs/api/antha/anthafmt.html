@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - cmd/anthafmt">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    cmd/anthafmt - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="cmd/anthafmt">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="docs" shortname="cmd/anthafmt" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>cmd/anthafmt</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/antha/anthafmt.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>cmd/anthafmt</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="anthafmt">anthafmt</h1>
+<p>–<br />
+Anthafmt formats Antha programs. It uses tabs (width = 8) for indentation and blanks<br />
+for alignment.</p>
+
+<p>Without an explicit path, it processes the standard input. Given a file, it<br />
+operates on that file; given a directory, it operates on all .go files in that<br />
+directory, recursively. (Files starting with a period are ignored.) By default,<br />
+anthamt prints the reformatted sources to standard output.</p>
+
+<p>Usage:</p>
+
+<pre><code>anthamt [flags] [path ...]
+</code></pre>
+
+<p>The flags are:</p>
+
+<pre><code>-d
+	Do not print reformatted sources to standard output.
+	If a file's formatting is different than anthamt's, print diffs
+	to standard output.
+-e
+	Print all (including spurious) errors.
+-l
+	Do not print reformatted sources to standard output.
+	If a file's formatting is different from anthamt's, print its name
+	to standard output.
+-r rule
+	Apply the rewrite rule to the source before reformatting.
+-s
+	Try to simplify code (after applying the rewrite rule, if any).
+-w
+	Do not print reformatted sources to standard output.
+	If a file's formatting is different from anthamt's, overwrite it
+	with anthamt's version.
+</code></pre>
+
+<p>Debugging support:</p>
+
+<pre><code>-cpuprofile filename
+	Write cpu profile to the specified file.
+</code></pre>
+
+<p>The rewrite rule specified with the -r flag must be a string of the form:</p>
+
+<pre><code>pattern -&gt; replacement
+</code></pre>
+
+<p>Both pattern and replacement must be valid Antha expressions. In the pattern,<br />
+single-character lowercase identifiers serve as wildcards matching arbitrary<br />
+sub-expressions; those expressions will be substituted for the same identifiers<br />
+in the replacement.</p>
+
+<p>When anthamt reads from standard input, it accepts either a full Antha program or a<br />
+program fragment. A program fragment must be a syntactically valid declaration<br />
+list, statement list, or expression. When formatting such a fragment, anthamt<br />
+preserves leading indentation as well as leading and trailing spaces, so that<br />
+individual sections of a Antha program can be formatted by piping them through<br />
+anthamt.</p>
+
+<h3 id="examples">Examples</h3>
+
+<p>To check files for unnecessary parentheses:</p>
+
+<pre><code>anthamt -r '(a) -&gt; a' -l *.go
+</code></pre>
+
+<p>To remove the parentheses:</p>
+
+<pre><code>anthamt -r '(a) -&gt; a' -w *.go
+</code></pre>
+
+<p>To convert the package tree from explicit slice upper bounds to implicit ones:</p>
+
+<pre><code>anthamt -r 'α[β:len(α)] -&gt; α[β:]' -w $GOROOT/src/pkg
+</code></pre>
+
+<p>The simplify command</p>
+
+<p>When invoked with -s anthamt will make the following source transformations<br />
+where possible.</p>
+
+<pre><code>An array, slice, or map composite literal of the form:
+	[]T{T{}, T{}}
+will be simplified to:
+	[]T{ { }, { } }
+
+A slice expression of the form:
+	s[a:len(s)]
+will be simplified to:
+	s[a:]
+
+A range of the form:
+	for x, _ = range v {...}
+will be simplified to:
+	for x = range v {...}
+</code></pre>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

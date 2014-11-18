@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - antha/doc">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    antha/doc - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="antha/doc">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="docs" shortname="antha/doc" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>antha/doc</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/antha/doc.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>antha/doc</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="doc">doc</h1>
+<p>–<br />
+    import “.”</p>
+
+<p>Package doc extracts source code documentation from an Antha AST.</p>
+
+<h2 id="usage">Usage</h2>
+
+<pre><code class="language-go">var IllegalPrefixes = []string{
+	"copyright",
+	"all rights",
+	"author",
+}
+</code></pre>
+
+<h4 id="func--examples">func  Examples</h4>
+
+<pre><code class="language-go">func Examples(files ...*ast.File) []*Example
+</code></pre>
+<p>Examples returns the examples found in the files, sorted by Name field. The<br />
+Order fields record the order in which the examples were encountered.</p>
+
+<p>Playable Examples must be in a package whose name ends in “_test”. An Example is<br />
+“playable” (the Play field is non-nil) in either of these circumstances:</p>
+
+<pre><code>- The example function is self-contained: the function references only
+  identifiers from other packages (or predeclared identifiers, such as
+  "int") and the test file does not include a dot import.
+- The entire test file is the example: the file contains exactly one
+  example function, zero test or benchmark functions, and at least one
+  top-level function, type, variable, or constant declaration other
+  than the example function.
+</code></pre>
+
+<h4 id="func--synopsis">func  Synopsis</h4>
+
+<pre><code class="language-go">func Synopsis(s string) string
+</code></pre>
+<p>Synopsis returns a cleaned version of the first sentence in s. That sentence<br />
+ends after the first period followed by space and not preceded by exactly one<br />
+uppercase letter. The result string has no \n, \r, or \t characters and uses<br />
+only single spaces between words. If s starts with any of the IllegalPrefixes,<br />
+the result is the empty string.</p>
+
+<h4 id="func--tohtml">func  ToHTML</h4>
+
+<pre><code class="language-go">func ToHTML(w io.Writer, text string, words map[string]string)
+</code></pre>
+<p>ToHTML converts comment text to formatted HTML. The comment was prepared by<br />
+DocReader, so it is known not to have leading, trailing blank lines nor to have<br />
+trailing spaces at the end of lines. The comment markers have already been<br />
+removed.</p>
+
+<p>Each span of unindented non-blank lines is converted into a single paragraph.<br />
+There is one exception to the rule: a span that consists of a single line, is<br />
+followed by another paragraph span, begins with a capital letter, and contains<br />
+no punctuation is formatted as a heading.</p>
+
+<p>A span of indented lines is converted into a &lt;pre&gt; block, with the common indent<br />
+prefix removed.</p>
+
+<p>URLs in the comment text are converted into links; if the URL also appears in<br />
+the words map, the link is taken from the map (if the corresponding map value is<br />
+the empty string, the URL is not converted into a link).</p>
+
+<p>Antha identifiers that appear in the words map are italicized; if the corresponding<br />
+map value is not the empty string, it is considered a URL and the word is<br />
+converted into a link.</p>
+
+<h4 id="func--totext">func  ToText</h4>
+
+<pre><code class="language-go">func ToText(w io.Writer, text string, indent, preIndent string, width int)
+</code></pre>
+<p>ToText prepares comment text for presentation in textual output. It wraps<br />
+paragraphs of text to width or fewer Unicode code points and then prefixes each<br />
+line with the indent. In preformatted sections (such as program text), it<br />
+prefixes each non-blank line with preIndent.</p>
+
+<h4 id="type-example">type Example</h4>
+
+<pre><code class="language-go">type Example struct {
+	Name        string // name of the item being exemplified
+	Doc         string // example function doc string
+	Code        ast.Node
+	Play        *ast.File // a whole program version of the example
+	Comments    []*ast.CommentGroup
+	Output      string // expected output
+	EmptyOutput bool   // expect empty output
+	Order       int    // original source code order
+}
+</code></pre>
+
+<p>An Example represents an example function found in a source files.</p>
+
+<h4 id="type-filter">type Filter</h4>
+
+<pre><code class="language-go">type Filter func(string) bool
+</code></pre>
+
+<h4 id="type-func">type Func</h4>
+
+<pre><code class="language-go">type Func struct {
+	Doc  string
+	Name string
+	Decl *ast.FuncDecl
+
+	// methods
+	// (for functions, these fields have the respective zero value)
+	Recv  string // actual   receiver "T" or "*T"
+	Orig  string // original receiver "T" or "*T"
+	Level int    // embedding level; 0 means not embedded
+}
+</code></pre>
+
+<p>Func is the documentation for a func declaration.</p>
+
+<h4 id="type-mode">type Mode</h4>
+
+<pre><code class="language-go">type Mode int
+</code></pre>
+
+<p>Mode values control the operation of New.</p>
+
+<pre><code class="language-go">const (
+	// extract documentation for all package-level declarations,
+	// not just exported ones
+	AllDecls Mode = 1 &lt;&lt; iota
+
+	// show all embedded methods, not just the ones of
+	// invisible (unexported) anonymous fields
+	AllMethods
+)
+</code></pre>
+
+<h4 id="type-note">type Note</h4>
+
+<pre><code class="language-go">type Note struct {
+	Pos, End token.Pos // position range of the comment containing the marker
+	UID      string    // uid found with the marker
+	Body     string    // note body text
+}
+</code></pre>
+
+<p>A Note represents a marked comment starting with “MARKER(uid): note body”. Any<br />
+note with a marker of 2 or more upper case [A-Z] letters and a uid of at least<br />
+one character is recognized. The “:” following the uid is optional. Notes are<br />
+collected in the Package.Notes map indexed by the notes marker.</p>
+
+<h4 id="type-package">type Package</h4>
+
+<pre><code class="language-go">type Package struct {
+	Doc        string
+	Name       string
+	ImportPath string
+	Imports    []string
+	Filenames  []string
+	Notes      map[string][]*Note
+	// DEPRECATED. For backward compatibility Bugs is still populated,
+	// but all new code should use Notes instead.
+	Bugs []string
+
+	// declarations
+	Consts []*Value
+	Types  []*Type
+	Vars   []*Value
+	Funcs  []*Func
+}
+</code></pre>
+
+<p>Package is the documentation for an entire package.</p>
+
+<h4 id="func--new">func  New</h4>
+
+<pre><code class="language-go">func New(pkg *ast.Package, importPath string, mode Mode) *Package
+</code></pre>
+<p>New computes the package documentation for the given package AST. New takes<br />
+ownership of the AST pkg and may edit or overwrite it.</p>
+
+<h4 id="func-package-filter">func (*Package) Filter</h4>
+
+<pre><code class="language-go">func (p *Package) Filter(f Filter)
+</code></pre>
+<p>Filter eliminates documentation for names that don’t pass through the filter f.<br />
+TODO(gri): Recognize “Type.Method” as a name.</p>
+
+<h4 id="type-type">type Type</h4>
+
+<pre><code class="language-go">type Type struct {
+	Doc  string
+	Name string
+	Decl *ast.GenDecl
+
+	// associated declarations
+	Consts  []*Value // sorted list of constants of (mostly) this type
+	Vars    []*Value // sorted list of variables of (mostly) this type
+	Funcs   []*Func  // sorted list of functions returning this type
+	Methods []*Func  // sorted list of methods (including embedded ones) of this type
+}
+</code></pre>
+
+<p>Type is the documentation for a type declaration.</p>
+
+<h4 id="type-value">type Value</h4>
+
+<pre><code class="language-go">type Value struct {
+	Doc   string
+	Names []string // var or const names in declaration order
+	Decl  *ast.GenDecl
+}
+</code></pre>
+
+<p>Value is the documentation for a (possibly grouped) var or const declaration.</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

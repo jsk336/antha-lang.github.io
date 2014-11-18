@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - Flow Based Programming in Antha">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    Flow Based Programming in Antha - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="flow-based-programming-in-antha">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="concepts" navgroup="docs" shortname="FBP" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>Flow Based Programming in Antha</h1>
+        
+          <summary>Concepts</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/concepts/flow-based-programming.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>Flow Based Programming in Antha</h1>
+        
+          <summary>Concepts</summary>
+        
+      </header>
+
+      
+     <details id="toc">
+       <summary>Table of contents</summary>
+       
+<ul id="markdown-toc">
+  <li><a href="#why-flow-based-programming">Why Flow Based Programming?</a></li>
+  <li><a href="#how-does-flow-based-programming-work">How Does Flow Based Programming Work?</a></li>
+  <li><a href="#what-are-the-elements-of-flow-based-programming">What are the Elements of Flow Based Programming?</a>    <ul>
+      <li><a href="#components">Components</a></li>
+      <li><a href="#information-packets">Information packets</a></li>
+      <li><a href="#connections-1">Connections</a></li>
+      <li><a href="#graphs">Graphs</a></li>
+      <li><a href="#flow-features">Flow features</a></li>
+    </ul>
+  </li>
+</ul>
+
+     </details>
+
+
+<h2 id="why-flow-based-programming">Why Flow Based Programming?</h2>
+
+<p>As biological research and development becomes more and more computerised, we will demand better speed and ease of use from our algorithms.  Enter flow based programming (FBP).  FBP executes more quickly than traditional programming important when you’re running a few million experiments and it lends itself to visual composition handy for the biologist without a strong background in computer science.</p>
+
+<h2 id="how-does-flow-based-programming-work">How Does Flow Based Programming Work?</h2>
+
+<p>The mechanics of FBP are best described by the inventor himself, J. Paul Morrison</p>
+
+<blockquote>
+  <p>Flow-Based Programming defines applications using the metaphor of a “data factory”. It views an application not as a single, sequential process, which starts at a point in time, and then does one thing at a time until it is finished, but as a network of asynchronous processes communicating by means of streams of structured data chunks, called “information packets” (IPs). (http://www.jpaulmorrison.com/fbp/introduction.html)</p>
+</blockquote>
+
+<p>Despite having been around for over 40 years, FBP is recently gaining in popularity, largely due to the efforts of Henri Bergius via NoFlo. (http://noflojs.org/).  Modern FBP systems can take advantage of computer systems with multiple cores which allow it to run processes concurrently, thus cutting down on computation time.</p>
+
+<h2 id="what-are-the-elements-of-flow-based-programming">What are the Elements of Flow Based Programming?</h2>
+
+<p>An excellent overview of the concept elements in FBP can be found through the wiki on flowbased.org (https://github.com/flowbased/flowbased.org/wiki/Concepts) and has been reproduced here with some annotations for the convenience of the reader.</p>
+
+<h3 id="components">Components</h3>
+
+<p>Components are the building blocks in Flow-based programming.  This section covers elementary components which are usually written as classes, functions or small programs in conventional programming languages.  For composite components see <a href="Concepts#Graphs">Graphs section</a> below. </p>
+
+<h4 id="processes">Processes</h4>
+
+<p>A Process is an instance of a Component living in a Graph.  The system should handle processes in the form of coroutines, threads or a similar form of concurrency, or at least provide the illusion of it to the graph designer.  They should only be able to access their own internal state and ports but not much else about the graph itself and other processes. </p>
+
+<h4 id="connections">Connections</h4>
+
+<p>Processes communicate via connections, which the processes access by means of Ports.  Connections are usually implemented via bounded buffers or FIFO queues.  The size of the buffer or the maximum number of packets a queue can hold is known as connection Capacity.  Some FBP implementations allow connections with 0 capacity, meaning that data IPs are transferred immediately between the sending and receiving processes. </p>
+
+<h4 id="ports">Ports</h4>
+
+<p>Ports are the points of contact between processes and connections.  They are named, and may also be indexed if the port is an Array Port.  The port name may be viewed as a contract between the component code and the network specification.   A Process can send to, and receive from, any of the ports. </p>
+
+<h5 id="input-ports-inport">Input ports (inport)</h5>
+
+<p>Inports provide a READ or RECEIVE functionality to dequeue messages from the buffer, and require an index in the case of Array Ports.  Other features like obtaining the buffer load or which indexes have incoming packets in the case of array ports are desirable for simplifying the design and implementation of some components.  An example of this would be an event handler that receives from an unknown amount of sources but they all provide the same type of data. </p>
+
+<p>In “classical” FBP, connections connect one or more output ports to one input port, considering each index of an array port as a single port.  If a connection becomes empty, the process being fed by that connection is suspended until more packets arrive (in “classical” FBP, this can only be one process).  In other words, when a process makes a READ on an empty port, it blocks the process until a packet arrives.  This is valid for “classical” FBP, while other implementations either wait for packets to activate events or have a collection of buffers the process can access. </p>
+
+<p>In “classical” FBP, when more than one output port is connected to an input ports, packets arrive at the input port in “first come, first served” sequence.  </p>
+
+<h5 id="output-ports">Output ports</h5>
+
+<p>They provide a SEND functionality to queue the packet into the port of the connected process.  Usually sends require a packet and the name of the port, or the send is a method and the output port is a known object. <br />
+If the connection fills up with packets, the process is suspended until the buffer is not full. </p>
+
+<h4 id="internal-state">Internal state</h4>
+
+<p>A Process, being an instance of a Component, can hold its internal state as long as it’s active.  An important part of FBP is keeping the state private and only interacting via port actions with other processes. </p>
+
+<h4 id="data-processing">Data processing</h4>
+
+<p>In FBP data processing is focused on handling streams of packets and embedded sub streams.  The common analogy is to think about a series of machines that communicate with conveyor belts, each with its own inputs and output ports.  Designs should be oriented to data transformations and filtering.  Since data between each process is buffered, asynchronous operation is achieved, freeing the developer from additional logic to handle it. <br />
+Another interesting idea is that bypassing a process is trivial, and so is storing intermediate steps. </p>
+
+<h3 id="information-packets">Information packets</h3>
+
+<p>Information packets are in constant debate, but at the end of the day it depends on the application domain.  The general consensus is that the packet should carry data that is serializable and passive in its nature.  Sending an instantiated Video Player in a packet is an example of what should not be done, and instead sending the individual frames would be the correct approach. <br />
+The packet should contain a reusable data type, and depending on the implementation, allow for features like adding dictionary entries with other packets as values, attaching packets as siblings forming tree structures, ownership to stop other processes from altering a packet, schema for validating packet data, etc.  </p>
+
+<h4 id="initial-information-packets">Initial information packets</h4>
+<p>In a Graph , each Process can have several Initial Information Packets that serve as configuration.  They do not get pushed into a port until the process issues a RECEIVE or READ on that port.  Think of them as passive packets. </p>
+
+<h4 id="activation">Activation</h4>
+
+<p>A Process is activated when it has incoming packets on its input ports, an exception of this would be a Start component in some implementations that is designed to be started on Graph activation and it forwards the IIPs attached to it. <br />
+IIPs should not activate a process, although some implementations do. </p>
+
+<h3 id="connections-1">Connections</h3>
+
+<p>Connections are bounded buffers between ports, and their size is in number of packets.  When they fill up the sending process doing the SEND blocks and when they are empty the receiving process doing a READ blocks. </p>
+
+<h4 id="merging">Merging</h4>
+
+<p>When two or more ports need to be connected to a single input port some form of merging has to take place.  Either with a Merge component with multiple inputs, that outputs through a single port, in order or arrival or in order of array port reading.  Automatic merging can be also provided by the library. </p>
+
+<h4 id="splitting">Splitting</h4>
+
+<p>When a single output port needs to be connected to multiple input ports , the packets need to be split like in a water flow, so in order to achieve this a component that splits packets is needed.  It should create a copy of the packet and send it to each connected output.  The runtime can provide this functionality without the need of an explicit component to do this and it comes down to preference.  Morrison encourages the use of an explicit Split component. </p>
+
+<h3 id="graphs">Graphs</h3>
+
+<p>Flow Based Programming uses Directed Graphs to represent the structure of the programs.  Nodes are processes ( instances of a component ), and the edges are the connections between ports.  <br />
+Outputs can only be connected to Inputs. <br />
+A graph is built as a static view of the program , that is ran with the help of a library. <br />
+Several tools are being built for editing graphs, and they can either be built via a visual tool like Draw FBP, NoFlo, or with textual Domain Specific Languages. <br />
+A graph can be embedded in another graph as a process if it exposes external ports connected to its internal processes. </p>
+
+<h4 id="external-ports">External ports</h4>
+
+<p>When creating a graph that can be embedded in another graph the graph designer will expose external ports, and they will be input or output ports to provide connections to its internal processes. <br />
+Creating new components from existing components is encouraged. </p>
+
+<h4 id="feedback-loops">Feedback loops</h4>
+
+<p>FBP allows loop topologies in networks.   This can be useful for situations where the results of some process are fed back to serve as further input, e. g.  some interactive applications, but also applications like bill of Materials Processing, where components are successively broken down to subcomponents, until a level is reached where no further breakdown is possible, at which point the breakdown results are removed from the loop. </p>
+
+<p>One other situation which might involve a loop is where a process is used in “subroutine mode” - i. e.  the “caller” does a <code>send</code>/<code>receive</code>, and the “callee” does a <code>receive</code>/<code>send</code>.   This can be useful as it does not preclude the “callee” from being used in a “streaming” mode in other apps, or elsewhere in the same app.  </p>
+
+<p>This topology does introduce one additional complexity:  the FBP closedown rule states that a process closes down when all of its upstream processes have closed down.   However, in a loop topology all processes are “upstream” of all the others, so at least one process has to take responsibility for closing down the network - the standard technique is for it to close its input ports and terminate, which then results in the rest of the loop closing down. </p>
+
+<p>In FBP we normally do not allow an output port of a process to be connected to an input port of the same process, a the chances of deadlock are very high.   However, this could work theoretically if done very carefully. . .  </p>
+
+<h3 id="flow-features">Flow features</h3>
+
+<p>This section covers aspects of how applications work in general. </p>
+
+<h4 id="process-lifetime">Process lifetime</h4>
+
+<p>A process that has a long life is usually called a “looper” (not to be confused with “loop topologies”, described above) because it loops through its input ports several times during its life, and tends to shutdown with the graph itself.  On the other hand, processes that have a short life are used like subroutines, they perform a task and then deactivate, and they are called “non-loopers”. <br />
+Making a distinction about what kind of component we are designing or implementing is important to avoid complex or resource intensive processes when not needed.  For example a component that checks for new emails on an account could either behave like a looper, checking e-mail every minute and keeping a connection alive, or as a non-looper simply checking for e-mail when requested and closing any connections after retrieving the messages. </p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

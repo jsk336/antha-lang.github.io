@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - The Antha Data Model">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    The Antha Data Model - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="the-antha-data-model">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="implement" navgroup="docs" shortname="data" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>The Antha Data Model</h1>
+        
+          <summary>How it Works</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/implement/data.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>The Antha Data Model</h1>
+        
+          <summary>How it Works</summary>
+        
+      </header>
+
+      
+     <details id="toc">
+       <summary>Table of contents</summary>
+       
+<ul id="markdown-toc">
+  <li><a href="#storing-data">Storing data</a>    <ul>
+      <li><a href="#what-are-documents">What are documents?</a></li>
+    </ul>
+  </li>
+  <li><a href="#accessing-information">Accessing information</a>    <ul>
+      <li><a href="#using-views">Using views</a></li>
+      <li><a href="#updating-documents">Updating documents</a></li>
+      <li><a href="#replication">Replication</a></li>
+    </ul>
+  </li>
+  <li><a href="#sample-tracking">Sample Tracking</a></li>
+  <li><a href="#more-info">More info?</a></li>
+</ul>
+
+     </details>
+
+
+<h1 id="data-is-key-to-insight">Data is key to insight</h1>
+
+<p>At the heart of any scientific investigation is the data collected.  All measurements, values and information relating to an experiment need to be collected and stored.  It is essential that the data storage is reliable, unambiguous, accessible, and processable.  With advances in technological innovation, high-throughput instrumentation and automation the rate at which data is generated is growing rapidly and data management is key to true understanding. </p>
+
+<h2 id="storing-data">Storing data</h2>
+
+<p>Databases provide a means to store, manage and access a collection of data.  A data model is used to describe the structure of the information recorded within the database.   </p>
+
+<p>For example, if you wanted to store data in an excel file you would set up a spreadsheet with columns for each variable of interest and each data entry would be a row in this spreadsheet.  Storing data this way means that you need to store information about each column for each row.  What if the you wanted to add a new attribute - what happens to the existing rows?  </p>
+
+<p>Due to the diverse nature of biological and experimental data and the continuous development of the scientific process, Antha requires a dynamic, flexible data model capable of managing unstructured data.   </p>
+
+<p>To achieve this the Antha data model is document-orientated.  This approach supports the management of semi-structured data and allows the data (or document) structure to evolve dynamically and incorporate new attributes as necessary.  </p>
+
+<h3 id="what-are-documents">What are documents?</h3>
+
+<p>Just like ‘real-world’ documents, database documents describe objects within the system and can be thought of as records of that object.  They describe a self-contained unit of data - storing everything that is needed to describe that object together in one place.  A document may be used to describe anything and it may contain anything.  It may consist of as many uniquely named fields (or components) as required and the values for those fields may contain any type of data (e.g. strings, dates, numbers, lists or even embedded documents).  Documents describing the same type of object will contain the same sort of information (they will have field names in common), but the structure of that information may vary (one document may contain additional field name entries that may be missing in another document).  </p>
+
+<p>Antha stores data as JavaScript Object Notation (JSON) documents within a <a href="http://couchdb.apache.org">CouchDB database</a>. </p>
+
+<p>While no structure is enforced on Antha documents, some structure is defined by the attributes or features required to describe an object.  As an example a reagent could be described as follows:</p>
+
+<pre><code>    {
+	"id": "Unique_ID_1234",
+	 "_rev": "12345678910",
+	 "type": "reagent"
+
+	 "name": "reagent_A",
+	 "amount": 1.0,
+         "base": 4.0,
+         "units": "uL",
+         "stock_level": 50,
+         "preparable": true
+    }
+</code></pre>
+
+<p>This document describes the attributes of a specific reagent inventively named “reagent_A”.  In this example the reagent is characterised by the “amount” of stock sample used (a separate field describes the “units” of measurement), the amount of stock remaining (“stock_level”) and whether or not the reagent can be prepared if required (“preparable”).  In addition to the field entries discussed above, this document also contains fields describing the ID of the document which is used to uniquely define the document (or specific reagent in this case) and a field for the revision ID (_rev) detailing the version of the document (this will be discussed in more detail below).  The field name “type” can be used to describe a group of related documents (e.g. link all documents describing reagents) and is used to create views (discussed below). The “type” can be also used to apply validation on data as it is added to the database if required.</p>
+
+<p>As a second example, we consider a 96 well plate, this is an instance of a labware object and can be described as follows:</p>
+
+<pre><code>    {
+
+	"id": "Unique_ID_5678",
+	"_rev": "12345678910",
+	"type": "reagent"
+
+	"labware_id": 1,
+	"barcode": "12345",
+	"name": "Component Plate",
+	"type": {	   
+		"id": 1,
+                "name": "96 Deep Square Well Plate"
+                },
+        "stock_level": 423
+    }
+</code></pre>
+
+<h2 id="accessing-information">Accessing information</h2>
+
+<h3 id="using-views">Using views</h3>
+
+<p>Views provide a way of querying the database. A view is essentially just a javascript function which selects particular documents and defines how to assemble the results into some kind of output. This may be raw output or it could be a summary of a set of raw outputs. Views often have two components, a map function which returns a set of raw results and a reduce function which aggregates the raw values into a summary output. For instance the levels of all stocks of a particular type in the system could be produced by first searching for all stocks by type then passing the resulting records to a reduce function which simply sums the available levels of each. Reduce functions can then be used on previously reduced outputs to produce further transformations on the output data. </p>
+
+<h3 id="updating-documents">Updating documents</h3>
+
+<p>When a document needs to be edited or updated the changes do not happen in-place.  Making changes to a document involves retrieving the full document, editing the JSON structure and saving the new version of the document under a new revision number.  Even deleting a document involves creating a new revision.  The database will contain both the original copy of the document and the updated version until a compaction or replication process is run.  Revision numbers provide a way of managing update conflicts.</p>
+
+<h3 id="replication">Replication</h3>
+
+<p>A backup of all existing data is maintained by replication of the database.  Replication allows for the synchronisation of two copies of a single database, a noted strength of CouchDB.  In CouchDB the replication procedure involves comparing the two copies of the database (source and destination), identifying documents which differ between the databases and transferring those documents to the destination database.  Thus ensuring that the data is consistent in both copies of the database.  Copies of the database can be local or remote.  This offers the opportunity to maintain a local database (which is always available) and to backup to a remote database when a network connection is available.  As Antha uses a CouchDB database it supports continuous database replication.  A replication task transfers changes in one direction (from source to destination) it is also possible to setup master-master replication in which the replication occurs in a bi-directional manner.  This allows changes in either database to be mirrored.  </p>
+
+<h2 id="sample-tracking">Sample Tracking</h2>
+
+<p>The CouchDB document model provides a natural method for keeping track of how samples progress through the system. Since documents are immutable all previous versions of a sample are accessible for full traceability. The lack of a pre-defined schema means that the document’s structure is free to adapt to whatever has occurred within the lifetime of the sample. </p>
+
+<h2 id="more-info">More info?</h2>
+
+<p>For more information regarding Antha please refer to <a href="/docs/index.html">the documentation</a> section.  If you want a more details about the database used by Antha see the <a href="http://couchdb.apache.org">CouchDB documentation</a>.</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

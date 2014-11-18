@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - antha/scanner">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    antha/scanner - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="antha/scanner">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="docs" shortname="antha/scanner" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>antha/scanner</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/antha/scanner.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>antha/scanner</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="scanner">scanner</h1>
+<p>–<br />
+    import “.”</p>
+
+<p>Package scanner implements a scanner for Antha source text. It takes a []byte as<br />
+source which can then be tokenized through repeated calls to the Scan method.</p>
+
+<h2 id="usage">Usage</h2>
+
+<h4 id="func--printerror">func  PrintError</h4>
+
+<pre><code class="language-go">func PrintError(w io.Writer, err error)
+</code></pre>
+<p>PrintError is a utility function that prints a list of errors to w, one error<br />
+per line, if the err parameter is an ErrorList. Otherwise it prints the err<br />
+string.</p>
+
+<h4 id="type-error">type Error</h4>
+
+<pre><code class="language-go">type Error struct {
+	Pos token.Position
+	Msg string
+}
+</code></pre>
+
+<p>In an ErrorList, an error is represented by an *Error. The position Pos, if<br />
+valid, points to the beginning of the offending token, and the error condition<br />
+is described by Msg.</p>
+
+<h4 id="func-error-error">func (Error) Error</h4>
+
+<pre><code class="language-go">func (e Error) Error() string
+</code></pre>
+<p>Error implements the error interface.</p>
+
+<h4 id="type-errorhandler">type ErrorHandler</h4>
+
+<pre><code class="language-go">type ErrorHandler func(pos token.Position, msg string)
+</code></pre>
+
+<p>An ErrorHandler may be provided to Scanner.Init. If a syntax error is<br />
+encountered and a handler was installed, the handler is called with a position<br />
+and an error message. The position points to the beginning of the offending<br />
+token.</p>
+
+<h4 id="type-errorlist">type ErrorList</h4>
+
+<pre><code class="language-go">type ErrorList []*Error
+</code></pre>
+
+<p>ErrorList is a list of *Errors. The zero value for an ErrorList is an empty<br />
+ErrorList ready to use.</p>
+
+<h4 id="func-errorlist-add">func (*ErrorList) Add</h4>
+
+<pre><code class="language-go">func (p *ErrorList) Add(pos token.Position, msg string)
+</code></pre>
+<p>Add adds an Error with given position and error message to an ErrorList.</p>
+
+<h4 id="func-errorlist-err">func (ErrorList) Err</h4>
+
+<pre><code class="language-go">func (p ErrorList) Err() error
+</code></pre>
+<p>Err returns an error equivalent to this error list. If the list is empty, Err<br />
+returns nil.</p>
+
+<h4 id="func-errorlist-error">func (ErrorList) Error</h4>
+
+<pre><code class="language-go">func (p ErrorList) Error() string
+</code></pre>
+<p>An ErrorList implements the error interface.</p>
+
+<h4 id="func-errorlist-len">func (ErrorList) Len</h4>
+
+<pre><code class="language-go">func (p ErrorList) Len() int
+</code></pre>
+<p>ErrorList implements the sort Interface.</p>
+
+<h4 id="func-errorlist-less">func (ErrorList) Less</h4>
+
+<pre><code class="language-go">func (p ErrorList) Less(i, j int) bool
+</code></pre>
+
+<h4 id="func-errorlist-removemultiples">func (*ErrorList) RemoveMultiples</h4>
+
+<pre><code class="language-go">func (p *ErrorList) RemoveMultiples()
+</code></pre>
+<p>RemoveMultiples sorts an ErrorList and removes all but the first error per line.</p>
+
+<h4 id="func-errorlist-reset">func (*ErrorList) Reset</h4>
+
+<pre><code class="language-go">func (p *ErrorList) Reset()
+</code></pre>
+<p>Reset resets an ErrorList to no errors.</p>
+
+<h4 id="func-errorlist-sort">func (ErrorList) Sort</h4>
+
+<pre><code class="language-go">func (p ErrorList) Sort()
+</code></pre>
+<p>Sort sorts an ErrorList. *Error entries are sorted by position, other errors are<br />
+sorted by error message, and before any *Error entry.</p>
+
+<h4 id="func-errorlist-swap">func (ErrorList) Swap</h4>
+
+<pre><code class="language-go">func (p ErrorList) Swap(i, j int)
+</code></pre>
+
+<h4 id="type-mode">type Mode</h4>
+
+<pre><code class="language-go">type Mode uint
+</code></pre>
+
+<p>A mode value is a set of flags (or 0). They control scanner behavior.</p>
+
+<pre><code class="language-go">const (
+	ScanComments Mode = 1 &lt;&lt; iota // return comments as COMMENT tokens
+
+)
+</code></pre>
+
+<h4 id="type-scanner">type Scanner</h4>
+
+<pre><code class="language-go">type Scanner struct {
+
+	// public state - ok to modify
+	ErrorCount int // number of errors encountered
+}
+</code></pre>
+
+<p>A Scanner holds the scanner’s internal state while processing a given text. It<br />
+can be allocated as part of another data structure but must be initialized via<br />
+Init before use.</p>
+
+<h4 id="func-scanner-init">func (*Scanner) Init</h4>
+
+<pre><code class="language-go">func (s *Scanner) Init(file *token.File, src []byte, err ErrorHandler, mode Mode)
+</code></pre>
+<p>Init prepares the scanner s to tokenize the text src by setting the scanner at<br />
+the beginning of src. The scanner uses the file set file for position<br />
+information and it adds line information for each line. It is ok to re-use the<br />
+same file when re-scanning the same file as line information which is already<br />
+present is ignored. Init causes a panic if the file size does not match the src<br />
+size.</p>
+
+<p>Calls to Scan will invoke the error handler err if they encounter a syntax error<br />
+and err is not nil. Also, for each error encountered, the Scanner field<br />
+ErrorCount is incremented by one. The mode parameter determines how comments are<br />
+handled.</p>
+
+<p>Note that Init may call err if there is an error in the first character of the<br />
+file.</p>
+
+<h4 id="func-scanner-scan">func (*Scanner) Scan</h4>
+
+<pre><code class="language-go">func (s *Scanner) Scan() (pos token.Pos, tok token.Token, lit string)
+</code></pre>
+<p>Scan scans the next token and returns the token position, the token, and its<br />
+literal string if applicable. The source end is indicated by token.EOF.</p>
+
+<p>If the returned token is a literal (token.IDENT, token.INT, token.FLOAT,<br />
+token.IMAG, token.CHAR, token.STRING) or token.COMMENT, the literal string has<br />
+the corresponding value.</p>
+
+<p>If the returned token is a keyword, the literal string is the keyword.</p>
+
+<p>If the returned token is token.SEMICOLON, the corresponding literal string is<br />
+“;” if the semicolon was present in the source, and “\n” if the semicolon was<br />
+inserted because of a newline or at EOF.</p>
+
+<p>If the returned token is token.ILLEGAL, the literal string is the offending<br />
+character.</p>
+
+<p>In all other cases, Scan returns an empty literal string.</p>
+
+<p>For more tolerant parsing, Scan will return a valid token if possible even if a<br />
+syntax error was encountered. Thus, even if the resulting token sequence<br />
+contains no illegal tokens, a client may not assume that no error occurred.<br />
+Instead it must check the scanner’s ErrorCount or the number of calls of the<br />
+error handler, if there was one installed.</p>
+
+<p>Scan adds line information to the file added to the file set with Init. Token<br />
+positions are relative to that file and thus relative to the file set.</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

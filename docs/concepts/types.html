@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - The Antha Type System">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    The Antha Type System - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="the-antha-type-system">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="concepts" navgroup="docs" shortname="Types" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>The Antha Type System</h1>
+        
+          <summary>Concepts</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/concepts/types.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>The Antha Type System</h1>
+        
+          <summary>Concepts</summary>
+        
+      </header>
+
+      
+     <details id="toc">
+       <summary>Table of contents</summary>
+       
+<ul id="markdown-toc">
+  <li><a href="#variables-and-types-in-conventional-languages">Variables and Types in Conventional Languages</a></li>
+  <li><a href="#why-use-type-systems">Why use type systems?</a></li>
+  <li><a href="#type-composition">Type Composition</a></li>
+  <li><a href="#typing-in-antha">Typing in Antha</a>    <ul>
+      <li><a href="#quantities">Quantities</a></li>
+      <li><a href="#physical-types">Physical Types</a></li>
+      <li><a href="#initial-set-of-matter-types">Initial set of matter types</a></li>
+      <li><a href="#labware">Labware</a></li>
+      <li><a href="#devices">Devices</a></li>
+      <li><a href="#accessory-types">Accessory Types</a></li>
+    </ul>
+  </li>
+  <li><a href="#summary">Summary</a></li>
+</ul>
+
+     </details>
+
+
+<h1 id="variable-types">Variable Types</h1>
+
+<h2 id="variables-and-types-in-conventional-languages">Variables and Types in Conventional Languages</h2>
+
+<p>The concept of variables is central to programming: in the usual scenario a<br />
+program takes data, transforms it in some way and then returns the transformed<br />
+data. </p>
+
+<p>Programming languages use variables to abstract out the general sequence of <br />
+operations required to enact the transformation so that the program can be<br />
+used on any data within the scope of its inputs. </p>
+
+<p>Many conventional programming languages use the concept of a variable<br />
+<em>type</em> to define what sort of data is allowed to be stored in a particular<br />
+variable. The following example is quite typical:</p>
+
+<pre><code>int i=0
+</code></pre>
+
+<p>This statement does three things: </p>
+
+<ol>
+  <li>it declares the existence of a variable with the name i to the system</li>
+  <li>it states that the only information which i can store is a single integer value</li>
+  <li>it initializes the value of i to 0</li>
+</ol>
+
+<p>The go language, from which Antha derives much of its syntax, expresses this a little more briefly:</p>
+
+<pre><code>i:=0
+</code></pre>
+
+<p>This statement does exactly the same job as the first one, however it omits a specific <br />
+reference to the variable type since it can be inferred from the use of the integer value 0 <br />
+to set its value. </p>
+
+<p>The Antha language extends this idea to the notion of physical types. Before getting into the details<br />
+its worth going over the benefits of typing. </p>
+
+<h2 id="why-use-type-systems">Why use type systems?</h2>
+
+<p>As mentioned above, many languages use type systems to define what data is allowed to be stored<br />
+where, however not all of them do. Some developers find the need to be very specific about what<br />
+sort of data can be stored makes the language quite inflexible to use in practice. </p>
+
+<p>This can definitely be true but types have a very important advantage: they allow you to catch <br />
+certain kinds of errors without having to run the program. For instance if you attempt to perform<br />
+an operation which is only valid on a string of characters on an integer value you must either<br />
+explicitly convert the integer into a string somehow or the compiler will return an error. </p>
+
+<p>When programming with pure data this can sometimes be foregone since it is cheap to run the program,<br />
+also if the possible inputs are quite constrained it may be feasible to test all possible cases. <br />
+However for larger programs with complex behaviours over a very wide class of inputs many programmers<br />
+find that the benefits of the above (which is known as <em>static analysis</em>) are substantial since <br />
+such errors are common and can be quite hard to find. </p>
+
+<h2 id="type-composition">Type Composition</h2>
+
+<p>Languages such as Antha, go, java and C++ are <em>strongly typed</em> which means that any operation is only <br />
+defined on specific types of inputs. This is useful for static type checking, however it does<br />
+mean that when there are cases where several kinds of inputs would all be equally valid it is not <br />
+possible to write one function and have it do the same job on lots of inputs. </p>
+
+<p>In go the mechanism to deal with this is to divide up the properties of a variable in the language into<br />
+sets which can be composed together. This is essentially like saying that bats, birds and bumblebees<br />
+can all fly despite doing it in quite different ways and having many other properties which differ. <br />
+Regardless of all those other differences they are still all flying animals, so any operation which <br />
+applies to a flying animal will apply to all of them. </p>
+
+<p>Antha uses this mechanism to allow operations to be defined on types of objects in general: for instance<br />
+we define the idea of a liquid which allows us to define liquid handling as valid for any kind of <br />
+liquid, regardless of what other properties it has.</p>
+
+<p>A second important mechanism is to define types as falling into <em>hierarchies</em>, arranging types into levels<br />
+with inheritance of properties: all solids, liquids and gases are physical things, hence they share all<br />
+the properties a physical thing has although of course they have other properties. </p>
+
+<h2 id="typing-in-antha">Typing in Antha</h2>
+
+<p>Antha extends the notion of typing to the biochemistry domain using composition and hierarchical typing.<br />
+The two most significant hierarchies are the unit system and one relating to physical objects - quantities<br />
+and things. </p>
+
+<h3 id="quantities">Quantities</h3>
+
+<p>Quantities have units built-in so that it is always necessary to define which units a particular measurement<br />
+is made in. The Antha system knows a handful of basic units:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Unit Symbol</th>
+      <th>Unit Name</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>M</td>
+      <td>Mole</td>
+      <td>amount of substance</td>
+    </tr>
+    <tr>
+      <td>m</td>
+      <td>minute</td>
+      <td>60s</td>
+    </tr>
+    <tr>
+      <td>l/L</td>
+      <td>litre</td>
+      <td>volume</td>
+    </tr>
+    <tr>
+      <td>g</td>
+      <td>gramme</td>
+      <td>mass</td>
+    </tr>
+    <tr>
+      <td>V</td>
+      <td>Volt</td>
+      <td>electrical potential (energy / coulomb)</td>
+    </tr>
+    <tr>
+      <td>J</td>
+      <td>Joule</td>
+      <td>energy</td>
+    </tr>
+    <tr>
+      <td>A</td>
+      <td>Ampere</td>
+      <td>electrical current</td>
+    </tr>
+    <tr>
+      <td>N</td>
+      <td>Newton</td>
+      <td>force</td>
+    </tr>
+    <tr>
+      <td>s</td>
+      <td>second</td>
+      <td>time</td>
+    </tr>
+    <tr>
+      <td>rads/radians</td>
+      <td>radians</td>
+      <td>angle</td>
+    </tr>
+    <tr>
+      <td>degrees</td>
+      <td>degrees</td>
+      <td>angle</td>
+    </tr>
+    <tr>
+      <td>Hz</td>
+      <td>Herz</td>
+      <td>frequency</td>
+    </tr>
+    <tr>
+      <td>rpm</td>
+      <td>revolutions per minute</td>
+      <td>rotational frequency</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>Celisus</td>
+      <td>temperature</td>
+    </tr>
+    <tr>
+      <td>M/l</td>
+      <td>Moles per litre</td>
+      <td>concentraiton</td>
+    </tr>
+    <tr>
+      <td>g/l</td>
+      <td>grammes per litre</td>
+      <td>concentration</td>
+    </tr>
+    <tr>
+      <td>J/kg</td>
+      <td>Joules per kilogram</td>
+      <td>specific heat capacity</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>To permit static type checking, units are mapped into dimensions. In the alpha<br />
+release this is not strictly in line with the usual meaning of dimension (e.g. <br />
+concentration is defined as a dimension) but this allows us to state that<br />
+a particular parameter is defined as a volume or concentration. </p>
+
+<p>Units are composed with SI prefices to create PrefixedUnits. The system implements<br />
+the standard SI prefix definitions as follows</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Prefix</th>
+      <th>name</th>
+      <th>meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>y</td>
+      <td>yocto</td>
+      <td>10e-24</td>
+    </tr>
+    <tr>
+      <td>z</td>
+      <td>zepto</td>
+      <td>10e-21</td>
+    </tr>
+    <tr>
+      <td>a</td>
+      <td>atto</td>
+      <td>10e-18</td>
+    </tr>
+    <tr>
+      <td>f</td>
+      <td>femto</td>
+      <td>10e-15</td>
+    </tr>
+    <tr>
+      <td>p</td>
+      <td>pico</td>
+      <td>10e-12</td>
+    </tr>
+    <tr>
+      <td>n</td>
+      <td>nano</td>
+      <td>10e-9</td>
+    </tr>
+    <tr>
+      <td>u</td>
+      <td>micro</td>
+      <td>10e-6</td>
+    </tr>
+    <tr>
+      <td>m</td>
+      <td>milli</td>
+      <td>10e-3</td>
+    </tr>
+    <tr>
+      <td>c</td>
+      <td>centi</td>
+      <td>10e-2</td>
+    </tr>
+    <tr>
+      <td>d</td>
+      <td>deci</td>
+      <td>10e-1</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> </td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>da</td>
+      <td>deca</td>
+      <td>10e1</td>
+    </tr>
+    <tr>
+      <td>h</td>
+      <td>hecto</td>
+      <td>10e2</td>
+    </tr>
+    <tr>
+      <td>k</td>
+      <td>kilo</td>
+      <td>10e3</td>
+    </tr>
+    <tr>
+      <td>M</td>
+      <td>mega</td>
+      <td>10e6</td>
+    </tr>
+    <tr>
+      <td>G</td>
+      <td>giga</td>
+      <td>10e9</td>
+    </tr>
+    <tr>
+      <td>T</td>
+      <td>tera</td>
+      <td>10e12</td>
+    </tr>
+    <tr>
+      <td>P</td>
+      <td>peta</td>
+      <td>10e15</td>
+    </tr>
+    <tr>
+      <td>E</td>
+      <td>exa</td>
+      <td>10e18</td>
+    </tr>
+    <tr>
+      <td>Z</td>
+      <td>zetta</td>
+      <td>10e12</td>
+    </tr>
+    <tr>
+      <td>Y</td>
+      <td>yotta</td>
+      <td>10e24</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Antha generally defines quantities using a Measurement type, which combines a <br />
+PrefixedUnit with a value, which is a floating-point (decimal) number. <br />
+Dimensions such as length, volume, concentration are then special cases of the<br />
+Measurement type - this allows the go compiler to check the types are appropriate<br />
+when the protocol is compiled. </p>
+
+<h3 id="physical-types">Physical Types</h3>
+
+<p>Physical types start by defining the basic material composition of an object or sample,<br />
+using the Matter type. This type defines the principal features of the object, such as <br />
+phase transition temperatures and specific heat capacity. </p>
+
+<p>Specific objects are defined to be of type Physical, which includes information about<br />
+mass, volume and temperature of the sample. </p>
+
+<p>Finally the physical state of an object is defined with one of three types of state: <br />
+solid, liquid and gas, which allow checking to be performed for operations which are <br />
+only defined on matter in one of these three states (e.g. moving a solid object using<br />
+a gripper or a liquid with a pipette)</p>
+
+<p>There are many additional types which define things such as biological entities (DNA,<br />
+RNA, proteins), for more information check out the <a href="/docs/index.html">docs</a>.</p>
+
+<h3 id="initial-set-of-matter-types">Initial set of matter types</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>polypropylene</td>
+      <td>for plates and tubes</td>
+    </tr>
+    <tr>
+      <td>polycarbonate</td>
+      <td>for plates and tubes</td>
+    </tr>
+    <tr>
+      <td>ptfe</td>
+      <td>for plates and tubes</td>
+    </tr>
+    <tr>
+      <td>glass</td>
+      <td>for other labware</td>
+    </tr>
+    <tr>
+      <td>steel</td>
+      <td>other devices</td>
+    </tr>
+    <tr>
+      <td>water</td>
+      <td>basis of all solutions made in water</td>
+    </tr>
+    <tr>
+      <td>glycerol</td>
+      <td>basis of all solutions with high viscosity</td>
+    </tr>
+    <tr>
+      <td>ethanol</td>
+      <td>basis of all volatile solutions</td>
+    </tr>
+    <tr>
+      <td>surfactant</td>
+      <td>basis of all solutions which foam</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Since it would be difficult to properly define all liquid types up front the intention is for<br />
+solutions to derive their matter type from the liquids defined in this table. Thus all solutions<br />
+which behave essentially as water should be defined as water, viscous solutions as glycerol etc. </p>
+
+<p>These are heuristics for the liquid handling which can be extended in the future. The actual composition<br />
+of a solution is then defined using simple textual labels. </p>
+
+<h3 id="labware">Labware</h3>
+
+<p>Labware defines items of use when mixing and storing solutions, such as plates, tubes etc. <br />
+Labware types are physical, solid objects, meaning they must be composed of some sort of matter<br />
+such as those defined in the table above</p>
+
+<p>In the initial language only the Plate labware type is defined, this has a number of wells which have<br />
+physical dimensions such as volume specified. Plates are assumed to be SBS-formatted although their height<br />
+can vary. </p>
+
+<h3 id="devices">Devices</h3>
+
+<p>Devices come in a few classes: Pipetter, Mover, Heater, Chiller, Sealer, DeSealer. These types can be composed<br />
+together for devices which have multiple characteristics. These define methods which perform functions on <br />
+liquids and also define Slots which can contain labware. </p>
+
+<h3 id="accessory-types">Accessory Types</h3>
+
+<p>There are several accessory types which define the capabilities of particular items: Container is a useful example, <br />
+simply defining when something can act as a container for something else. It must have a set of physical dimensions<br />
+which allow the system to determine whether the proposed item to be placed within can fit. </p>
+
+<p>Entity is a further useful type which defines when an object is able to be moved as a discrete unit. For instance a<br />
+well in a standard microplate is not an entity since it cannot be detached from the plate, while the plate itself is.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>This has been a very brief tour of the typing system. For more information please consult <a href="/docs/index.html">the documentation</a></p>
+
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

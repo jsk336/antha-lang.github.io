@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - Concurrency in Antha">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    Concurrency in Antha - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="concurrency-in-antha">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="concepts" navgroup="docs" shortname="Concurrency" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>Concurrency in Antha</h1>
+        
+          <summary>Concepts</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/concepts/concurrency.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>Concurrency in Antha</h1>
+        
+          <summary>Concepts</summary>
+        
+      </header>
+
+      
+     <details id="toc">
+       <summary>Table of contents</summary>
+       
+<ul id="markdown-toc">
+  <li><a href="#what-is-concurrency">What is concurrency?</a></li>
+  <li><a href="#concurrency-with-antha">Concurrency with Antha</a></li>
+</ul>
+
+     </details>
+
+
+<h1 id="concurrency">Concurrency</h1>
+
+<p>Concurrency is hard, at least in most programming languages. The Go language has the ability to execute processes concurrently and, critically, to coordinate concurrent processes efficiently. That’s why we chose Go as the basis for the antha language. </p>
+
+<h2 id="what-is-concurrency">What is concurrency?</h2>
+<p>Rob Pike, one of the pioneers of Go from Google, <a href="https://www.youtube.com/watch?v=cN_DpYBzKso">explains</a> that concurrency is NOT the same as parallelism, it’s better. </p>
+
+<p>Concurrency = the composition of independently executing processes.</p>
+
+<p>Parallelism = simultaneously executing processes.</p>
+
+<p>What that means is that concurrency is about dealing with a lot things at once whereas parallelism is about doing a lot of things at once; concurrency is about structure; parallelism is about execution.</p>
+
+<p>Concurrency is about structuring so MAYBE you can use parallelism to do a better job. But parallelism is not the goal of concurrency, concurrency’s goal is a good structure and good structure is key to managing complexity (like in biology)<br />
+In order to get concurrency to work though you have to add the idea of communication</p>
+
+<p>Concurrency + communication = more efficient processes.</p>
+
+<p>Communication enables the ability to coordinate those independent pieces for optimal efficiency, not necessarily doing things at the same time. This concept is not <a href="https://assets.cs.ncl.ac.uk/seminars/224.pdf">new</a> but Google’s Go language has this capacity built-in making building qnd debugging concurrent workflows easier.</p>
+
+<h2 id="concurrency-with-antha">Concurrency with Antha</h2>
+<p>Antha will bring the concept of concurrency into managing physical lab operations and processes with limited resources as well as computational tasks such as processing DNA sequencing data or metabolite profiling. <br />
+In the computational sphere this can mean large operations are performed in seconds rather than minutes; in the physical world of carrying out lab work, where timescales are longer, the time saving could be substantial; especially as more ambitious experimental plans are enabled.</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

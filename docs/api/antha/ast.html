@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - antha/ast">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    antha/ast - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="antha/ast">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="docs" shortname="antha/ast" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>antha/ast</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/antha/ast.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>antha/ast</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="ast">ast</h1>
+<p>–<br />
+    import “.”</p>
+
+<p>Package ast declares the types used to represent syntax trees for Antha packages.</p>
+
+<h2 id="usage">Usage</h2>
+
+<h4 id="func--fileexports">func  FileExports</h4>
+
+<pre><code class="language-go">func FileExports(src *File) bool
+</code></pre>
+<p>FileExports trims the AST for a Antha source file in place such that only exported<br />
+nodes remain: all top-level identifiers which are not exported and their<br />
+associated information (such as type, initial value, or function body) are<br />
+removed. Non-exported fields and methods of exported types are stripped. The<br />
+File.Comments list is not changed.</p>
+
+<p>FileExports returns true if there are exported declarations; it returns false<br />
+otherwise.</p>
+
+<h4 id="func--filterdecl">func  FilterDecl</h4>
+
+<pre><code class="language-go">func FilterDecl(decl Decl, f Filter) bool
+</code></pre>
+<p>FilterDecl trims the AST for a Antha declaration in place by removing all names<br />
+(including struct field and interface method names, but not from parameter<br />
+lists) that don’t pass through the filter f.</p>
+
+<p>FilterDecl returns true if there are any declared names left after filtering; it<br />
+returns false otherwise.</p>
+
+<h4 id="func--filterfile">func  FilterFile</h4>
+
+<pre><code class="language-go">func FilterFile(src *File, f Filter) bool
+</code></pre>
+<p>FilterFile trims the AST for a Antha file in place by removing all names from<br />
+top-level declarations (including struct field and interface method names, but<br />
+not from parameter lists) that don’t pass through the filter f. If the<br />
+declaration is empty afterwards, the declaration is removed from the AST. The<br />
+File.Comments list is not changed.</p>
+
+<p>FilterFile returns true if there are any top-level declarations left after<br />
+filtering; it returns false otherwise.</p>
+
+<h4 id="func--filterpackage">func  FilterPackage</h4>
+
+<pre><code class="language-go">func FilterPackage(pkg *Package, f Filter) bool
+</code></pre>
+<p>FilterPackage trims the AST for a Antha package in place by removing all names from<br />
+top-level declarations (including struct field and interface method names, but<br />
+not from parameter lists) that don’t pass through the filter f. If the<br />
+declaration is empty afterwards, the declaration is removed from the AST. The<br />
+pkg.Files list is not changed, so that file names and top-level package comments<br />
+don’t get lost.</p>
+
+<p>FilterPackage returns true if there are any top-level declarations left after<br />
+filtering; it returns false otherwise.</p>
+
+<h4 id="func--fprint">func  Fprint</h4>
+
+<pre><code class="language-go">func Fprint(w io.Writer, fset *token.FileSet, x interface{}, f FieldFilter) (err error)
+</code></pre>
+<p>Fprint prints the (sub-)tree starting at AST node x to w. If fset != nil,<br />
+position information is interpreted relative to that file set. Otherwise<br />
+positions are printed as integer values (file set specific offsets).</p>
+
+<p>A non-nil FieldFilter f may be provided to control the output: struct fields for<br />
+which f(fieldname, fieldvalue) is true are printed; all others are filtered from<br />
+the output. Unexported struct fields are never printed.</p>
+
+<h4 id="func--inspect">func  Inspect</h4>
+
+<pre><code class="language-go">func Inspect(node Node, f func(Node) bool)
+</code></pre>
+<p>Inspect traverses an AST in depth-first order: It starts by calling f(node);<br />
+node must not be nil. If f returns true, Inspect invokes f for all the non-nil<br />
+children of node, recursively.</p>
+
+<h4 id="func--isexported">func  IsExported</h4>
+
+<pre><code class="language-go">func IsExported(name string) bool
+</code></pre>
+<p>IsExported reports whether name is an exported Antha symbol (that is, whether it<br />
+begins with an upper-case letter).</p>
+
+<h4 id="func--notnilfilter">func  NotNilFilter</h4>
+
+<pre><code class="language-go">func NotNilFilter(_ string, v reflect.Value) bool
+</code></pre>
+<p>NotNilFilter returns true for field values that are not nil; it returns false<br />
+otherwise.</p>
+
+<h4 id="func--packageexports">func  PackageExports</h4>
+
+<pre><code class="language-go">func PackageExports(pkg *Package) bool
+</code></pre>
+<p>PackageExports trims the AST for a Antha package in place such that only exported<br />
+nodes remain. The pkg.Files list is not changed, so that file names and<br />
+top-level package comments don’t get lost.</p>
+
+<p>PackageExports returns true if there are exported declarations; it returns false<br />
+otherwise.</p>
+
+<h4 id="func--print">func  Print</h4>
+
+<pre><code class="language-go">func Print(fset *token.FileSet, x interface{}) error
+</code></pre>
+<p>Print prints x to standard output, skipping nil fields. Print(fset, x) is the<br />
+same as Fprint(os.Stdout, fset, x, NotNilFilter).</p>
+
+<h4 id="func--sortimports">func  SortImports</h4>
+
+<pre><code class="language-go">func SortImports(fset *token.FileSet, f *File)
+</code></pre>
+<p>SortImports sorts runs of consecutive import lines in import blocks in f. It<br />
+also removes duplicate imports when it is possible to do so without data loss.</p>
+
+<h4 id="func--walk">func  Walk</h4>
+
+<pre><code class="language-go">func Walk(v Visitor, node Node)
+</code></pre>
+<p>Walk traverses an AST in depth-first order: It starts by calling v.Visit(node);<br />
+node must not be nil. If the visitor w returned by v.Visit(node) is not nil,<br />
+Walk is invoked recursively with visitor w for each of the non-nil children of<br />
+node, followed by a call of w.Visit(nil).</p>
+
+<h4 id="type-anthadecl">type AnthaDecl</h4>
+
+<pre><code class="language-go">type AnthaDecl struct {
+	Doc    *CommentGroup // associated documentation; or nil
+	TokPos token.Pos     // position of Tok
+	Tok    token.Token   // Type of Antha block (Parameters, Data, Inputs, Outputs, Requirements, Controls, Analysis, Validation, Steps
+	Name   *Ident        // block name
+	Body   *BlockStmt    // function body; or nil (forward declaration)
+}
+</code></pre>
+
+<p>An AnthaDecl node represents a new block declaration. Currently parsing all as<br />
+generic function bodies, TODO: GenDcl specific parsing and allow function<br />
+declarations in specific blocks?</p>
+
+<h4 id="func-anthadecl-end">func (*AnthaDecl) End</h4>
+
+<pre><code class="language-go">func (d *AnthaDecl) End() token.Pos
+</code></pre>
+
+<h4 id="func-anthadecl-pos">func (*AnthaDecl) Pos</h4>
+
+<pre><code class="language-go">func (d *AnthaDecl) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-arraytype">type ArrayType</h4>
+
+<pre><code class="language-go">type ArrayType struct {
+	Lbrack token.Pos // position of "["
+	Len    Expr      // Ellipsis node for [...]T array types, nil for slice types
+	Elt    Expr      // element type
+}
+</code></pre>
+
+<p>An ArrayType node represents an array or slice type.</p>
+
+<h4 id="func-arraytype-end">func (*ArrayType) End</h4>
+
+<pre><code class="language-go">func (x *ArrayType) End() token.Pos
+</code></pre>
+
+<h4 id="func-arraytype-pos">func (*ArrayType) Pos</h4>
+
+<pre><code class="language-go">func (x *ArrayType) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-assignstmt">type AssignStmt</h4>
+
+<pre><code class="language-go">type AssignStmt struct {
+	Lhs    []Expr
+	TokPos token.Pos   // position of Tok
+	Tok    token.Token // assignment token, DEFINE
+	Rhs    []Expr
+}
+</code></pre>
+
+<p>An AssignStmt node represents an assignment or a short variable declaration.</p>
+
+<h4 id="func-assignstmt-end">func (*AssignStmt) End</h4>
+
+<pre><code class="language-go">func (s *AssignStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-assignstmt-pos">func (*AssignStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *AssignStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-baddecl">type BadDecl</h4>
+
+<pre><code class="language-go">type BadDecl struct {
+	From, To token.Pos // position range of bad declaration
+}
+</code></pre>
+
+<p>A BadDecl node is a placeholder for declarations containing syntax errors for<br />
+which no correct declaration nodes can be created.</p>
+
+<h4 id="func-baddecl-end">func (*BadDecl) End</h4>
+
+<pre><code class="language-go">func (d *BadDecl) End() token.Pos
+</code></pre>
+
+<h4 id="func-baddecl-pos">func (*BadDecl) Pos</h4>
+
+<pre><code class="language-go">func (d *BadDecl) Pos() token.Pos
+</code></pre>
+<p>Pos and End implementations for declaration nodes.</p>
+
+<h4 id="type-badexpr">type BadExpr</h4>
+
+<pre><code class="language-go">type BadExpr struct {
+	From, To token.Pos // position range of bad expression
+}
+</code></pre>
+
+<p>A BadExpr node is a placeholder for expressions containing syntax errors for<br />
+which no correct expression nodes can be created.</p>
+
+<h4 id="func-badexpr-end">func (*BadExpr) End</h4>
+
+<pre><code class="language-go">func (x *BadExpr) End() token.Pos
+</code></pre>
+
+<h4 id="func-badexpr-pos">func (*BadExpr) Pos</h4>
+
+<pre><code class="language-go">func (x *BadExpr) Pos() token.Pos
+</code></pre>
+<p>Pos and End implementations for expression/type nodes.</p>
+
+<h4 id="type-badstmt">type BadStmt</h4>
+
+<pre><code class="language-go">type BadStmt struct {
+	From, To token.Pos // position range of bad statement
+}
+</code></pre>
+
+<p>A BadStmt node is a placeholder for statements containing syntax errors for<br />
+which no correct statement nodes can be created.</p>
+
+<h4 id="func-badstmt-end">func (*BadStmt) End</h4>
+
+<pre><code class="language-go">func (s *BadStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-badstmt-pos">func (*BadStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *BadStmt) Pos() token.Pos
+</code></pre>
+<p>Pos and End implementations for statement nodes.</p>
+
+<h4 id="type-basiclit">type BasicLit</h4>
+
+<pre><code class="language-go">type BasicLit struct {
+	ValuePos token.Pos   // literal position
+	Kind     token.Token // token.INT, token.FLOAT, token.IMAG, token.CHAR, or token.STRING
+	Value    string      // literal string; e.g. 42, 0x7f, 3.14, 1e-9, 2.4i, 'a', '\x7f', "foo" or `\m\n\o`
+}
+</code></pre>
+
+<p>A BasicLit node represents a literal of basic type.</p>
+
+<h4 id="func-basiclit-end">func (*BasicLit) End</h4>
+
+<pre><code class="language-go">func (x *BasicLit) End() token.Pos
+</code></pre>
+
+<h4 id="func-basiclit-pos">func (*BasicLit) Pos</h4>
+
+<pre><code class="language-go">func (x *BasicLit) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-binaryexpr">type BinaryExpr</h4>
+
+<pre><code class="language-go">type BinaryExpr struct {
+	X     Expr        // left operand
+	OpPos token.Pos   // position of Op
+	Op    token.Token // operator
+	Y     Expr        // right operand
+}
+</code></pre>
+
+<p>A BinaryExpr node represents a binary expression.</p>
+
+<h4 id="func-binaryexpr-end">func (*BinaryExpr) End</h4>
+
+<pre><code class="language-go">func (x *BinaryExpr) End() token.Pos
+</code></pre>
+
+<h4 id="func-binaryexpr-pos">func (*BinaryExpr) Pos</h4>
+
+<pre><code class="language-go">func (x *BinaryExpr) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-blockstmt">type BlockStmt</h4>
+
+<pre><code class="language-go">type BlockStmt struct {
+	Lbrace token.Pos // position of "{"
+	List   []Stmt
+	Rbrace token.Pos // position of "}"
+}
+</code></pre>
+
+<p>A BlockStmt node represents a braced statement list.</p>
+
+<h4 id="func-blockstmt-end">func (*BlockStmt) End</h4>
+
+<pre><code class="language-go">func (s *BlockStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-blockstmt-pos">func (*BlockStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *BlockStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-branchstmt">type BranchStmt</h4>
+
+<pre><code class="language-go">type BranchStmt struct {
+	TokPos token.Pos   // position of Tok
+	Tok    token.Token // keyword token (BREAK, CONTINUE, GOTO, FALLTHROUGH)
+	Label  *Ident      // label name; or nil
+}
+</code></pre>
+
+<p>A BranchStmt node represents a break, continue, goto, or fallthrough statement.</p>
+
+<h4 id="func-branchstmt-end">func (*BranchStmt) End</h4>
+
+<pre><code class="language-go">func (s *BranchStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-branchstmt-pos">func (*BranchStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *BranchStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-callexpr">type CallExpr</h4>
+
+<pre><code class="language-go">type CallExpr struct {
+	Fun      Expr      // function expression
+	Lparen   token.Pos // position of "("
+	Args     []Expr    // function arguments; or nil
+	Ellipsis token.Pos // position of "...", if any
+	Rparen   token.Pos // position of ")"
+}
+</code></pre>
+
+<p>A CallExpr node represents an expression followed by an argument list.</p>
+
+<h4 id="func-callexpr-end">func (*CallExpr) End</h4>
+
+<pre><code class="language-go">func (x *CallExpr) End() token.Pos
+</code></pre>
+
+<h4 id="func-callexpr-pos">func (*CallExpr) Pos</h4>
+
+<pre><code class="language-go">func (x *CallExpr) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-caseclause">type CaseClause</h4>
+
+<pre><code class="language-go">type CaseClause struct {
+	Case  token.Pos // position of "case" or "default" keyword
+	List  []Expr    // list of expressions or types; nil means default case
+	Colon token.Pos // position of ":"
+	Body  []Stmt    // statement list; or nil
+}
+</code></pre>
+
+<p>A CaseClause represents a case of an expression or type switch statement.</p>
+
+<h4 id="func-caseclause-end">func (*CaseClause) End</h4>
+
+<pre><code class="language-go">func (s *CaseClause) End() token.Pos
+</code></pre>
+
+<h4 id="func-caseclause-pos">func (*CaseClause) Pos</h4>
+
+<pre><code class="language-go">func (s *CaseClause) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-chandir">type ChanDir</h4>
+
+<pre><code class="language-go">type ChanDir int
+</code></pre>
+
+<p>The direction of a channel type is indicated by one of the following constants.</p>
+
+<pre><code class="language-go">const (
+	SEND ChanDir = 1 &lt;&lt; iota
+	RECV
+)
+</code></pre>
+
+<h4 id="type-chantype">type ChanType</h4>
+
+<pre><code class="language-go">type ChanType struct {
+	Begin token.Pos // position of "chan" keyword or "&lt;-" (whichever comes first)
+	Arrow token.Pos // position of "&lt;-" (token.NoPos if there is no "&lt;-")
+	Dir   ChanDir   // channel direction
+	Value Expr      // value type
+}
+</code></pre>
+
+<p>A ChanType node represents a channel type.</p>
+
+<h4 id="func-chantype-end">func (*ChanType) End</h4>
+
+<pre><code class="language-go">func (x *ChanType) End() token.Pos
+</code></pre>
+
+<h4 id="func-chantype-pos">func (*ChanType) Pos</h4>
+
+<pre><code class="language-go">func (x *ChanType) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-commclause">type CommClause</h4>
+
+<pre><code class="language-go">type CommClause struct {
+	Case  token.Pos // position of "case" or "default" keyword
+	Comm  Stmt      // send or receive statement; nil means default case
+	Colon token.Pos // position of ":"
+	Body  []Stmt    // statement list; or nil
+}
+</code></pre>
+
+<p>A CommClause node represents a case of a select statement.</p>
+
+<h4 id="func-commclause-end">func (*CommClause) End</h4>
+
+<pre><code class="language-go">func (s *CommClause) End() token.Pos
+</code></pre>
+
+<h4 id="func-commclause-pos">func (*CommClause) Pos</h4>
+
+<pre><code class="language-go">func (s *CommClause) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-comment">type Comment</h4>
+
+<pre><code class="language-go">type Comment struct {
+	Slash token.Pos // position of "/" starting the comment
+	Text  string    // comment text (excluding '\n' for //-style comments)
+}
+</code></pre>
+
+<p>A Comment node represents a single //-style or /*-style comment.</p>
+
+<h4 id="func-comment-end">func (*Comment) End</h4>
+
+<pre><code class="language-go">func (c *Comment) End() token.Pos
+</code></pre>
+
+<h4 id="func-comment-pos">func (*Comment) Pos</h4>
+
+<pre><code class="language-go">func (c *Comment) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-commentgroup">type CommentGroup</h4>
+
+<pre><code class="language-go">type CommentGroup struct {
+	List []*Comment // len(List) &gt; 0
+}
+</code></pre>
+
+<p>A CommentGroup represents a sequence of comments with no other tokens and no<br />
+empty lines between.</p>
+
+<h4 id="func-commentgroup-end">func (*CommentGroup) End</h4>
+
+<pre><code class="language-go">func (g *CommentGroup) End() token.Pos
+</code></pre>
+
+<h4 id="func-commentgroup-pos">func (*CommentGroup) Pos</h4>
+
+<pre><code class="language-go">func (g *CommentGroup) Pos() token.Pos
+</code></pre>
+
+<h4 id="func-commentgroup-text">func (*CommentGroup) Text</h4>
+
+<pre><code class="language-go">func (g *CommentGroup) Text() string
+</code></pre>
+<p>Text returns the text of the comment. Comment markers (//, /*, and */), the<br />
+first space of a line comment, and leading and trailing empty lines are removed.<br />
+Multiple empty lines are reduced to one, and trailing space on lines is trimmed.<br />
+Unless the result is empty, it is newline-terminated.</p>
+
+<h4 id="type-commentmap">type CommentMap</h4>
+
+<pre><code class="language-go">type CommentMap map[Node][]*CommentGroup
+</code></pre>
+
+<p>A CommentMap maps an AST node to a list of comment groups associated with it.<br />
+See NewCommentMap for a description of the association.</p>
+
+<h4 id="func--newcommentmap">func  NewCommentMap</h4>
+
+<pre><code class="language-go">func NewCommentMap(fset *token.FileSet, node Node, comments []*CommentGroup) CommentMap
+</code></pre>
+<p>NewCommentMap creates a new comment map by associating comment groups of the<br />
+comments list with the nodes of the AST specified by node.</p>
+
+<p>A comment group g is associated with a node n if:</p>
+
+<pre><code>- g starts on the same line as n ends
+- g starts on the line immediately following n, and there is
+  at least one empty line after g and before the next node
+- g starts before n and is not associated to the node before n
+  via the previous rules
+</code></pre>
+
+<p>NewCommentMap tries to associate a comment group to the “largest” node possible:<br />
+For instance, if the comment is a line comment trailing an assignment, the<br />
+comment is associated with the entire assignment rather than just the last<br />
+operand in the assignment.</p>
+
+<h4 id="func-commentmap-comments">func (CommentMap) Comments</h4>
+
+<pre><code class="language-go">func (cmap CommentMap) Comments() []*CommentGroup
+</code></pre>
+<p>Comments returns the list of comment groups in the comment map. The result is<br />
+sorted is source order.</p>
+
+<h4 id="func-commentmap-filter">func (CommentMap) Filter</h4>
+
+<pre><code class="language-go">func (cmap CommentMap) Filter(node Node) CommentMap
+</code></pre>
+<p>Filter returns a new comment map consisting of only those entries of cmap for<br />
+which a corresponding node exists in the AST specified by node.</p>
+
+<h4 id="func-commentmap-string">func (CommentMap) String</h4>
+
+<pre><code class="language-go">func (cmap CommentMap) String() string
+</code></pre>
+
+<h4 id="func-commentmap-update">func (CommentMap) Update</h4>
+
+<pre><code class="language-go">func (cmap CommentMap) Update(old, new Node) Node
+</code></pre>
+<p>Update replaces an old node in the comment map with the new node and returns the<br />
+new node. Comments that were associated with the old node are associated with<br />
+the new node.</p>
+
+<h4 id="type-compositelit">type CompositeLit</h4>
+
+<pre><code class="language-go">type CompositeLit struct {
+	Type   Expr      // literal type; or nil
+	Lbrace token.Pos // position of "{"
+	Elts   []Expr    // list of composite elements; or nil
+	Rbrace token.Pos // position of "}"
+}
+</code></pre>
+
+<p>A CompositeLit node represents a composite literal.</p>
+
+<h4 id="func-compositelit-end">func (*CompositeLit) End</h4>
+
+<pre><code class="language-go">func (x *CompositeLit) End() token.Pos
+</code></pre>
+
+<h4 id="func-compositelit-pos">func (*CompositeLit) Pos</h4>
+
+<pre><code class="language-go">func (x *CompositeLit) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-decl">type Decl</h4>
+
+<pre><code class="language-go">type Decl interface {
+	Node
+	// contains filtered or unexported methods
+}
+</code></pre>
+
+<p>All declaration nodes implement the Decl interface.</p>
+
+<h4 id="type-declstmt">type DeclStmt</h4>
+
+<pre><code class="language-go">type DeclStmt struct {
+	Decl Decl // *GenDecl with CONST, TYPE, or VAR token
+}
+</code></pre>
+
+<p>A DeclStmt node represents a declaration in a statement list.</p>
+
+<h4 id="func-declstmt-end">func (*DeclStmt) End</h4>
+
+<pre><code class="language-go">func (s *DeclStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-declstmt-pos">func (*DeclStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *DeclStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-deferstmt">type DeferStmt</h4>
+
+<pre><code class="language-go">type DeferStmt struct {
+	Defer token.Pos // position of "defer" keyword
+	Call  *CallExpr
+}
+</code></pre>
+
+<p>A DeferStmt node represents a defer statement.</p>
+
+<h4 id="func-deferstmt-end">func (*DeferStmt) End</h4>
+
+<pre><code class="language-go">func (s *DeferStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-deferstmt-pos">func (*DeferStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *DeferStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-ellipsis">type Ellipsis</h4>
+
+<pre><code class="language-go">type Ellipsis struct {
+	Ellipsis token.Pos // position of "..."
+	Elt      Expr      // ellipsis element type (parameter lists only); or nil
+}
+</code></pre>
+
+<p>An Ellipsis node stands for the “…” type in a parameter list or the “…”<br />
+length in an array type.</p>
+
+<h4 id="func-ellipsis-end">func (*Ellipsis) End</h4>
+
+<pre><code class="language-go">func (x *Ellipsis) End() token.Pos
+</code></pre>
+
+<h4 id="func-ellipsis-pos">func (*Ellipsis) Pos</h4>
+
+<pre><code class="language-go">func (x *Ellipsis) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-emptystmt">type EmptyStmt</h4>
+
+<pre><code class="language-go">type EmptyStmt struct {
+	Semicolon token.Pos // position of preceding ";"
+}
+</code></pre>
+
+<p>An EmptyStmt node represents an empty statement. The “position” of the empty<br />
+statement is the position of the immediately preceding semicolon.</p>
+
+<h4 id="func-emptystmt-end">func (*EmptyStmt) End</h4>
+
+<pre><code class="language-go">func (s *EmptyStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-emptystmt-pos">func (*EmptyStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *EmptyStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-expr">type Expr</h4>
+
+<pre><code class="language-go">type Expr interface {
+	Node
+	// contains filtered or unexported methods
+}
+</code></pre>
+
+<p>All expression nodes implement the Expr interface.</p>
+
+<h4 id="type-exprstmt">type ExprStmt</h4>
+
+<pre><code class="language-go">type ExprStmt struct {
+	X Expr // expression
+}
+</code></pre>
+
+<p>An ExprStmt node represents a (stand-alone) expression in a statement list.</p>
+
+<h4 id="func-exprstmt-end">func (*ExprStmt) End</h4>
+
+<pre><code class="language-go">func (s *ExprStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-exprstmt-pos">func (*ExprStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *ExprStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-field">type Field</h4>
+
+<pre><code class="language-go">type Field struct {
+	Doc     *CommentGroup // associated documentation; or nil
+	Names   []*Ident      // field/method/parameter names; or nil if anonymous field
+	Type    Expr          // field/method/parameter type
+	Tag     *BasicLit     // field tag; or nil
+	Comment *CommentGroup // line comments; or nil
+}
+</code></pre>
+
+<p>A Field represents a Field declaration list in a struct type, a method list in<br />
+an interface type, or a parameter/result declaration in a signature.</p>
+
+<h4 id="func-field-end">func (*Field) End</h4>
+
+<pre><code class="language-go">func (f *Field) End() token.Pos
+</code></pre>
+
+<h4 id="func-field-pos">func (*Field) Pos</h4>
+
+<pre><code class="language-go">func (f *Field) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-fieldfilter">type FieldFilter</h4>
+
+<pre><code class="language-go">type FieldFilter func(name string, value reflect.Value) bool
+</code></pre>
+
+<p>A FieldFilter may be provided to Fprint to control the output.</p>
+
+<h4 id="type-fieldlist">type FieldList</h4>
+
+<pre><code class="language-go">type FieldList struct {
+	Opening token.Pos // position of opening parenthesis/brace, if any
+	List    []*Field  // field list; or nil
+	Closing token.Pos // position of closing parenthesis/brace, if any
+}
+</code></pre>
+
+<p>A FieldList represents a list of Fields, enclosed by parentheses or braces.</p>
+
+<h4 id="func-fieldlist-end">func (*FieldList) End</h4>
+
+<pre><code class="language-go">func (f *FieldList) End() token.Pos
+</code></pre>
+
+<h4 id="func-fieldlist-numfields">func (*FieldList) NumFields</h4>
+
+<pre><code class="language-go">func (f *FieldList) NumFields() int
+</code></pre>
+<p>NumFields returns the number of (named and anonymous fields) in a FieldList.</p>
+
+<h4 id="func-fieldlist-pos">func (*FieldList) Pos</h4>
+
+<pre><code class="language-go">func (f *FieldList) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-file">type File</h4>
+
+<pre><code class="language-go">type File struct {
+	Doc        *CommentGroup   // associated documentation; or nil
+	Package    token.Pos       // position of "package" keyword
+	Tok        token.Token     // to determine type of file (Antha or Antha)
+	Name       *Ident          // package name
+	Decls      []Decl          // top-level declarations; or nil
+	Antha      []Decl          // Antha specific decls for fast lookup
+	Scope      *Scope          // package scope (this file only)
+	Imports    []*ImportSpec   // imports in this file
+	Unresolved []*Ident        // unresolved identifiers in this file
+	Comments   []*CommentGroup // list of all comments in the source file
+}
+</code></pre>
+
+<p>A File node represents a Antha source file.</p>
+
+<p>The Comments list contains all comments in the source file in order of<br />
+appearance, including the comments that are pointed to from other nodes via Doc<br />
+and Comment fields.</p>
+
+<h4 id="func--mergepackagefiles">func  MergePackageFiles</h4>
+
+<pre><code class="language-go">func MergePackageFiles(pkg *Package, mode MergeMode) *File
+</code></pre>
+<p>MergePackageFiles creates a file AST by merging the ASTs of the files belonging<br />
+to a package. The mode flags control merging behavior.</p>
+
+<h4 id="func-file-end">func (*File) End</h4>
+
+<pre><code class="language-go">func (f *File) End() token.Pos
+</code></pre>
+
+<h4 id="func-file-pos">func (*File) Pos</h4>
+
+<pre><code class="language-go">func (f *File) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-filter">type Filter</h4>
+
+<pre><code class="language-go">type Filter func(string) bool
+</code></pre>
+
+<h4 id="type-forstmt">type ForStmt</h4>
+
+<pre><code class="language-go">type ForStmt struct {
+	For  token.Pos // position of "for" keyword
+	Init Stmt      // initialization statement; or nil
+	Cond Expr      // condition; or nil
+	Post Stmt      // post iteration statement; or nil
+	Body *BlockStmt
+}
+</code></pre>
+
+<p>A ForStmt represents a for statement.</p>
+
+<h4 id="func-forstmt-end">func (*ForStmt) End</h4>
+
+<pre><code class="language-go">func (s *ForStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-forstmt-pos">func (*ForStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *ForStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-funcdecl">type FuncDecl</h4>
+
+<pre><code class="language-go">type FuncDecl struct {
+	Doc  *CommentGroup // associated documentation; or nil
+	Recv *FieldList    // receiver (methods); or nil (functions)
+	Name *Ident        // function/method name
+	Type *FuncType     // function signature: parameters, results, and position of "func" keyword
+	Body *BlockStmt    // function body; or nil (forward declaration)
+}
+</code></pre>
+
+<p>A FuncDecl node represents a function declaration.</p>
+
+<h4 id="func-funcdecl-end">func (*FuncDecl) End</h4>
+
+<pre><code class="language-go">func (d *FuncDecl) End() token.Pos
+</code></pre>
+
+<h4 id="func-funcdecl-pos">func (*FuncDecl) Pos</h4>
+
+<pre><code class="language-go">func (d *FuncDecl) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-funclit">type FuncLit</h4>
+
+<pre><code class="language-go">type FuncLit struct {
+	Type *FuncType  // function type
+	Body *BlockStmt // function body
+}
+</code></pre>
+
+<p>A FuncLit node represents a function literal.</p>
+
+<h4 id="func-funclit-end">func (*FuncLit) End</h4>
+
+<pre><code class="language-go">func (x *FuncLit) End() token.Pos
+</code></pre>
+
+<h4 id="func-funclit-pos">func (*FuncLit) Pos</h4>
+
+<pre><code class="language-go">func (x *FuncLit) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-functype">type FuncType</h4>
+
+<pre><code class="language-go">type FuncType struct {
+	Func    token.Pos  // position of "func" keyword (token.NoPos if there is no "func")
+	Params  *FieldList // (incoming) parameters; non-nil
+	Results *FieldList // (outgoing) results; or nil
+}
+</code></pre>
+
+<p>A FuncType node represents a function type.</p>
+
+<h4 id="func-functype-end">func (*FuncType) End</h4>
+
+<pre><code class="language-go">func (x *FuncType) End() token.Pos
+</code></pre>
+
+<h4 id="func-functype-pos">func (*FuncType) Pos</h4>
+
+<pre><code class="language-go">func (x *FuncType) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-gendecl">type GenDecl</h4>
+
+<pre><code class="language-go">type GenDecl struct {
+	Doc    *CommentGroup // associated documentation; or nil
+	TokPos token.Pos     // position of Tok
+	Tok    token.Token   // IMPORT, CONST, TYPE, VAR
+	Lparen token.Pos     // position of '(', if any
+	Specs  []Spec
+	Rparen token.Pos // position of ')', if any
+}
+</code></pre>
+
+<p>A GenDecl node (generic declaration node) represents an import, constant, type<br />
+or variable declaration. A valid Lparen position (Lparen.Line &gt; 0) indicates a<br />
+parenthesized declaration.</p>
+
+<p>Relationship between Tok value and Specs element type:</p>
+
+<pre><code>token.IMPORT  *ImportSpec
+token.CONST   *ValueSpec
+token.TYPE    *TypeSpec
+token.VAR     *ValueSpec
+</code></pre>
+
+<h4 id="func-gendecl-end">func (*GenDecl) End</h4>
+
+<pre><code class="language-go">func (d *GenDecl) End() token.Pos
+</code></pre>
+
+<h4 id="func-gendecl-pos">func (*GenDecl) Pos</h4>
+
+<pre><code class="language-go">func (d *GenDecl) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-anthastmt">type AnthaStmt</h4>
+
+<pre><code class="language-go">type AnthaStmt struct {
+	Antha   token.Pos // position of "go" keyword
+	Call *CallExpr
+}
+</code></pre>
+
+<p>A AnthaStmt node represents a go statement.</p>
+
+<h4 id="func-anthastmt-end">func (*AnthaStmt) End</h4>
+
+<pre><code class="language-go">func (s *AnthaStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-anthastmt-pos">func (*AnthaStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *AnthaStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-ident">type Ident</h4>
+
+<pre><code class="language-go">type Ident struct {
+	NamePos token.Pos // identifier position
+	Name    string    // identifier name
+	Obj     *Object   // denoted object; or nil
+}
+</code></pre>
+
+<p>An Ident node represents an identifier.</p>
+
+<h4 id="func--newident">func  NewIdent</h4>
+
+<pre><code class="language-go">func NewIdent(name string) *Ident
+</code></pre>
+<p>NewIdent creates a new Ident without position. Useful for ASTs generated by code<br />
+other than the Antha parser.</p>
+
+<h4 id="func-ident-end">func (*Ident) End</h4>
+
+<pre><code class="language-go">func (x *Ident) End() token.Pos
+</code></pre>
+
+<h4 id="func-ident-isexported">func (*Ident) IsExported</h4>
+
+<pre><code class="language-go">func (id *Ident) IsExported() bool
+</code></pre>
+<p>IsExported reports whether id is an exported Antha symbol (that is, whether it<br />
+begins with an uppercase letter).</p>
+
+<h4 id="func-ident-pos">func (*Ident) Pos</h4>
+
+<pre><code class="language-go">func (x *Ident) Pos() token.Pos
+</code></pre>
+
+<h4 id="func-ident-string">func (*Ident) String</h4>
+
+<pre><code class="language-go">func (id *Ident) String() string
+</code></pre>
+
+<h4 id="type-ifstmt">type IfStmt</h4>
+
+<pre><code class="language-go">type IfStmt struct {
+	If   token.Pos // position of "if" keyword
+	Init Stmt      // initialization statement; or nil
+	Cond Expr      // condition
+	Body *BlockStmt
+	Else Stmt // else branch; or nil
+}
+</code></pre>
+
+<p>An IfStmt node represents an if statement.</p>
+
+<h4 id="func-ifstmt-end">func (*IfStmt) End</h4>
+
+<pre><code class="language-go">func (s *IfStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-ifstmt-pos">func (*IfStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *IfStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-importspec">type ImportSpec</h4>
+
+<pre><code class="language-go">type ImportSpec struct {
+	Doc     *CommentGroup // associated documentation; or nil
+	Name    *Ident        // local package name (including "."); or nil
+	Path    *BasicLit     // import path
+	Comment *CommentGroup // line comments; or nil
+	EndPos  token.Pos     // end of spec (overrides Path.Pos if nonzero)
+}
+</code></pre>
+
+<p>An ImportSpec node represents a single package import.</p>
+
+<h4 id="func-importspec-end">func (*ImportSpec) End</h4>
+
+<pre><code class="language-go">func (s *ImportSpec) End() token.Pos
+</code></pre>
+
+<h4 id="func-importspec-pos">func (*ImportSpec) Pos</h4>
+
+<pre><code class="language-go">func (s *ImportSpec) Pos() token.Pos
+</code></pre>
+<p>Pos and End implementations for spec nodes.</p>
+
+<h4 id="type-importer">type Importer</h4>
+
+<pre><code class="language-go">type Importer func(imports map[string]*Object, path string) (pkg *Object, err error)
+</code></pre>
+
+<p>An Importer resolves import paths to package Objects. The imports map records<br />
+the packages already imported, indexed by package id (canonical import path). An<br />
+Importer must determine the canonical import path and check the map to see if it<br />
+is already present in the imports map. If so, the Importer can return the map<br />
+entry. Otherwise, the Importer should load the package data for the given path<br />
+into a new *Object (pkg), record pkg in the imports map, and then return pkg.</p>
+
+<h4 id="type-incdecstmt">type IncDecStmt</h4>
+
+<pre><code class="language-go">type IncDecStmt struct {
+	X      Expr
+	TokPos token.Pos   // position of Tok
+	Tok    token.Token // INC or DEC
+}
+</code></pre>
+
+<p>An IncDecStmt node represents an increment or decrement statement.</p>
+
+<h4 id="func-incdecstmt-end">func (*IncDecStmt) End</h4>
+
+<pre><code class="language-go">func (s *IncDecStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-incdecstmt-pos">func (*IncDecStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *IncDecStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-indexexpr">type IndexExpr</h4>
+
+<pre><code class="language-go">type IndexExpr struct {
+	X      Expr      // expression
+	Lbrack token.Pos // position of "["
+	Index  Expr      // index expression
+	Rbrack token.Pos // position of "]"
+}
+</code></pre>
+
+<p>An IndexExpr node represents an expression followed by an index.</p>
+
+<h4 id="func-indexexpr-end">func (*IndexExpr) End</h4>
+
+<pre><code class="language-go">func (x *IndexExpr) End() token.Pos
+</code></pre>
+
+<h4 id="func-indexexpr-pos">func (*IndexExpr) Pos</h4>
+
+<pre><code class="language-go">func (x *IndexExpr) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-interfacetype">type InterfaceType</h4>
+
+<pre><code class="language-go">type InterfaceType struct {
+	Interface  token.Pos  // position of "interface" keyword
+	Methods    *FieldList // list of methods
+	Incomplete bool       // true if (source) methods are missing in the Methods list
+}
+</code></pre>
+
+<p>An InterfaceType node represents an interface type.</p>
+
+<h4 id="func-interfacetype-end">func (*InterfaceType) End</h4>
+
+<pre><code class="language-go">func (x *InterfaceType) End() token.Pos
+</code></pre>
+
+<h4 id="func-interfacetype-pos">func (*InterfaceType) Pos</h4>
+
+<pre><code class="language-go">func (x *InterfaceType) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-keyvalueexpr">type KeyValueExpr</h4>
+
+<pre><code class="language-go">type KeyValueExpr struct {
+	Key   Expr
+	Colon token.Pos // position of ":"
+	Value Expr
+}
+</code></pre>
+
+<p>A KeyValueExpr node represents (key : value) pairs in composite literals.</p>
+
+<h4 id="func-keyvalueexpr-end">func (*KeyValueExpr) End</h4>
+
+<pre><code class="language-go">func (x *KeyValueExpr) End() token.Pos
+</code></pre>
+
+<h4 id="func-keyvalueexpr-pos">func (*KeyValueExpr) Pos</h4>
+
+<pre><code class="language-go">func (x *KeyValueExpr) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-labeledstmt">type LabeledStmt</h4>
+
+<pre><code class="language-go">type LabeledStmt struct {
+	Label *Ident
+	Colon token.Pos // position of ":"
+	Stmt  Stmt
+}
+</code></pre>
+
+<p>A LabeledStmt node represents a labeled statement.</p>
+
+<h4 id="func-labeledstmt-end">func (*LabeledStmt) End</h4>
+
+<pre><code class="language-go">func (s *LabeledStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-labeledstmt-pos">func (*LabeledStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *LabeledStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-maptype">type MapType</h4>
+
+<pre><code class="language-go">type MapType struct {
+	Map   token.Pos // position of "map" keyword
+	Key   Expr
+	Value Expr
+}
+</code></pre>
+
+<p>A MapType node represents a map type.</p>
+
+<h4 id="func-maptype-end">func (*MapType) End</h4>
+
+<pre><code class="language-go">func (x *MapType) End() token.Pos
+</code></pre>
+
+<h4 id="func-maptype-pos">func (*MapType) Pos</h4>
+
+<pre><code class="language-go">func (x *MapType) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-mergemode">type MergeMode</h4>
+
+<pre><code class="language-go">type MergeMode uint
+</code></pre>
+
+<p>The MergeMode flags control the behavior of MergePackageFiles.</p>
+
+<pre><code class="language-go">const (
+	// If set, duplicate function declarations are excluded.
+	FilterFuncDuplicates MergeMode = 1 &lt;&lt; iota
+	// If set, comments that are not associated with a specific
+	// AST node (as Doc or Comment) are excluded.
+	FilterUnassociatedComments
+	// If set, duplicate import declarations are excluded.
+	FilterImportDuplicates
+)
+</code></pre>
+
+<h4 id="type-node">type Node</h4>
+
+<pre><code class="language-go">type Node interface {
+	Pos() token.Pos // position of first character belonging to the node
+	End() token.Pos // position of first character immediately after the node
+}
+</code></pre>
+
+<p>All node types implement the Node interface.</p>
+
+<h4 id="type-objkind">type ObjKind</h4>
+
+<pre><code class="language-go">type ObjKind int
+</code></pre>
+
+<p>ObjKind describes what an object represents.</p>
+
+<pre><code class="language-go">const (
+	Bad   ObjKind = iota // for error handling
+	Pkg                  // package
+	Con                  // constant
+	Typ                  // type
+	Var                  // variable
+	Fun                  // function or method
+	Lbl                  // label
+	Antha                // Antha block
+)
+</code></pre>
+<p>The list of possible Object kinds.</p>
+
+<h4 id="func-objkind-string">func (ObjKind) String</h4>
+
+<pre><code class="language-go">func (kind ObjKind) String() string
+</code></pre>
+
+<h4 id="type-object">type Object</h4>
+
+<pre><code class="language-go">type Object struct {
+	Kind ObjKind
+	Name string      // declared name
+	Decl interface{} // corresponding Field, XxxSpec, FuncDecl, LabeledStmt, AssignStmt, Scope; or nil
+	Data interface{} // object-specific data; or nil
+	Type interface{} // place holder for type information; may be nil
+}
+</code></pre>
+
+<p>An Object describes a named language entity such as a package, constant, type,<br />
+variable, function (incl. methods), or label.</p>
+
+<p>The Data fields contains object-specific data:</p>
+
+<pre><code>Kind    Data type         Data value
+Pkg	*types.Package    package scope
+Con     int               iota for the respective declaration
+Con     != nil            constant value
+Typ     *Scope            (used as method scope during type checking - transient)
+</code></pre>
+
+<h4 id="func--newobj">func  NewObj</h4>
+
+<pre><code class="language-go">func NewObj(kind ObjKind, name string) *Object
+</code></pre>
+<p>NewObj creates a new object of a given kind and name.</p>
+
+<h4 id="func-object-pos">func (*Object) Pos</h4>
+
+<pre><code class="language-go">func (obj *Object) Pos() token.Pos
+</code></pre>
+<p>Pos computes the source position of the declaration of an object name. The<br />
+result may be an invalid position if it cannot be computed (obj.Decl may be nil<br />
+or not correct).</p>
+
+<h4 id="type-package">type Package</h4>
+
+<pre><code class="language-go">type Package struct {
+	Name    string             // package name
+	Scope   *Scope             // package scope across all files
+	Imports map[string]*Object // map of package id -&gt; package object
+	Files   map[string]*File   // Antha source files by filename
+}
+</code></pre>
+
+<p>A Package node represents a set of source files collectively building a Antha<br />
+package.</p>
+
+<h4 id="func--newpackage">func  NewPackage</h4>
+
+<pre><code class="language-go">func NewPackage(fset *token.FileSet, files map[string]*File, importer Importer, universe *Scope) (*Package, error)
+</code></pre>
+<p>NewPackage creates a new Package node from a set of File nodes. It resolves<br />
+unresolved identifiers across files and updates each file’s Unresolved list<br />
+accordingly. If a non-nil importer and universe scope are provided, they are<br />
+used to resolve identifiers not declared in any of the package files. Any<br />
+remaining unresolved identifiers are reported as undeclared. If the files belong<br />
+to different packages, one package name is selected and files with different<br />
+package names are reported and then ignored. The result is a package node and a<br />
+scanner.ErrorList if there were errors.</p>
+
+<h4 id="func-package-end">func (*Package) End</h4>
+
+<pre><code class="language-go">func (p *Package) End() token.Pos
+</code></pre>
+
+<h4 id="func-package-pos">func (*Package) Pos</h4>
+
+<pre><code class="language-go">func (p *Package) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-parenexpr">type ParenExpr</h4>
+
+<pre><code class="language-go">type ParenExpr struct {
+	Lparen token.Pos // position of "("
+	X      Expr      // parenthesized expression
+	Rparen token.Pos // position of ")"
+}
+</code></pre>
+
+<p>A ParenExpr node represents a parenthesized expression.</p>
+
+<h4 id="func-parenexpr-end">func (*ParenExpr) End</h4>
+
+<pre><code class="language-go">func (x *ParenExpr) End() token.Pos
+</code></pre>
+
+<h4 id="func-parenexpr-pos">func (*ParenExpr) Pos</h4>
+
+<pre><code class="language-go">func (x *ParenExpr) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-rangestmt">type RangeStmt</h4>
+
+<pre><code class="language-go">type RangeStmt struct {
+	For        token.Pos   // position of "for" keyword
+	Key, Value Expr        // Value may be nil
+	TokPos     token.Pos   // position of Tok
+	Tok        token.Token // ASSIGN, DEFINE
+	X          Expr        // value to range over
+	Body       *BlockStmt
+}
+</code></pre>
+
+<p>A RangeStmt represents a for statement with a range clause.</p>
+
+<h4 id="func-rangestmt-end">func (*RangeStmt) End</h4>
+
+<pre><code class="language-go">func (s *RangeStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-rangestmt-pos">func (*RangeStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *RangeStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-returnstmt">type ReturnStmt</h4>
+
+<pre><code class="language-go">type ReturnStmt struct {
+	Return  token.Pos // position of "return" keyword
+	Results []Expr    // result expressions; or nil
+}
+</code></pre>
+
+<p>A ReturnStmt node represents a return statement.</p>
+
+<h4 id="func-returnstmt-end">func (*ReturnStmt) End</h4>
+
+<pre><code class="language-go">func (s *ReturnStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-returnstmt-pos">func (*ReturnStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *ReturnStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-scope">type Scope</h4>
+
+<pre><code class="language-go">type Scope struct {
+	Outer   *Scope
+	Objects map[string]*Object
+}
+</code></pre>
+
+<p>A Scope maintains the set of named language entities declared in the scope and a<br />
+link to the immediately surrounding (outer) scope.</p>
+
+<h4 id="func--newscope">func  NewScope</h4>
+
+<pre><code class="language-go">func NewScope(outer *Scope) *Scope
+</code></pre>
+<p>NewScope creates a new scope nested in the outer scope.</p>
+
+<h4 id="func-scope-insert">func (*Scope) Insert</h4>
+
+<pre><code class="language-go">func (s *Scope) Insert(obj *Object) (alt *Object)
+</code></pre>
+<p>Insert attempts to insert a named object obj into the scope s. If the scope<br />
+already contains an object alt with the same name, Insert leaves the scope<br />
+unchanged and returns alt. Otherwise it inserts obj and returns nil.”</p>
+
+<h4 id="func-scope-lookup">func (*Scope) Lookup</h4>
+
+<pre><code class="language-go">func (s *Scope) Lookup(name string) *Object
+</code></pre>
+<p>Lookup returns the object with the given name if it is found in scope s,<br />
+otherwise it returns nil. Outer scopes are ignored.</p>
+
+<h4 id="func-scope-string">func (*Scope) String</h4>
+
+<pre><code class="language-go">func (s *Scope) String() string
+</code></pre>
+<p>Debugging support</p>
+
+<h4 id="type-selectstmt">type SelectStmt</h4>
+
+<pre><code class="language-go">type SelectStmt struct {
+	Select token.Pos  // position of "select" keyword
+	Body   *BlockStmt // CommClauses only
+}
+</code></pre>
+
+<p>An SelectStmt node represents a select statement.</p>
+
+<h4 id="func-selectstmt-end">func (*SelectStmt) End</h4>
+
+<pre><code class="language-go">func (s *SelectStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-selectstmt-pos">func (*SelectStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *SelectStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-selectorexpr">type SelectorExpr</h4>
+
+<pre><code class="language-go">type SelectorExpr struct {
+	X   Expr   // expression
+	Sel *Ident // field selector
+}
+</code></pre>
+
+<p>A SelectorExpr node represents an expression followed by a selector.</p>
+
+<h4 id="func-selectorexpr-end">func (*SelectorExpr) End</h4>
+
+<pre><code class="language-go">func (x *SelectorExpr) End() token.Pos
+</code></pre>
+
+<h4 id="func-selectorexpr-pos">func (*SelectorExpr) Pos</h4>
+
+<pre><code class="language-go">func (x *SelectorExpr) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-sendstmt">type SendStmt</h4>
+
+<pre><code class="language-go">type SendStmt struct {
+	Chan  Expr
+	Arrow token.Pos // position of "&lt;-"
+	Value Expr
+}
+</code></pre>
+
+<p>A SendStmt node represents a send statement.</p>
+
+<h4 id="func-sendstmt-end">func (*SendStmt) End</h4>
+
+<pre><code class="language-go">func (s *SendStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-sendstmt-pos">func (*SendStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *SendStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-sliceexpr">type SliceExpr</h4>
+
+<pre><code class="language-go">type SliceExpr struct {
+	X      Expr      // expression
+	Lbrack token.Pos // position of "["
+	Low    Expr      // begin of slice range; or nil
+	High   Expr      // end of slice range; or nil
+	Max    Expr      // maximum capacity of slice; or nil
+	Slice3 bool      // true if 3-index slice (2 colons present)
+	Rbrack token.Pos // position of "]"
+}
+</code></pre>
+
+<p>An SliceExpr node represents an expression followed by slice indices.</p>
+
+<h4 id="func-sliceexpr-end">func (*SliceExpr) End</h4>
+
+<pre><code class="language-go">func (x *SliceExpr) End() token.Pos
+</code></pre>
+
+<h4 id="func-sliceexpr-pos">func (*SliceExpr) Pos</h4>
+
+<pre><code class="language-go">func (x *SliceExpr) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-spec">type Spec</h4>
+
+<pre><code class="language-go">type Spec interface {
+	Node
+	// contains filtered or unexported methods
+}
+</code></pre>
+
+<p>The Spec type stands for any of *ImportSpec, *ValueSpec, and *TypeSpec.</p>
+
+<h4 id="type-starexpr">type StarExpr</h4>
+
+<pre><code class="language-go">type StarExpr struct {
+	Star token.Pos // position of "*"
+	X    Expr      // operand
+}
+</code></pre>
+
+<p>A StarExpr node represents an expression of the form “<em>” Expression.<br />
+Semantically it could be a unary “</em>” expression, or a pointer type.</p>
+
+<h4 id="func-starexpr-end">func (*StarExpr) End</h4>
+
+<pre><code class="language-go">func (x *StarExpr) End() token.Pos
+</code></pre>
+
+<h4 id="func-starexpr-pos">func (*StarExpr) Pos</h4>
+
+<pre><code class="language-go">func (x *StarExpr) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-stmt">type Stmt</h4>
+
+<pre><code class="language-go">type Stmt interface {
+	Node
+	// contains filtered or unexported methods
+}
+</code></pre>
+
+<p>All statement nodes implement the Stmt interface.</p>
+
+<h4 id="type-structtype">type StructType</h4>
+
+<pre><code class="language-go">type StructType struct {
+	Struct     token.Pos  // position of "struct" keyword
+	Fields     *FieldList // list of field declarations
+	Incomplete bool       // true if (source) fields are missing in the Fields list
+}
+</code></pre>
+
+<p>A StructType node represents a struct type.</p>
+
+<h4 id="func-structtype-end">func (*StructType) End</h4>
+
+<pre><code class="language-go">func (x *StructType) End() token.Pos
+</code></pre>
+
+<h4 id="func-structtype-pos">func (*StructType) Pos</h4>
+
+<pre><code class="language-go">func (x *StructType) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-switchstmt">type SwitchStmt</h4>
+
+<pre><code class="language-go">type SwitchStmt struct {
+	Switch token.Pos  // position of "switch" keyword
+	Init   Stmt       // initialization statement; or nil
+	Tag    Expr       // tag expression; or nil
+	Body   *BlockStmt // CaseClauses only
+}
+</code></pre>
+
+<p>A SwitchStmt node represents an expression switch statement.</p>
+
+<h4 id="func-switchstmt-end">func (*SwitchStmt) End</h4>
+
+<pre><code class="language-go">func (s *SwitchStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-switchstmt-pos">func (*SwitchStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *SwitchStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-typeassertexpr">type TypeAssertExpr</h4>
+
+<pre><code class="language-go">type TypeAssertExpr struct {
+	X      Expr      // expression
+	Lparen token.Pos // position of "("
+	Type   Expr      // asserted type; nil means type switch X.(type)
+	Rparen token.Pos // position of ")"
+}
+</code></pre>
+
+<p>A TypeAssertExpr node represents an expression followed by a type assertion.</p>
+
+<h4 id="func-typeassertexpr-end">func (*TypeAssertExpr) End</h4>
+
+<pre><code class="language-go">func (x *TypeAssertExpr) End() token.Pos
+</code></pre>
+
+<h4 id="func-typeassertexpr-pos">func (*TypeAssertExpr) Pos</h4>
+
+<pre><code class="language-go">func (x *TypeAssertExpr) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-typespec">type TypeSpec</h4>
+
+<pre><code class="language-go">type TypeSpec struct {
+	Doc     *CommentGroup // associated documentation; or nil
+	Name    *Ident        // type name
+	Type    Expr          // *Ident, *ParenExpr, *SelectorExpr, *StarExpr, or any of the *XxxTypes
+	Comment *CommentGroup // line comments; or nil
+}
+</code></pre>
+
+<p>A TypeSpec node represents a type declaration (TypeSpec production).</p>
+
+<h4 id="func-typespec-end">func (*TypeSpec) End</h4>
+
+<pre><code class="language-go">func (s *TypeSpec) End() token.Pos
+</code></pre>
+
+<h4 id="func-typespec-pos">func (*TypeSpec) Pos</h4>
+
+<pre><code class="language-go">func (s *TypeSpec) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-typeswitchstmt">type TypeSwitchStmt</h4>
+
+<pre><code class="language-go">type TypeSwitchStmt struct {
+	Switch token.Pos  // position of "switch" keyword
+	Init   Stmt       // initialization statement; or nil
+	Assign Stmt       // x := y.(type) or y.(type)
+	Body   *BlockStmt // CaseClauses only
+}
+</code></pre>
+
+<p>An TypeSwitchStmt node represents a type switch statement.</p>
+
+<h4 id="func-typeswitchstmt-end">func (*TypeSwitchStmt) End</h4>
+
+<pre><code class="language-go">func (s *TypeSwitchStmt) End() token.Pos
+</code></pre>
+
+<h4 id="func-typeswitchstmt-pos">func (*TypeSwitchStmt) Pos</h4>
+
+<pre><code class="language-go">func (s *TypeSwitchStmt) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-unaryexpr">type UnaryExpr</h4>
+
+<pre><code class="language-go">type UnaryExpr struct {
+	OpPos token.Pos   // position of Op
+	Op    token.Token // operator
+	X     Expr        // operand
+}
+</code></pre>
+
+<p>A UnaryExpr node represents a unary expression. Unary “*” expressions are<br />
+represented via StarExpr nodes.</p>
+
+<h4 id="func-unaryexpr-end">func (*UnaryExpr) End</h4>
+
+<pre><code class="language-go">func (x *UnaryExpr) End() token.Pos
+</code></pre>
+
+<h4 id="func-unaryexpr-pos">func (*UnaryExpr) Pos</h4>
+
+<pre><code class="language-go">func (x *UnaryExpr) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-valuespec">type ValueSpec</h4>
+
+<pre><code class="language-go">type ValueSpec struct {
+	Doc     *CommentGroup // associated documentation; or nil
+	Names   []*Ident      // value names (len(Names) &gt; 0)
+	Type    Expr          // value type; or nil
+	Values  []Expr        // initial values; or nil
+	Comment *CommentGroup // line comments; or nil
+}
+</code></pre>
+
+<p>A ValueSpec node represents a constant or variable declaration (ConstSpec or<br />
+VarSpec production).</p>
+
+<h4 id="func-valuespec-end">func (*ValueSpec) End</h4>
+
+<pre><code class="language-go">func (s *ValueSpec) End() token.Pos
+</code></pre>
+
+<h4 id="func-valuespec-pos">func (*ValueSpec) Pos</h4>
+
+<pre><code class="language-go">func (s *ValueSpec) Pos() token.Pos
+</code></pre>
+
+<h4 id="type-visitor">type Visitor</h4>
+
+<pre><code class="language-go">type Visitor interface {
+	Visit(node Node) (w Visitor)
+}
+</code></pre>
+
+<p>A Visitor’s Visit method is invoked for each node encountered by Walk. If the<br />
+result visitor w is not nil, Walk visits each of the children of node with the<br />
+visitor w, followed by a call of w.Visit(nil).</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - antha/token">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    antha/token - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="antha/token">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="docs" shortname="antha/token" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>antha/token</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/antha/token.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>antha/token</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="token">token</h1>
+<p>–</p>
+
+<p>Package token defines constants representing the lexical tokens of the Antha<br />
+programming language and basic operations on tokens (printing, predicates).</p>
+
+<h2 id="usage">Usage</h2>
+
+<pre><code class="language-go">const (
+	LowestPrec  = 0 // non-operators
+	UnaryPrec   = 6
+	HighestPrec = 7
+)
+</code></pre>
+<p>A set of constants for precedence-based expression parsing. Non-operators have<br />
+lowest precedence, followed by operators starting with precedence 1 up to unary<br />
+operators. The highest precedence serves as “catch-all” precedence for selector,<br />
+indexing, and other operator and delimiter tokens.</p>
+
+<h4 id="type-file">type File</h4>
+
+<pre><code class="language-go">type File struct {
+}
+</code></pre>
+
+<p>A File is a handle for a file belonging to a FileSet. A File has a name, size,<br />
+and line offset table.</p>
+
+<h4 id="func-file-addline">func (*File) AddLine</h4>
+
+<pre><code class="language-go">func (f *File) AddLine(offset int)
+</code></pre>
+<p>AddLine adds the line offset for a new line. The line offset must be larger than<br />
+the offset for the previous line and smaller than the file size; otherwise the<br />
+line offset is ignored.</p>
+
+<h4 id="func-file-addlineinfo">func (*File) AddLineInfo</h4>
+
+<pre><code class="language-go">func (f *File) AddLineInfo(offset int, filename string, line int)
+</code></pre>
+<p>AddLineInfo adds alternative file and line number information for a given file<br />
+offset. The offset must be larger than the offset for the previously added<br />
+alternative line info and smaller than the file size; otherwise the information<br />
+is ignored.</p>
+
+<p>AddLineInfo is typically used to register alternative position information for<br />
+//line filename:line comments in source files.</p>
+
+<h4 id="func-file-base">func (*File) Base</h4>
+
+<pre><code class="language-go">func (f *File) Base() int
+</code></pre>
+<p>Base returns the base offset of file f as registered with AddFile.</p>
+
+<h4 id="func-file-line">func (*File) Line</h4>
+
+<pre><code class="language-go">func (f *File) Line(p Pos) int
+</code></pre>
+<p>Line returns the line number for the given file position p; p must be a Pos<br />
+value in that file or NoPos.</p>
+
+<h4 id="func-file-linecount">func (*File) LineCount</h4>
+
+<pre><code class="language-go">func (f *File) LineCount() int
+</code></pre>
+<p>LineCount returns the number of lines in file f.</p>
+
+<h4 id="func-file-mergeline">func (*File) MergeLine</h4>
+
+<pre><code class="language-go">func (f *File) MergeLine(line int)
+</code></pre>
+<p>MergeLine merges a line with the following line. It is akin to replacing the<br />
+newline character at the end of the line with a space (to not change the<br />
+remaining offsets). To obtain the line number, consult e.g. Position.Line.<br />
+MergeLine will panic if given an invalid line number.</p>
+
+<h4 id="func-file-name">func (*File) Name</h4>
+
+<pre><code class="language-go">func (f *File) Name() string
+</code></pre>
+<p>Name returns the file name of file f as registered with AddFile.</p>
+
+<h4 id="func-file-offset">func (*File) Offset</h4>
+
+<pre><code class="language-go">func (f *File) Offset(p Pos) int
+</code></pre>
+<p>Offset returns the offset for the given file position p; p must be a valid Pos<br />
+value in that file. f.Offset(f.Pos(offset)) == offset.</p>
+
+<h4 id="func-file-pos">func (*File) Pos</h4>
+
+<pre><code class="language-go">func (f *File) Pos(offset int) Pos
+</code></pre>
+<p>Pos returns the Pos value for the given file offset; the offset must be &lt;=<br />
+f.Size(). f.Pos(f.Offset(p)) == p.</p>
+
+<h4 id="func-file-position">func (*File) Position</h4>
+
+<pre><code class="language-go">func (f *File) Position(p Pos) (pos Position)
+</code></pre>
+<p>Position returns the Position value for the given file position p; p must be a<br />
+Pos value in that file or NoPos.</p>
+
+<h4 id="func-file-setlines">func (*File) SetLines</h4>
+
+<pre><code class="language-go">func (f *File) SetLines(lines []int) bool
+</code></pre>
+<p>SetLines sets the line offsets for a file and returns true if successful. The<br />
+line offsets are the offsets of the first character of each line; for instance<br />
+for the content “ab\nc\n” the line offsets are {0, 3}. An empty file has an<br />
+empty line offset table. Each line offset must be larger than the offset for the<br />
+previous line and smaller than the file size; otherwise SetLines fails and<br />
+returns false.</p>
+
+<h4 id="func-file-setlinesforcontent">func (*File) SetLinesForContent</h4>
+
+<pre><code class="language-go">func (f *File) SetLinesForContent(content []byte)
+</code></pre>
+<p>SetLinesForContent sets the line offsets for the given file content.</p>
+
+<h4 id="func-file-size">func (*File) Size</h4>
+
+<pre><code class="language-go">func (f *File) Size() int
+</code></pre>
+<p>Size returns the size of file f as registered with AddFile.</p>
+
+<h4 id="type-fileset">type FileSet</h4>
+
+<pre><code class="language-go">type FileSet struct {
+}
+</code></pre>
+
+<p>A FileSet represents a set of source files. Methods of file sets are<br />
+synchronized; multiple goroutines may invoke them concurrently.</p>
+
+<h4 id="func--newfileset">func  NewFileSet</h4>
+
+<pre><code class="language-go">func NewFileSet() *FileSet
+</code></pre>
+<p>NewFileSet creates a new file set.</p>
+
+<h4 id="func-fileset-addfile">func (*FileSet) AddFile</h4>
+
+<pre><code class="language-go">func (s *FileSet) AddFile(filename string, base, size int) *File
+</code></pre>
+<p>AddFile adds a new file with a given filename, base offset, and file size to the<br />
+file set s and returns the file. Multiple files may have the same name. The base<br />
+offset must not be smaller than the FileSet’s Base(), and size must not be<br />
+negative. As a special case, if a negative base is provided, the current value<br />
+of the FileSet’s Base() is used instead.</p>
+
+<p>Adding the file will set the file set’s Base() value to base + size + 1 as the<br />
+minimum base value for the next file. The following relationship exists between<br />
+a Pos value p for a given file offset offs:</p>
+
+<pre><code>int(p) = base + offs
+</code></pre>
+
+<p>with offs in the range [0, size] and thus p in the range [base, base+size]. For<br />
+convenience, File.Pos may be used to create file-specific position values from a<br />
+file offset.</p>
+
+<h4 id="func-fileset-base">func (*FileSet) Base</h4>
+
+<pre><code class="language-go">func (s *FileSet) Base() int
+</code></pre>
+<p>Base returns the minimum base offset that must be provided to AddFile when<br />
+adding the next file.</p>
+
+<h4 id="func-fileset-file">func (*FileSet) File</h4>
+
+<pre><code class="language-go">func (s *FileSet) File(p Pos) (f *File)
+</code></pre>
+<p>File returns the file that contains the position p. If no such file is found<br />
+(for instance for p == NoPos), the result is nil.</p>
+
+<h4 id="func-fileset-iterate">func (*FileSet) Iterate</h4>
+
+<pre><code class="language-go">func (s *FileSet) Iterate(f func(*File) bool)
+</code></pre>
+<p>Iterate calls f for the files in the file set in the order they were added until<br />
+f returns false.</p>
+
+<h4 id="func-fileset-position">func (*FileSet) Position</h4>
+
+<pre><code class="language-go">func (s *FileSet) Position(p Pos) (pos Position)
+</code></pre>
+<p>Position converts a Pos in the fileset into a general Position.</p>
+
+<h4 id="func-fileset-read">func (*FileSet) Read</h4>
+
+<pre><code class="language-go">func (s *FileSet) Read(decode func(interface{}) error) error
+</code></pre>
+<p>Read calls decode to deserialize a file set into s; s must not be nil.</p>
+
+<h4 id="func-fileset-write">func (*FileSet) Write</h4>
+
+<pre><code class="language-go">func (s *FileSet) Write(encode func(interface{}) error) error
+</code></pre>
+<p>Write calls encode to serialize the file set s.</p>
+
+<h4 id="type-pos">type Pos</h4>
+
+<pre><code class="language-go">type Pos int
+</code></pre>
+
+<p>Pos is a compact encoding of a source position within a file set. It can be<br />
+converted into a Position for a more convenient, but much larger,<br />
+representation.</p>
+
+<p>The Pos value for a given file is a number in the range [base, base+size], where<br />
+base and size are specified when adding the file to the file set via AddFile.</p>
+
+<p>To create the Pos value for a specific source offset, first add the respective<br />
+file to the current file set (via FileSet.AddFile) and then call<br />
+File.Pos(offset) for that file. Given a Pos value p for a specific file set<br />
+fset, the corresponding Position value is obtained by calling fset.Position(p).</p>
+
+<p>Pos values can be compared directly with the usual comparison operators: If two<br />
+Pos values p and q are in the same file, comparing p and q is equivalent to<br />
+comparing the respective source file offsets. If p and q are in different files,<br />
+p &lt; q is true if the file implied by p was added to the respective file set<br />
+before the file implied by q.</p>
+
+<pre><code class="language-go">const NoPos Pos = 0
+</code></pre>
+<p>The zero value for Pos is NoPos; there is no file and line information<br />
+associated with it, and NoPos().IsValid() is false. NoPos is always smaller than<br />
+any other Pos value. The corresponding Position value for NoPos is the zero<br />
+value for Position.</p>
+
+<h4 id="func-pos-isvalid">func (Pos) IsValid</h4>
+
+<pre><code class="language-go">func (p Pos) IsValid() bool
+</code></pre>
+<p>IsValid returns true if the position is valid.</p>
+
+<h4 id="type-position">type Position</h4>
+
+<pre><code class="language-go">type Position struct {
+	Filename string // filename, if any
+	Offset   int    // offset, starting at 0
+	Line     int    // line number, starting at 1
+	Column   int    // column number, starting at 1 (character count)
+}
+</code></pre>
+
+<p>Position describes an arbitrary source position including the file, line, and<br />
+column location. A Position is valid if the line number is &gt; 0.</p>
+
+<h4 id="func-position-isvalid">func (*Position) IsValid</h4>
+
+<pre><code class="language-go">func (pos *Position) IsValid() bool
+</code></pre>
+<p>IsValid returns true if the position is valid.</p>
+
+<h4 id="func-position-string">func (Position) String</h4>
+
+<pre><code class="language-go">func (pos Position) String() string
+</code></pre>
+<p>String returns a string in one of several forms:</p>
+
+<pre><code>file:line:column    valid position with file name
+line:column         valid position without file name
+file                invalid position with file name
+-                   invalid position without file name
+</code></pre>
+
+<h4 id="type-token">type Token</h4>
+
+<pre><code class="language-go">type Token int
+</code></pre>
+
+<p>Token is the set of lexical tokens of the Antha programming language.</p>
+
+<pre><code class="language-go">const (
+	// Special tokens
+	ILLEGAL Token = iota
+	EOF
+	COMMENT
+
+	// Identifiers and basic type literals
+	// (these tokens stand for classes of literals)
+	IDENT  // main
+	INT    // 12345
+	FLOAT  // 123.45
+	IMAG   // 123.45i
+	CHAR   // 'a'
+	STRING // "abc"
+
+	// Operators and delimiters
+	ADD // +
+	SUB // -
+	MUL // *
+	QUO // /
+	REM // %
+
+	AND     // &amp;
+	OR      // |
+	XOR     // ^
+	SHL     // &lt;&lt;
+	SHR     // &gt;&gt;
+	AND_NOT // &amp;^
+
+	ADD_ASSIGN // +=
+	SUB_ASSIGN // -=
+	MUL_ASSIGN // *=
+	QUO_ASSIGN // /=
+	REM_ASSIGN // %=
+
+	AND_ASSIGN     // &amp;=
+	OR_ASSIGN      // |=
+	XOR_ASSIGN     // ^=
+	SHL_ASSIGN     // &lt;&lt;=
+	SHR_ASSIGN     // &gt;&gt;=
+	AND_NOT_ASSIGN // &amp;^=
+
+	LAND  // &amp;&amp;
+	LOR   // ||
+	ARROW // &lt;-
+	INC   // ++
+	DEC   // --
+
+	EQL    // ==
+	LSS    // &lt;
+	GTR    // &gt;
+	ASSIGN // =
+	NOT    // !
+
+	NEQ      // !=
+	LEQ      // &lt;=
+	GEQ      // &gt;=
+	DEFINE   // :=
+	ELLIPSIS // ...
+
+	LPAREN // (
+	LBRACK // [
+	LBRACE // {
+	COMMA  // ,
+	PERIOD // .
+
+	RPAREN    // )
+	RBRACK    // ]
+	RBRACE    // }
+	SEMICOLON // ;
+	COLON     // :
+
+	// Keywords
+	BREAK
+	CASE
+	CHAN
+	CONST
+	CONTINUE
+
+	DEFAULT
+	DEFER
+	ELSE
+	FALLTHROUGH
+	FOR
+
+	FUNC
+	GO
+	GOTO
+	IF
+	IMPORT
+
+	INTERFACE
+	MAP
+	PACKAGE
+	RANGE
+	RETURN
+
+	SELECT
+	STRUCT
+	SWITCH
+	TYPE
+	VAR
+
+	// Antha extensions
+	PROTOCOL
+	PARAMETERS
+	DATA
+	INPUTS
+	REQUIREMENTS
+	SETUP
+	STEPS
+	OUTPUTS
+	ANALYSIS
+	VALIDATION
+)
+</code></pre>
+<p>The list of tokens.</p>
+
+<h4 id="func--lookup">func  Lookup</h4>
+
+<pre><code class="language-go">func Lookup(ident string) Token
+</code></pre>
+<p>Lookup maps an identifier to its keyword token or IDENT (if not a keyword).</p>
+
+<h4 id="func-token-iskeyword">func (Token) IsKeyword</h4>
+
+<pre><code class="language-go">func (tok Token) IsKeyword() bool
+</code></pre>
+<p>IsKeyword returns true for tokens corresponding to keywords; it returns false<br />
+otherwise.</p>
+
+<h4 id="func-token-isliteral">func (Token) IsLiteral</h4>
+
+<pre><code class="language-go">func (tok Token) IsLiteral() bool
+</code></pre>
+<p>IsLiteral returns true for tokens corresponding to identifiers and basic type<br />
+literals; it returns false otherwise.</p>
+
+<h4 id="func-token-isoperator">func (Token) IsOperator</h4>
+
+<pre><code class="language-go">func (tok Token) IsOperator() bool
+</code></pre>
+<p>IsOperator returns true for tokens corresponding to operators and delimiters; it<br />
+returns false otherwise.</p>
+
+<h4 id="func-token-precedence">func (Token) Precedence</h4>
+
+<pre><code class="language-go">func (op Token) Precedence() int
+</code></pre>
+<p>Precedence returns the operator precedence of the binary operator op. If op is<br />
+not a binary operator, the result is LowestPrecedence.</p>
+
+<h4 id="func-token-string">func (Token) String</h4>
+
+<pre><code class="language-go">func (tok Token) String() string
+</code></pre>
+<p>String returns the string corresponding to the token tok. For operators,<br />
+delimiters, and keywords the string is the actual token character sequence<br />
+(e.g., for the token ADD, the string is “+”). For all other tokens the string<br />
+corresponds to the token constant name (e.g. for the token IDENT, the string is<br />
+“IDENT”).</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>

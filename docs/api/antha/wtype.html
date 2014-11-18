@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Organization">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="RvtWEWrocoYtDU6-Q3NSHTzz4xoBaajomeqfLuNUNn0" />
+<meta itemprop="name" content="Antha - anthalib/wtype">
+<meta itemprop="description" content="Antha is a high level language for describing biological protocols, workflows, and experiments. Antha also provides execution capabilities for both robots or manual processes.">
+
+
+<meta itemprop="image" content="http://www.antha-lang.org/images/instacod.png">
+
+
+<title>
+  
+    anthalib/wtype - 
+   Antha
+</title>
+<link rel="shortcut icon" href="/images/logos/a-logo-32.png">
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+
+
+  <link href="/css/site2.css" rel="stylesheet">
+
+<link href="/css/site2_sd_rules.css" rel="stylesheet" shim-shadowdom>
+
+
+
+<script src="/js/webcomponents.min.js"></script>
+<!-- TODO: remove when https://github.com/Polymer/polymer/issues/391 is fixed -->
+<link rel="import" href="/components/polymer/polymer.html">
+
+
+  <link rel="import" href="/elements/common_elements.vulcanized.html">
+
+
+</head>
+<body id="anthalib/wtype">
+
+<main id="content-container">
+  <app-drawer id="sidebar" unresolved>
+    <div layout vertical id="sidebar-content">
+      <div id="logo-container" layout horizontal center>
+        <a href="/" class="logo"><img src="/images/logos/a-logo-color-416.svg" width="242" height="80"></a>
+        <core-icon id="dropdown-toggle" icon="arrow-drop-down"></core-icon>
+      </div>
+
+      <dropdown-panel>
+  <core-item icon="book" label="Start" >
+    <a href="/docs/intro.html"></a>
+  </core-item>
+  <core-item icon="drive-document" label="Docs" active>
+    <a href="/docs/index.html"></a>
+  </core-item>
+  <core-item icon="list" label="Resources" >
+    <a href="/resources/faq.html"></a>
+  </core-item>
+</dropdown-panel>
+
+
+      <docs-menu unresolved menu="docs" flex></docs-menu>
+    </div>
+  </app-drawer>
+
+  <scroll-area sidebar unresolved>
+    <site-banner type="api" navgroup="docs" shortname="anthalib/wtype" unresolved>
+      
+
+<app-bar theme="light" class="bar fixed" unresolved>
+  <a href="/docs/intro.html" class="paper-button " borderless sink>Learn</a>
+  <a href="/docs/index.html" class="paper-button active" borderless sink>Docs</a>
+  <a href="/resources/faq.html" class="paper-button " borderless sink>Resources</a>
+</app-bar>
+
+      <header>
+        <h1>anthalib/wtype</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+    </site-banner>
+
+    
+    
+
+    <article class="show-permalinks">
+      <span class="edit-on-github">
+  <a href="https://github.com/Synthace/docs/edit/master/docs/api/antha/wtype.md">Edit on Github</a>
+</span>
+<div><!-- intentionally blank --></div>
+
+      <header class="onlyonmobile">
+        <h1>anthalib/wtype</h1>
+        
+          <summary>APIS</summary>
+        
+      </header>
+
+      <h1 id="wtype">wtype</h1>
+<p>–</p>
+
+<h2 id="usage">Usage</h2>
+
+<pre><code class="language-go">var MatterLib map[string]GenericMatter
+</code></pre>
+<p>map of matter types</p>
+
+<h4 id="func--getmatterlib">func  GetMatterLib</h4>
+
+<pre><code class="language-go">func GetMatterLib(fn string) (*(map[string]GenericMatter), error)
+</code></pre>
+<p>deserializes matter library from a JSON map structure</p>
+
+<h4 id="func--makematterlib">func  MakeMatterLib</h4>
+
+<pre><code class="language-go">func MakeMatterLib() map[string]GenericMatter
+</code></pre>
+<p>make the initial matter library. This will eventually be deprecated.</p>
+
+<h4 id="func--newliquid">func  NewLiquid</h4>
+
+<pre><code class="language-go">func NewLiquid(liquidtype string, amount float64)
+</code></pre>
+
+<h4 id="type-biosequence">type BioSequence</h4>
+
+<pre><code class="language-go">type BioSequence interface {
+	Sequence() string
+}
+</code></pre>
+
+<p>defines things which have biosequences… useful for operations valid on<br />
+biosequences such as BLASTing / other alignment methods</p>
+
+<h4 id="type-chiller">type Chiller</h4>
+
+<pre><code class="language-go">type Chiller interface {
+	Cool(p Physical, t wunit.Temperature)
+	CoolingRate() wunit.Measurement
+}
+</code></pre>
+
+<p>device capable of decreasing the temperature</p>
+
+<h4 id="type-compositedevice">type CompositeDevice</h4>
+
+<pre><code class="language-go">type CompositeDevice struct {
+	Mf         string
+	Tp         string
+	Components []*Device
+}
+</code></pre>
+
+<p>structure to define interface to a physical device which can perform more than<br />
+one operation</p>
+
+<h4 id="func-compositedevice-manufacturer">func (*CompositeDevice) Manufacturer</h4>
+
+<pre><code class="language-go">func (cd *CompositeDevice) Manufacturer() string
+</code></pre>
+
+<h4 id="func-compositedevice-ready">func (*CompositeDevice) Ready</h4>
+
+<pre><code class="language-go">func (cd *CompositeDevice) Ready() bool
+</code></pre>
+<p>the default for the whole device is to AND the Ready()s for the whole set of<br />
+devices</p>
+
+<h4 id="func-compositedevice-type">func (*CompositeDevice) Type</h4>
+
+<pre><code class="language-go">func (cd *CompositeDevice) Type() string
+</code></pre>
+
+<h4 id="type-container">type Container</h4>
+
+<pre><code class="language-go">type Container interface {
+	Solid
+	ContainerVolume() wunit.Volume // this can be deferred to its Shape()
+	Contents() []Physical
+	Add(p Physical)
+	Remove(v wunit.Volume) Physical
+	ContainerType() string
+	PartOf() *Entity
+	Empty() bool
+}
+</code></pre>
+
+<p>defines something as being able to have contents must be a solid object but does<br />
+not have to be an entity</p>
+
+<h4 id="type-dna">type DNA</h4>
+
+<pre><code class="language-go">type DNA struct {
+	GenericPhysical
+	Seq DNASequence
+}
+</code></pre>
+
+<p>defines something as physical DNA hence it is physical and has a DNASequence</p>
+
+<h4 id="type-dnasequence">type DNASequence</h4>
+
+<pre><code class="language-go">type DNASequence struct {
+	Seq string
+}
+</code></pre>
+
+<p>DNAsequence is a type of Biosequence</p>
+
+<h4 id="func-dnasequence-sequence">func (*DNASequence) Sequence</h4>
+
+<pre><code class="language-go">func (dna *DNASequence) Sequence() string
+</code></pre>
+
+<h4 id="type-desealer">type DeSealer</h4>
+
+<pre><code class="language-go">type DeSealer interface {
+	Peel(s Sealed) Solid
+}
+</code></pre>
+
+<p>device capable of desealing labware</p>
+
+<h4 id="type-device">type Device</h4>
+
+<pre><code class="language-go">type Device interface {
+	Solid
+	Manufacturer() string
+	Type() string
+	Ready() bool
+}
+</code></pre>
+
+<p>device interface type</p>
+
+<h4 id="type-entity">type Entity</h4>
+
+<pre><code class="language-go">type Entity interface {
+	// Entities must be solid objects
+	Solid
+	// dummy method since there is no obvious set of methods to define this
+	IsEntity()
+}
+</code></pre>
+
+<p>The Entity interface declares that this object is an independently movable thing</p>
+
+<h4 id="type-environment">type Environment</h4>
+
+<pre><code class="language-go">type Environment struct {
+	Temp        wunit.Temperature
+	Pres        wunit.Pressure
+	Composition []Physical
+}
+</code></pre>
+
+<p>datatype to define the surroundings it keeps track of the temperature, pressure<br />
+and any physical components such as the gaseous composition</p>
+
+<h4 id="type-enzyme">type Enzyme</h4>
+
+<pre><code class="language-go">type Enzyme struct {
+	Properties map[string]wunit.Measurement
+}
+</code></pre>
+
+<p>structure which defines an enzyme – solutions containing enzymes need careful<br />
+handling as they can be quite delicate</p>
+
+<h4 id="type-gas">type Gas</h4>
+
+<pre><code class="language-go">type Gas interface {
+	Physical
+	Gas()
+}
+</code></pre>
+
+<p>so far the best definition of this is not-solid-or-liquid…</p>
+
+<h4 id="type-genericdevice">type GenericDevice</h4>
+
+<pre><code class="language-go">type GenericDevice struct {
+	Mf    string
+	Tp    string
+	State bool
+}
+</code></pre>
+
+<p>Generic device structure defining the manufacturer device type and current state<br />
+(true/false indicating “ready/not ready”)</p>
+
+<h4 id="func-genericdevice-manufacturer">func (*GenericDevice) Manufacturer</h4>
+
+<pre><code class="language-go">func (gd *GenericDevice) Manufacturer() string
+</code></pre>
+
+<h4 id="func-genericdevice-ready">func (*GenericDevice) Ready</h4>
+
+<pre><code class="language-go">func (gd *GenericDevice) Ready() bool
+</code></pre>
+
+<h4 id="func-genericdevice-type">func (*GenericDevice) Type</h4>
+
+<pre><code class="language-go">func (gd *GenericDevice) Type() string
+</code></pre>
+
+<h4 id="type-genericentity">type GenericEntity</h4>
+
+<pre><code class="language-go">type GenericEntity struct {
+	GenericSolid
+}
+</code></pre>
+
+<p>a simple structure to allow a generic entity class to be defined</p>
+
+<h4 id="func-genericentity-isentity">func (*GenericEntity) IsEntity</h4>
+
+<pre><code class="language-go">func (ge *GenericEntity) IsEntity()
+</code></pre>
+<p>dummy method required so that GenericEntity implements Entity</p>
+
+<h4 id="type-genericliquid">type GenericLiquid</h4>
+
+<pre><code class="language-go">type GenericLiquid struct {
+	GenericPhysical
+}
+</code></pre>
+
+<p>Structure which defines a generic liquid</p>
+
+<h4 id="func--newgenericliquid">func  NewGenericLiquid</h4>
+
+<pre><code class="language-go">func NewGenericLiquid(name string, mattertype string, volume wunit.Volume) GenericLiquid
+</code></pre>
+<p>factory method for creating a new generic liquid</p>
+
+<h4 id="func-genericliquid-clone">func (*GenericLiquid) Clone</h4>
+
+<pre><code class="language-go">func (gl *GenericLiquid) Clone() GenericLiquid
+</code></pre>
+
+<h4 id="func-genericliquid-sample">func (*GenericLiquid) Sample</h4>
+
+<pre><code class="language-go">func (gl *GenericLiquid) Sample(v wunit.Volume) Liquid
+</code></pre>
+<p>sample method for a generic liquid</p>
+
+<h4 id="func-genericliquid-viscosity">func (*GenericLiquid) Viscosity</h4>
+
+<pre><code class="language-go">func (gl *GenericLiquid) Viscosity() float64
+</code></pre>
+
+<h4 id="type-genericmatter">type GenericMatter</h4>
+
+<pre><code class="language-go">type GenericMatter struct {
+	Iname string
+	Imp   wunit.Temperature
+	Ibp   wunit.Temperature
+	Ishc  wunit.SpecificHeatCapacity
+}
+</code></pre>
+
+<p>structure defining data items required for defining matter</p>
+
+<h4 id="func--matterbyname">func  MatterByName</h4>
+
+<pre><code class="language-go">func MatterByName(name string) GenericMatter
+</code></pre>
+<p>Functions for dealing with matter</p>
+
+<h4 id="func-genericmatter-boilingpoint">func (*GenericMatter) BoilingPoint</h4>
+
+<pre><code class="language-go">func (gm *GenericMatter) BoilingPoint() wunit.Temperature
+</code></pre>
+
+<h4 id="func-genericmatter-clone">func (*GenericMatter) Clone</h4>
+
+<pre><code class="language-go">func (gm *GenericMatter) Clone() GenericMatter
+</code></pre>
+
+<h4 id="func-genericmatter-mattertype">func (*GenericMatter) MatterType</h4>
+
+<pre><code class="language-go">func (gm *GenericMatter) MatterType() string
+</code></pre>
+
+<h4 id="func-genericmatter-meltingpoint">func (*GenericMatter) MeltingPoint</h4>
+
+<pre><code class="language-go">func (gm *GenericMatter) MeltingPoint() wunit.Temperature
+</code></pre>
+
+<h4 id="func-genericmatter-specificheatcapacity">func (*GenericMatter) SpecificHeatCapacity</h4>
+
+<pre><code class="language-go">func (gm *GenericMatter) SpecificHeatCapacity() wunit.SpecificHeatCapacity
+</code></pre>
+
+<h4 id="type-genericphysical">type GenericPhysical</h4>
+
+<pre><code class="language-go">type GenericPhysical struct {
+	GenericMatter
+}
+</code></pre>
+
+<p>GenericPhysical structure: holds data items required to define a physical object</p>
+
+<h4 id="func--newgenericphysical">func  NewGenericPhysical</h4>
+
+<pre><code class="language-go">func NewGenericPhysical(mattertype string) GenericPhysical
+</code></pre>
+
+<h4 id="func-genericphysical-clone">func (*GenericPhysical) Clone</h4>
+
+<pre><code class="language-go">func (gp *GenericPhysical) Clone() GenericPhysical
+</code></pre>
+
+<h4 id="func-genericphysical-density">func (*GenericPhysical) Density</h4>
+
+<pre><code class="language-go">func (gp *GenericPhysical) Density() wunit.Density
+</code></pre>
+
+<h4 id="func-genericphysical-mass">func (*GenericPhysical) Mass</h4>
+
+<pre><code class="language-go">func (gp *GenericPhysical) Mass() wunit.Mass
+</code></pre>
+
+<h4 id="func-genericphysical-name">func (*GenericPhysical) Name</h4>
+
+<pre><code class="language-go">func (gp *GenericPhysical) Name() string
+</code></pre>
+
+<h4 id="func-genericphysical-setmass">func (*GenericPhysical) SetMass</h4>
+
+<pre><code class="language-go">func (gp *GenericPhysical) SetMass(m wunit.Mass) wunit.Mass
+</code></pre>
+
+<h4 id="func-genericphysical-setname">func (*GenericPhysical) SetName</h4>
+
+<pre><code class="language-go">func (gp *GenericPhysical) SetName(s string) string
+</code></pre>
+
+<h4 id="func-genericphysical-settemperature">func (*GenericPhysical) SetTemperature</h4>
+
+<pre><code class="language-go">func (gp *GenericPhysical) SetTemperature(t wunit.Temperature)
+</code></pre>
+
+<h4 id="func-genericphysical-setvolume">func (*GenericPhysical) SetVolume</h4>
+
+<pre><code class="language-go">func (gp *GenericPhysical) SetVolume(v wunit.Volume) wunit.Volume
+</code></pre>
+
+<h4 id="func-genericphysical-temperature">func (*GenericPhysical) Temperature</h4>
+
+<pre><code class="language-go">func (gp *GenericPhysical) Temperature() wunit.Temperature
+</code></pre>
+
+<h4 id="func-genericphysical-volume">func (*GenericPhysical) Volume</h4>
+
+<pre><code class="language-go">func (gp *GenericPhysical) Volume() wunit.Volume
+</code></pre>
+
+<h4 id="type-genericsbsformatplate">type GenericSBSFormatPlate</h4>
+
+<pre><code class="language-go">type GenericSBSFormatPlate struct {
+	GenericEntity
+	Manufr  string
+	LType   string
+	WellArr [][]Well
+}
+</code></pre>
+
+<p>A generic to define an SBS format plate</p>
+
+<h4 id="func-genericsbsformatplate-add">func (*GenericSBSFormatPlate) Add</h4>
+
+<pre><code class="language-go">func (gl *GenericSBSFormatPlate) Add(p Physical)
+</code></pre>
+<p>find the first empty well and add this to it</p>
+
+<h4 id="func-genericsbsformatplate-firstemptywell">func (*GenericSBSFormatPlate) FirstEmptyWell</h4>
+
+<pre><code class="language-go">func (gl *GenericSBSFormatPlate) FirstEmptyWell() Well
+</code></pre>
+<p>find the first empty well in the plate</p>
+
+<h4 id="func-genericsbsformatplate-labwaretype">func (*GenericSBSFormatPlate) LabwareType</h4>
+
+<pre><code class="language-go">func (gl *GenericSBSFormatPlate) LabwareType() string
+</code></pre>
+
+<h4 id="func-genericsbsformatplate-manufacturer">func (*GenericSBSFormatPlate) Manufacturer</h4>
+
+<pre><code class="language-go">func (gl *GenericSBSFormatPlate) Manufacturer() string
+</code></pre>
+
+<h4 id="func-genericsbsformatplate-material">func (*GenericSBSFormatPlate) Material</h4>
+
+<pre><code class="language-go">func (gl *GenericSBSFormatPlate) Material() Matter
+</code></pre>
+
+<h4 id="func-genericsbsformatplate-wellat">func (*GenericSBSFormatPlate) WellAt</h4>
+
+<pre><code class="language-go">func (gl *GenericSBSFormatPlate) WellAt(crds WellCoords) Well
+</code></pre>
+
+<h4 id="func-genericsbsformatplate-wells">func (*GenericSBSFormatPlate) Wells</h4>
+
+<pre><code class="language-go">func (gl *GenericSBSFormatPlate) Wells() [][]Well
+</code></pre>
+
+<h4 id="type-genericsolid">type GenericSolid</h4>
+
+<pre><code class="language-go">type GenericSolid struct {
+	GenericPhysical
+}
+</code></pre>
+
+<p>defines a generic solid structure</p>
+
+<h4 id="func-genericsolid-shape">func (*GenericSolid) Shape</h4>
+
+<pre><code class="language-go">func (gs *GenericSolid) Shape() Shape
+</code></pre>
+
+<h4 id="type-genericwell">type GenericWell</h4>
+
+<pre><code class="language-go">type GenericWell struct {
+	GenericSolid
+	ArrCnts []Physical
+	Crds    WellCoords
+	Vol     wunit.Volume
+	Plate   *GenericSBSFormatPlate
+}
+</code></pre>
+
+<p>structure defining data items required for a well</p>
+
+<h4 id="func-genericwell-add">func (*GenericWell) Add</h4>
+
+<pre><code class="language-go">func (gw *GenericWell) Add(p Physical)
+</code></pre>
+
+<h4 id="func-genericwell-containertype">func (*GenericWell) ContainerType</h4>
+
+<pre><code class="language-go">func (gw *GenericWell) ContainerType() string
+</code></pre>
+
+<h4 id="func-genericwell-containervolume">func (*GenericWell) ContainerVolume</h4>
+
+<pre><code class="language-go">func (gw *GenericWell) ContainerVolume() wunit.Volume
+</code></pre>
+
+<h4 id="func-genericwell-contents">func (*GenericWell) Contents</h4>
+
+<pre><code class="language-go">func (gw *GenericWell) Contents() []Physical
+</code></pre>
+
+<h4 id="func-genericwell-empty">func (*GenericWell) Empty</h4>
+
+<pre><code class="language-go">func (gw *GenericWell) Empty() bool
+</code></pre>
+
+<h4 id="func-genericwell-partof">func (*GenericWell) PartOf</h4>
+
+<pre><code class="language-go">func (gw *GenericWell) PartOf() Entity
+</code></pre>
+
+<h4 id="type-geometry">type Geometry</h4>
+
+<pre><code class="language-go">type Geometry interface {
+	Height() wunit.Length
+	Width() wunit.Length
+	Depth() wunit.Length
+}
+</code></pre>
+
+<p>interface to 3D geometry</p>
+
+<h4 id="type-heater">type Heater</h4>
+
+<pre><code class="language-go">type Heater interface {
+	Heat(p Physical, t wunit.Temperature)
+	HeatingRate() wunit.Measurement
+}
+</code></pre>
+
+<p>device capable of increasing the temperature</p>
+
+<h4 id="type-labware">type Labware</h4>
+
+<pre><code class="language-go">type Labware interface {
+	Entity
+	Manufacturer() string
+	LabwareType() string
+}
+</code></pre>
+
+<p>general interface applicable to all labware</p>
+
+<h4 id="type-layout">type Layout</h4>
+
+<pre><code class="language-go">type Layout interface {
+}
+</code></pre>
+
+<p>will hold spacial layouts on plates and provide traversals</p>
+
+<h4 id="type-liquid">type Liquid</h4>
+
+<pre><code class="language-go">type Liquid interface {
+	Physical
+	Viscosity() float64
+	// take some of this liquid
+	Sample(v wunit.Volume) Liquid
+}
+</code></pre>
+
+<p>liquid state</p>
+
+<h4 id="type-matter">type Matter</h4>
+
+<pre><code class="language-go">type Matter interface {
+	MatterType() string
+	MeltingPoint() wunit.Temperature
+	BoilingPoint() wunit.Temperature
+	SpecificHeatCapacity() wunit.SpecificHeatCapacity
+}
+</code></pre>
+
+<p>base type for defining materials</p>
+
+<h4 id="type-mover">type Mover</h4>
+
+<pre><code class="language-go">type Mover interface {
+	Grab(e Entity)
+	Drop() Entity
+	MoveTo(c coordinates)
+	MaxWeight() wunit.Mass
+	Gripper() VariableSlot
+}
+</code></pre>
+
+<p>something which can move Entities about should be defined as generally as<br />
+possible</p>
+
+<h4 id="type-nonwatersolution">type NonWaterSolution</h4>
+
+<pre><code class="language-go">type NonWaterSolution struct {
+	GenericLiquid
+	Sltes []Physical
+}
+</code></pre>
+
+<p>a structure defining a non water solution</p>
+
+<h4 id="func-nonwatersolution-solutes">func (*NonWaterSolution) Solutes</h4>
+
+<pre><code class="language-go">func (nas *NonWaterSolution) Solutes() []Physical
+</code></pre>
+
+<h4 id="func-nonwatersolution-solvent">func (*NonWaterSolution) Solvent</h4>
+
+<pre><code class="language-go">func (nas *NonWaterSolution) Solvent() Liquid
+</code></pre>
+
+<h4 id="type-organism">type Organism</h4>
+
+<pre><code class="language-go">type Organism struct {
+	Species *biotree.TOL // position on the TOL
+}
+</code></pre>
+
+<p>structure which defines an organism. These need specific handling – some detail<br />
+is derived using the TOL structure</p>
+
+<h4 id="type-parameter">type Parameter</h4>
+
+<pre><code class="language-go">type Parameter struct {
+	Name     string
+	Type     string
+	RangeMin string
+	RangeMax string
+	Unit     string
+}
+</code></pre>
+
+<p>structure defining a parameter as expressed in a protocol This is simply used by<br />
+the parser, it’s not part of the underlying language</p>
+
+<h4 id="type-physical">type Physical</h4>
+
+<pre><code class="language-go">type Physical interface {
+	// embedded class for dealing with type of material
+	Matter
+	// identifier of sample
+	Name() string
+	SetName(string) string
+	// mass of sample
+	Mass() wunit.Mass
+	SetMass(wunit.Mass) wunit.Mass
+	// volume occupied by sample
+	Volume() wunit.Volume
+	SetVolume(wunit.Volume) wunit.Volume
+	// temperature of object
+	Temperature() wunit.Temperature
+	SetTemperature(t wunit.Temperature)
+	// ratio of mass to volume
+	Density() wunit.Density
+}
+</code></pre>
+
+<p>a sample of matter</p>
+
+<h4 id="type-pipetter">type Pipetter</h4>
+
+<pre><code class="language-go">type Pipetter interface {
+	Aspirate(l Liquid)
+	Dispense(l Liquid)
+	MovePipetteTo(c coordinates)
+	MoveSpeedLimits() wunit.MeasurementLimits
+	PipetteSpeedLimits() wunit.MeasurementLimits
+	PipetteVolumeLimits() wunit.MeasurementLimits
+}
+</code></pre>
+
+<p>Pipetter unit</p>
+
+<h4 id="type-plasmid">type Plasmid</h4>
+
+<pre><code class="language-go">type Plasmid struct {
+}
+</code></pre>
+
+<p>defines a plasmid</p>
+
+<h4 id="type-plate">type Plate</h4>
+
+<pre><code class="language-go">type Plate interface {
+	Labware
+	Wells() [][]Well
+	WellAt(crds WellCoords) Well
+	WellsX() int
+	WellsY() int
+}
+</code></pre>
+
+<p>defines microplates. Microplates have wells.</p>
+
+<h4 id="type-population">type Population</h4>
+
+<pre><code class="language-go">type Population struct {
+}
+</code></pre>
+
+<p>a set of organisms, can be mixed or homogeneous</p>
+
+<h4 id="type-protein">type Protein</h4>
+
+<pre><code class="language-go">type Protein struct {
+	GenericPhysical
+	Seq ProteinSequence
+}
+</code></pre>
+
+<p>physical protein sample has a ProteinSequence</p>
+
+<h4 id="type-proteinsequence">type ProteinSequence</h4>
+
+<pre><code class="language-go">type ProteinSequence struct {
+	Seq string
+}
+</code></pre>
+
+<p>ProteinSequence object is a type of Biosequence</p>
+
+<h4 id="func-proteinsequence-sequence">func (*ProteinSequence) Sequence</h4>
+
+<pre><code class="language-go">func (prot *ProteinSequence) Sequence() string
+</code></pre>
+
+<h4 id="type-rna">type RNA</h4>
+
+<pre><code class="language-go">type RNA struct {
+	GenericPhysical
+	Seq RNASequence
+}
+</code></pre>
+
+<p>RNA sample: physical RNA, has an RNASequence object</p>
+
+<h4 id="type-rnasequence">type RNASequence</h4>
+
+<pre><code class="language-go">type RNASequence struct {
+	Seq string
+}
+</code></pre>
+
+<p>RNASequence object is a type of Biosequence</p>
+
+<h4 id="func-rnasequence-sequence">func (*RNASequence) Sequence</h4>
+
+<pre><code class="language-go">func (rna *RNASequence) Sequence() string
+</code></pre>
+
+<h4 id="type-sealed">type Sealed</h4>
+
+<pre><code class="language-go">type Sealed interface {
+	IsSealed()
+}
+</code></pre>
+
+<p>to be composed with an X to make a SealedX</p>
+
+<h4 id="type-sealer">type Sealer</h4>
+
+<pre><code class="language-go">type Sealer interface {
+	Seal(s Solid) Sealed
+}
+</code></pre>
+
+<p>device capable of sealing labware</p>
+
+<h4 id="type-shape">type Shape</h4>
+
+<pre><code class="language-go">type Shape interface {
+	ShapeName() string
+	IsShape()
+	MinEnclosingBox() Geometry
+}
+</code></pre>
+
+<p>defines a shape</p>
+
+<h4 id="type-slot">type Slot</h4>
+
+<pre><code class="language-go">type Slot interface {
+	Container
+	Dimensions() Geometry
+}
+</code></pre>
+
+<p>a holder on a device which can contain labware</p>
+
+<h4 id="type-solid">type Solid</h4>
+
+<pre><code class="language-go">type Solid interface {
+	Physical
+	Shape() Shape
+}
+</code></pre>
+
+<p>solid state</p>
+
+<h4 id="type-solution">type Solution</h4>
+
+<pre><code class="language-go">type Solution interface {
+	Liquid
+	Concentration() wunit.Concentration
+	ConcentrationOf(s string) wunit.Concentration
+	Solvent() Liquid
+	Solutes() []Physical
+}
+</code></pre>
+
+<p>interface defining a solution type. Defined as being a liquid, having a<br />
+concentration, a solvent and one or more solutes</p>
+
+<h4 id="type-suspension">type Suspension</h4>
+
+<pre><code class="language-go">type Suspension interface {
+	Liquid
+	Solvent() Liquid
+	Solutes() []Physical
+}
+</code></pre>
+
+<p>interface to define a suspension type this also has a solvent and solutes but no<br />
+concentration</p>
+
+<h4 id="type-variableslot">type VariableSlot</h4>
+
+<pre><code class="language-go">type VariableSlot interface {
+	Slot
+	Capabilities() wunit.MeasurementLimits
+}
+</code></pre>
+
+<p>a slot which can change size</p>
+
+<h4 id="type-watersolution">type WaterSolution</h4>
+
+<pre><code class="language-go">type WaterSolution struct {
+	GenericLiquid
+	Sltes []Physical
+}
+</code></pre>
+
+<p>a solution with water as the solvent</p>
+
+<h4 id="func-watersolution-concentration">func (*WaterSolution) Concentration</h4>
+
+<pre><code class="language-go">func (as *WaterSolution) Concentration() wunit.Concentration
+</code></pre>
+
+<h4 id="func-watersolution-concentrationof">func (*WaterSolution) ConcentrationOf</h4>
+
+<pre><code class="language-go">func (as *WaterSolution) ConcentrationOf(s string) wunit.Concentration
+</code></pre>
+
+<h4 id="func-watersolution-solutes">func (*WaterSolution) Solutes</h4>
+
+<pre><code class="language-go">func (as *WaterSolution) Solutes() []Physical
+</code></pre>
+
+<h4 id="func-watersolution-solvent">func (*WaterSolution) Solvent</h4>
+
+<pre><code class="language-go">func (as *WaterSolution) Solvent() Liquid
+</code></pre>
+
+<h4 id="type-well">type Well</h4>
+
+<pre><code class="language-go">type Well interface {
+	Container
+	WellTypeName() string
+	ResidualVolume() wunit.Volume
+	Coords() WellCoords
+}
+</code></pre>
+
+<p>defines a well in a microplate</p>
+
+<h4 id="type-wellcoords">type WellCoords</h4>
+
+<pre><code class="language-go">type WellCoords struct {
+	X int
+	Y int
+}
+</code></pre>
+
+<p>convenience structure for handling well coordinates</p>
+
+<h4 id="func--makewellcoordsa1">func  MakeWellCoordsA1</h4>
+
+<pre><code class="language-go">func MakeWellCoordsA1(a1 string) WellCoords
+</code></pre>
+<p>make well coordinates in the “1A” convention</p>
+
+<h4 id="func--makewellcoordsxy">func  MakeWellCoordsXY</h4>
+
+<pre><code class="language-go">func MakeWellCoordsXY(x, y string) WellCoords
+</code></pre>
+<p>make well coordinates in a manner compatble with “X1,Y1” etc.</p>
+
+<h4 id="func-wellcoords-formatah">func (*WellCoords) FormatAH</h4>
+
+<pre><code class="language-go">func (wc *WellCoords) FormatAH() string
+</code></pre>
+
+<h4 id="func-wellcoords-formatxy">func (*WellCoords) FormatXY</h4>
+
+<pre><code class="language-go">func (wc *WellCoords) FormatXY() string
+</code></pre>
+<p>return well coordinates in “X1Y1” format</p>
+
+    </article>
+
+    <footer>
+  <div>
+    <div class="links">  
+	<paper-button raised>
+      		<a href="/docs/intro.html">
+		<core-icon icon="archive"></core-icon>
+		Learn More 
+		</a> 
+	</paper-button>
+	<paper-button>
+      		<a href="https://twitter.com/intent/follow?screen_name=anthalang" data-twitter-follow title="Follow @anthalang on Twitter">
+			<core-icon icon="social:post-twitter"></core-icon>
+			@anthalang
+		</a>
+	</paper-button>
+	<paper-button class="github">
+      		<a href="https://github.com/antha-lang">
+			<core-icon icon="social:post-github"></core-icon>
+				/Antha
+		</a>
+	</paper-button>
+	<paper-button>
+      		<a href="https://github.com/antha-lang/antha-lang.github.io/issues/new">
+		<core-icon icon="bug-report"></core-icon>
+		File a bug
+		</a>
+	</paper-button>
+    </div>
+    <p id="copyright">&copy; 2014 Antha Authors. Code licensed under the <a href="http://antha-lang.org/LICENSE.txt" target="_blank">GPL 2.0 License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>. Proudly sponsored by <a href="http://www.synthace.com" target="_blank">Synthace</a></p>
+  </div>
+</footer>
+
+
+  
+<script>var POLYMER_VERSION = '0.4.2';</script>
+
+<script src="/js/prettify/prettify.js"></script>
+
+<script src="/js/app.js"></script>
+
+
+  </scroll-area>
+
+</main>
+
+</body>
+</html>
