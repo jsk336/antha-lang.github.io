@@ -9,7 +9,8 @@
 (function(scope){
 
 // imports
-initializeModules = scope.initializeModules;
+var initializeModules = scope.initializeModules;
+var isIE = scope.isIE;
 
 /*
 NOTE: Even when native HTMLImports exists, the following api is available by
@@ -24,16 +25,16 @@ if (scope.useNative) {
   return;
 }
 
-// IE shim for CustomEvent
-if (typeof window.CustomEvent !== 'function') {
-  window.CustomEvent = function(inType, dictionary) {
-    var e = document.createEvent('HTMLEvents');
-    e.initEvent(inType,
-      dictionary.bubbles === false ? false : true,
-      dictionary.cancelable === false ? false : true,
-      dictionary.detail);
+// CustomEvent shim for IE
+// NOTE: we explicitly test for IE since Safari has an type `object` CustomEvent
+if (isIE && (typeof window.CustomEvent !== 'function')) {
+  window.CustomEvent = function(inType, params) {
+    params = params || {};
+    var e = document.createEvent('CustomEvent');
+    e.initCustomEvent(inType, Boolean(params.bubbles), Boolean(params.cancelable), params.detail);
     return e;
   };
+  window.CustomEvent.prototype = window.Event.prototype;
 }
 
 // Initialize polyfill modules. Note, polyfill modules are loaded but not 
